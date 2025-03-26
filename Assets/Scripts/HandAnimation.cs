@@ -11,7 +11,7 @@ public class HandAnimation : MonoBehaviour
 
     [SerializeField] 
     Animator animator;
-    // Update is called once per frame
+
     void Update()
     {
         animator.SetFloat("Trigger", m_TriggerInput.ReadValue());
