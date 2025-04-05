@@ -4,6 +4,7 @@ public class EnemyPatrolState : EnemyBaseState
 {
     public override void EnterState(EnemyStateManager manager)
     {
+        manager.animator.SetBool("isPatrol", true);
         Debug.Log("¬ходим в Patrol");
         manager.SetDistance(manager.GetNextPatrolPoint());
         manager.SetSpeed(manager.walkSpeed);
@@ -17,11 +18,12 @@ public class EnemyPatrolState : EnemyBaseState
 
         if (manager.DistanceToPlayer() < manager.agroDistance)
         {
+            manager.GetLastPatrolPoint();
             manager.SwitchState(manager.AgroState);
             return;
         }
 
-        if (manager.DistanceToTarget() < 1)
+        if (manager.DistanceToTarget() < manager.attackDistance)
         {
             manager.SetDistance(manager.GetNextPatrolPoint());
             return;

@@ -4,6 +4,8 @@ public class EnemyIdleState : EnemyBaseState
     private System.DateTime FirstDate;
     public override void EnterState(EnemyStateManager manager)
     {
+        manager.animator.SetBool("isAgro", false);
+        manager.animator.SetBool("isAttack", false);
         Debug.Log("¬ходим в Idle");
         FirstDate = System.DateTime.Now;
         manager.SetSpeed(0);
@@ -26,4 +28,3 @@ public class EnemyIdleState : EnemyBaseState
         }
     }
 }
-

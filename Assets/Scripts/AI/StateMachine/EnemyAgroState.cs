@@ -3,8 +3,11 @@ public class EnemyAgroState : EnemyBaseState
 {
     public override void EnterState(EnemyStateManager manager)
     {
+        manager.animator.SetBool("isAgro", true);
+        manager.animator.SetBool("isAttack", false);
+        manager.animator.SetBool("isPatrol", false);
         Debug.Log("¬ходим в Agro");
-        manager.SetSpeed(manager.walkSpeed);
+        manager.SetSpeed(manager.runSpeed);
         manager.SetDistance(manager.player);
     }
     public override void ExitState(EnemyStateManager manager)

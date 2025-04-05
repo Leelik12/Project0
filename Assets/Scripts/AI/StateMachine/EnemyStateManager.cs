@@ -3,12 +3,15 @@ using UnityEngine.AI;
 
 public class EnemyStateManager : MonoBehaviour
 {
+    [SerializeField] public Animator animator;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] public Transform player;
     [SerializeField] public float walkSpeed;
+    [SerializeField] public float runSpeed;
     [SerializeField] public float agroDistance;
     [SerializeField] public float attackDistance;
     [SerializeField] Transform[] patrolPoints;
+    [SerializeField] Collider[] damagerCollaider;
     private int currentPatrolIndex = 0;
     Transform target;
 
@@ -62,5 +65,42 @@ public class EnemyStateManager : MonoBehaviour
         Transform point = patrolPoints[currentPatrolIndex];
         currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
         return point;
+    }
+    public void GetLastPatrolPoint()
+    {
+        if (currentPatrolIndex != 0)
+        {
+            currentPatrolIndex = (currentPatrolIndex - 1) % patrolPoints.Length;
+        } else
+        {
+            currentPatrolIndex = patrolPoints.Length - 1;
+        }
+            Transform point = patrolPoints[currentPatrolIndex];
+    }
+
+    void CheckConditions()
+    {
+        if (currentState == AttackState)
+        {
+            if (DistanceToTarget() >= attackDistance)
+            {
+                SwitchState(AgroState);
+                return;
+            }
+        }
+    }
+
+    void OnOffDamager(int isOff)
+    {
+        if (isOff == 0)
+        {
+            for (int i = 0; i < damagerCollaider.Length; i++)
+                damagerCollaider[i].enabled = false;
+        }
+        else
+        {
+            for (int i = 0; i < damagerCollaider.Length; i++)
+                damagerCollaider[i].enabled = true;
+        }
     }
 }

@@ -4,6 +4,7 @@ public class EnemyAttackState : EnemyBaseState
 {
     public override void EnterState(EnemyStateManager manager)
     {
+        manager.animator.SetBool("isAttack", true);
         manager.SetSpeed(0);
         Debug.Log("¬ходим в Attack");
     }
@@ -14,10 +15,5 @@ public class EnemyAttackState : EnemyBaseState
     public override void UpdateState(EnemyStateManager manager)
     {
         Debug.Log("јтака");
-        if (manager.DistanceToTarget() >= manager.attackDistance)
-        {
-            manager.SwitchState(manager.AgroState);
-            return;
-        }
     }
 }
