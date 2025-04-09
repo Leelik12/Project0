@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class EnemyStateManager : MonoBehaviour
 {
     [SerializeField] public Animator animator;
-    [SerializeField] NavMeshAgent agent;
+    [SerializeField] public NavMeshAgent agent;
     [SerializeField] public Transform player;
     [SerializeField] public float walkSpeed;
     [SerializeField] public float runSpeed;
@@ -103,4 +103,5 @@ public class EnemyStateManager : MonoBehaviour
                 damagerCollaider[i].enabled = true;
         }
     }
+
 }
