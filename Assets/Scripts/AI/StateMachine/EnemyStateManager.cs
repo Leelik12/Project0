@@ -10,7 +10,7 @@ public class EnemyStateManager : MonoBehaviour
     [SerializeField] public float runSpeed;
     [SerializeField] public float agroDistance;
     [SerializeField] public float attackDistance;
-    [SerializeField] Transform[] patrolPoints;
+    [SerializeField] public Transform[] patrolPoints;
     [SerializeField] Collider[] damagerCollaider;
     private int currentPatrolIndex = 0;
     Transform target;

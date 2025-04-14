@@ -21,7 +21,7 @@ public class EnemyIdleState : EnemyBaseState
             manager.SwitchState(manager.AgroState);
             return;
         }
-        if ((System.DateTime.Now - FirstDate).Seconds > 10)
+        if ((System.DateTime.Now - FirstDate).Seconds > 10 && manager.patrolPoints.Length != 0)
         {
             manager.SwitchState(manager.PatrolState);
             return;
