@@ -1,3 +1,4 @@
+using System.Xml;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,7 +21,7 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyAgroState AgroState = new EnemyAgroState();
     public EnemyAttackState AttackState = new EnemyAttackState();
     public EnemyPatrolState PatrolState = new EnemyPatrolState();
-
+    public DeathState deathState = new DeathState();
     public void SwitchState(EnemyBaseState newState)
     {
         if (currentState != null)
@@ -77,7 +78,10 @@ public class EnemyStateManager : MonoBehaviour
         }
             Transform point = patrolPoints[currentPatrolIndex];
     }
-
+    public void Die()
+    {
+        SwitchState(deathState);
+    }
     void CheckConditions()
     {
         if (currentState == AttackState)
