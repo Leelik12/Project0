@@ -16,7 +16,7 @@ public class EnemyAgroState : EnemyBaseState
     }
     public override void UpdateState(EnemyStateManager manager)
     {
-        if (manager.DistanceToTarget() >= manager.agroDistance)
+        if (!manager.CanSeePlayer())
         {
             manager.SwitchState(manager.IdleState);
             return;
