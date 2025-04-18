@@ -5407,7 +5407,6 @@ MonoBehaviour:
   player: {fileID: 414667234}
   walkSpeed: 3
   runSpeed: 6
-  agroDistance: 5
   attackDistance: 1.6
   patrolPoints:
   - {fileID: 749057678}
@@ -5416,6 +5415,11 @@ MonoBehaviour:
   damagerCollaider:
   - {fileID: 391824798}
   - {fileID: 1538634082}
+  viewAngle: 120
+  viewDistance: 20
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!136 &1149919302
 CapsuleCollider:
   m_ObjectHideFlags: 0
