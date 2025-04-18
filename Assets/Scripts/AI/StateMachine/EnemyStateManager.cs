@@ -15,6 +15,7 @@ public class EnemyStateManager : MonoBehaviour
     [SerializeField] private float viewAngle = 150f;
     [SerializeField] private float viewDistance = 20f;
     [SerializeField] private LayerMask obstructionMask;
+    [SerializeField] public ParticleSystem deathparticles;
     private int currentPatrolIndex = 0;
     Transform target;
 

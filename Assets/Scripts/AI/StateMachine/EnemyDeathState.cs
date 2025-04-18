@@ -5,7 +5,8 @@ public class DeathState : EnemyBaseState
 {
     public override void EnterState(EnemyStateManager manager)
     {
-        // manager.enabled = false;
+        manager.enabled = false;
+
         manager.animator.SetTrigger("Die");
         manager.SetSpeed(0);
 
@@ -18,20 +19,21 @@ public class DeathState : EnemyBaseState
             collider.enabled = false;
         }
 
-        // Стартуем корутину, которая подождёт начало анимации, затем удалит объект
         manager.StartCoroutine(WaitAndDie(manager, 3f));
-
-        Debug.Log("Enemy is dead!");
     }
 
     private IEnumerator WaitAndDie(EnemyStateManager manager, float delay)
     {
+
         yield return new WaitForSeconds(delay);
 
         var particles = manager.GetComponentInChildren<ParticleSystem>();
-        if (particles != null) particles.Play();
+        if (particles != null)
+        {
+            particles.Play();
+        }
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(particles.main.duration + 0.7f);
         Object.Destroy(manager.gameObject);
     }
     public override void ExitState(EnemyStateManager manager)
