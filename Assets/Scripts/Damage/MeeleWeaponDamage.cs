@@ -10,7 +10,7 @@ public class MeeleWeaponDamage : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log($"Меч столкнулся с: {collision.collider.name}");
+        Debug.Log($"{this.name} столкнулся с: {collision.collider.name}");
         if (Time.time - lastDamageTime < damageCooldown) return;
 
         EnemyHeaths enemyHealth = collision.collider.GetComponentInParent<EnemyHeaths>();
