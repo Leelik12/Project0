@@ -15,6 +15,7 @@ public class EnemyStateManager : MonoBehaviour
     [SerializeField] private float viewDistance = 20f;
     [SerializeField] public float timeIdle = 10f;
     [SerializeField] private bool drawOverview = true;
+    [SerializeField] public bool stopAfterPatrol = false;
     [SerializeField] public Transform[] patrolPoints;
     private int currentPatrolIndex = 0;
     Transform target;
@@ -93,7 +94,7 @@ public class EnemyStateManager : MonoBehaviour
 
         if (angleToPlayer < viewAngle / 2f && DistanceToPlayer() < viewDistance)
         {
-            if (!Physics.Raycast(transform.position + Vector3.up * 1.7f, directionToPlayer, out RaycastHit hit, viewDistance, obstructionMask))
+            if (!Physics.Raycast(transform.position + Vector3.up * 1.7f * agent.transform.localScale.y, directionToPlayer, out RaycastHit hit, viewDistance, obstructionMask))
             {
                 return true;
             }
@@ -114,7 +115,7 @@ public class EnemyStateManager : MonoBehaviour
             // Настройки
             int segments = 60; // Чем больше — тем плавнее сектор
             float angleStep = viewAngle / segments;
-            Vector3 origin = transform.position + Vector3.up * 1.7f;
+            Vector3 origin = transform.position + Vector3.up * 1.7f * agent.transform.localScale.y;
 
             Gizmos.color = new Color(1f, 1f, 0f, 0.25f); // Жёлтый полупрозрачный
 
