@@ -7,15 +7,14 @@ public class EnemyStateManager : MonoBehaviour
     [SerializeField] public Animator animator;
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public Transform player;
+    [SerializeField] private LayerMask obstructionMask;
     [SerializeField] public float walkSpeed;
     [SerializeField] public float runSpeed;
     [SerializeField] public float attackDistance;
+    [SerializeField] private float viewAngle = 120f;
+    [SerializeField] private float viewDistance = 20f;
     [SerializeField] public Transform[] patrolPoints;
     [SerializeField] Collider[] damagerCollaider;
-    [SerializeField] private float viewAngle = 150f;
-    [SerializeField] private float viewDistance = 20f;
-    [SerializeField] private LayerMask obstructionMask;
-    [SerializeField] public ParticleSystem deathparticles;
     private int currentPatrolIndex = 0;
     Transform target;
 

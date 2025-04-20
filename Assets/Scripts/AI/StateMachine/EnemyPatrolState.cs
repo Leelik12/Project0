@@ -23,12 +23,12 @@ public class EnemyPatrolState : EnemyBaseState
             return;
         }
 
-        if (manager.DistanceToTarget() < manager.attackDistance)
+        if (!manager.agent.pathPending && manager.agent.remainingDistance <= 0.25f)
         {
             manager.SetDistance(manager.GetNextPatrolPoint());
             return;
         }
 
-        
+
     }
 }
