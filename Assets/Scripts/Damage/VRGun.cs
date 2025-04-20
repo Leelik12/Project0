@@ -19,7 +19,7 @@ public class VRGun : MonoBehaviour
     public Transform firePoint;
 
     [Header("Прочее")]
-    public string enemyTag = "Enemy"; // Тег врага
+    public string enemyTag = ""; // Тег врага
     private float nextFireTime = 0f;
     void Awake()
     {
@@ -50,19 +50,19 @@ public class VRGun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range))
         {
-            if (hit.collider.CompareTag(enemyTag))
+            if (hit.collider.CompareTag("Head") || hit.collider.CompareTag("Leg") || hit.collider.CompareTag("Body"))
             {
                 float finalDamage = damage;
-
                 // Определяем зону попадания
-                string hitPartName = hit.collider.gameObject.name.ToLower();
+                string hitPartName = hit.collider.name.ToLower();
 
-                if (hitPartName.Contains("head"))
+
+                if (hit.collider.CompareTag("Head"))
                 {
                     finalDamage *= 2f;
                     Debug.Log("Headshot!");
                 }
-                else if (hitPartName.Contains("leg") || hitPartName.Contains("foot"))
+                else if (hitPartName.Contains("leg"))
                 {
                     finalDamage *= 0.5f;
                     Debug.Log("Leg shot!");
