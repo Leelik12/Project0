@@ -1,3 +1,4 @@
+using MikeNspired.XRIStarterKit;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,17 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 public class VRGun : MonoBehaviour
 {
     [SerializeField] private XRGrabInteractable grabInteractable;
+    [Header("Перезарядка")]
+    [SerializeField] public int maxAmmo = 30;
+    private int currentAmmo = 30;
+    public Transform magazineSocket; // Точка, куда вставляется магазин
+    public bool IsLoaded => currentAmmo > 0;
+    private VRMagazine currentMagazine;
+    public bool IsCharged = true;
+    public GameObject emptyMagazinePrefab; // Префаб пустого магазина
+    public Transform ejectPoint; // Точка, откуда выпадает магазин
+    [SerializeField] private GameObject internalMagazineModel; // Встроенный визуальный магазин (активируется/скрывается)
+
     [Header("Подвижные части")]
     [SerializeField] private Transform movablePart; // Подвижная часть оружия (затвор)
     [SerializeField] private float recoilDistance = 0.2f; // Расстояние, на которое подвижная часть будет двигаться
@@ -47,8 +59,13 @@ public class VRGun : MonoBehaviour
     void Update()
     {
 
+        if (currentAmmo <= 0 && IsCharged)
+        {
+            IsCharged = false;
+            EjectMagazine(); // автоматически выбрасывает магазин при окончании патронов
+        }
         // Проверка ввода через Input System
-        if (triggerAction.action != null && triggerAction.action.ReadValue<float>() > 0.8f && Time.time >= nextFireTime && grabInteractable.isSelected)
+        if (triggerAction.action != null && triggerAction.action.ReadValue<float>() > 0.8f && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
         {
             Debug.Log("Выстрел!");
             nextFireTime = Time.time + fireRate;
@@ -67,7 +84,11 @@ public class VRGun : MonoBehaviour
 
     void Shoot()
     {
-
+        currentAmmo--;
+        if (currentAmmo <= 0)
+        {
+            Debug.Log("Выстрел! Осталось патронов: " + currentAmmo);
+        }
         // Визуальный эффект
         if (muzzleFlash != null)
         {
@@ -121,7 +142,43 @@ public class VRGun : MonoBehaviour
             }
         }
     }
+    public bool CanInsertMagazine()
+    {
+        return currentMagazine == null;
+    }
+    public void InsertMagazine(VRMagazine magazine)
+    {
+        IsCharged = true;
+        if (currentMagazine != null) return;
 
+        currentMagazine = magazine;
+        currentAmmo = Mathf.Min(magazine.ammoAmount, maxAmmo);
+
+        // Прячем внешний магазин
+        magazine.gameObject.SetActive(false);
+
+        // Активируем встроенный визуальный магазин
+        if (internalMagazineModel != null)
+            internalMagazineModel.SetActive(true);
+
+        Debug.Log("Магазин вставлен. Патроны: " + currentAmmo);
+    }
+    public void EjectMagazine()
+    {
+        // Выкинуть пустой магазин
+        if (currentMagazine == null && emptyMagazinePrefab != null && ejectPoint != null)
+        {
+            Instantiate(emptyMagazinePrefab, ejectPoint.position, ejectPoint.rotation);
+        }
+        Debug.Log("Встроенный магазин ВЫКЛ");
+        // Выключить визуальный встроенный магазин
+        internalMagazineModel.SetActive(false);
+        internalMagazineModel.gameObject.SetActive(false);
+        Debug.Log("Отключаем встроенный магазин: " + internalMagazineModel.name);
+        currentAmmo = 0;
+
+        Debug.Log("Магазин выброшен.");
+    }
     IEnumerator MuzzleLightFlash()
     {
         muzzleLight.enabled = true;
