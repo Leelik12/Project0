@@ -25,7 +25,14 @@ public class EnemyPatrolState : EnemyBaseState
 
         if (!manager.agent.pathPending && manager.agent.remainingDistance <= 0.25f)
         {
-            manager.SetDistance(manager.GetNextPatrolPoint());
+            if (manager.stopAfterPatrol)
+            {
+                manager.SwitchState(manager.IdleState);
+            }
+            else
+            {
+                manager.SetDistance(manager.GetNextPatrolPoint());
+            }
             return;
         }
 

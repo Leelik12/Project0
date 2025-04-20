@@ -6,6 +6,7 @@ public class EnemyIdleState : EnemyBaseState
     {
         manager.animator.SetBool("isAgro", false);
         manager.animator.SetBool("isAttack", false);
+        manager.animator.SetBool("isPatrol", false);
         Debug.Log("¬ходим в Idle");
         FirstDate = System.DateTime.Now;
         manager.SetSpeed(0);
