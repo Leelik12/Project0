@@ -13,8 +13,9 @@ public class EnemyStateManager : MonoBehaviour
     [SerializeField] public float attackDistance;
     [SerializeField] private float viewAngle = 120f;
     [SerializeField] private float viewDistance = 20f;
+    [SerializeField] public float timeIdle = 10f;
+    [SerializeField] private bool drawOverview = true;
     [SerializeField] public Transform[] patrolPoints;
-    [SerializeField] Collider[] damagerCollaider;
     private int currentPatrolIndex = 0;
     Transform target;
 
@@ -108,31 +109,34 @@ public class EnemyStateManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        // Настройки
-        int segments = 60; // Чем больше — тем плавнее сектор
-        float angleStep = viewAngle / segments;
-        Vector3 origin = transform.position + Vector3.up * 1.7f;
-
-        Gizmos.color = new Color(1f, 1f, 0f, 0.25f); // Жёлтый полупрозрачный
-
-        Vector3 prevPoint = origin + Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward * viewDistance;
-
-        for (int i = 1; i <= segments; i++)
+        if (drawOverview)
         {
-            float angle = -viewAngle / 2f + angleStep * i;
-            Vector3 nextPoint = origin + Quaternion.Euler(0, angle, 0) * transform.forward * viewDistance;
-            Gizmos.DrawLine(origin, nextPoint);
-            Gizmos.DrawLine(prevPoint, nextPoint);
-            prevPoint = nextPoint;
+            // Настройки
+            int segments = 60; // Чем больше — тем плавнее сектор
+            float angleStep = viewAngle / segments;
+            Vector3 origin = transform.position + Vector3.up * 1.7f;
+
+            Gizmos.color = new Color(1f, 1f, 0f, 0.25f); // Жёлтый полупрозрачный
+
+            Vector3 prevPoint = origin + Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward * viewDistance;
+
+            for (int i = 1; i <= segments; i++)
+            {
+                float angle = -viewAngle / 2f + angleStep * i;
+                Vector3 nextPoint = origin + Quaternion.Euler(0, angle, 0) * transform.forward * viewDistance;
+                Gizmos.DrawLine(origin, nextPoint);
+                Gizmos.DrawLine(prevPoint, nextPoint);
+                prevPoint = nextPoint;
+            }
+
+            // Границы FOV
+            Vector3 leftBoundary = Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward;
+            Vector3 rightBoundary = Quaternion.Euler(0, viewAngle / 2f, 0) * transform.forward;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(origin, origin + leftBoundary * viewDistance);
+            Gizmos.DrawLine(origin, origin + rightBoundary * viewDistance);
         }
-
-        // Границы FOV
-        Vector3 leftBoundary = Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward;
-        Vector3 rightBoundary = Quaternion.Euler(0, viewAngle / 2f, 0) * transform.forward;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(origin, origin + leftBoundary * viewDistance);
-        Gizmos.DrawLine(origin, origin + rightBoundary * viewDistance);
     }
     void CheckConditions()
     {
@@ -145,19 +149,4 @@ public class EnemyStateManager : MonoBehaviour
             }
         }
     }
-
-    void OnOffDamager(int isOff)
-    {
-        if (isOff == 0)
-        {
-            for (int i = 0; i < damagerCollaider.Length; i++)
-                damagerCollaider[i].enabled = false;
-        }
-        else
-        {
-            for (int i = 0; i < damagerCollaider.Length; i++)
-                damagerCollaider[i].enabled = true;
-        }
-    }
-
 }

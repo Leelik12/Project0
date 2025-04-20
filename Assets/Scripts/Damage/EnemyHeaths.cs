@@ -17,7 +17,7 @@ public class EnemyHeaths : MonoBehaviour
         currentHealth -= damage;
 
         Debug.Log($"[EnemyHealth] Враг получил урон: {damage}, осталось здоровья: {currentHealth}");
-
+ 
         if (currentHealth <= 0)
         {
             Debug.Log("[EnemyHealth] Здоровье на нуле. Враг умирает.");
