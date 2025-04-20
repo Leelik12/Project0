@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR;
 
 public class VRGun : MonoBehaviour
@@ -13,40 +14,27 @@ public class VRGun : MonoBehaviour
     public bool laserEnabled = true;
     public LineRenderer laserLine; // Сюда подключается LineRenderer в инспекторе
 
+    [Header("XR Управление")]
+    public InputActionProperty triggerAction; // <-- сюда привязываем Input Action с триггера
+    public Transform firePoint;
+
     [Header("Прочее")]
-    public Transform firePoint; // Точка вылета луча
     public string enemyTag = "Enemy"; // Тег врага
-
     private float nextFireTime = 0f;
-    private InputDevice rightHand;
-    private InputDevice leftHand;
-    void TryInitialize()
+    void Awake()
     {
-        var rightDevices = new List<InputDevice>();
-        var leftDevices = new List<InputDevice>();
-
-        InputDevices.GetDevicesAtXRNode(XRNode.RightHand, rightDevices);
-        InputDevices.GetDevicesAtXRNode(XRNode.LeftHand, leftDevices);
-
-        if (rightDevices.Count > 0)
-            rightHand = rightDevices[0];
-        if (leftDevices.Count > 0)
-            leftHand = leftDevices[0];
-        Debug.Log("Рука инициализирована");
+        triggerAction.action.Enable();
     }
-    void Start()
-    {
-        TryInitialize();
-    }
-
     void Update()
     {
-
-        if (!rightHand.isValid || !leftHand.isValid)
+        // Проверка ввода через Input System
+        if (triggerAction.action != null && triggerAction.action.ReadValue<float>() > 0.8f && Time.time >= nextFireTime)
         {
-            TryInitialize();
+            Debug.Log("Выстрел!");
+            nextFireTime = Time.time + fireRate;
+            Shoot();
         }
-        // Обновляем лазер
+
         if (laserEnabled && laserLine != null)
         {
             UpdateLaser();
@@ -54,16 +42,6 @@ public class VRGun : MonoBehaviour
         else if (laserLine != null)
         {
             laserLine.enabled = false;
-        }
-        // Проверка нажатия любого из триггеров
-        bool rightTrigger = rightHand.TryGetFeatureValue(CommonUsages.triggerButton, out bool rTriggerPressed) && rTriggerPressed;
-        bool leftTrigger = leftHand.TryGetFeatureValue(CommonUsages.triggerButton, out bool lTriggerPressed) && lTriggerPressed;
-        Debug.Log($"Left: {leftTrigger}, Right: {rightTrigger}");
-        if ((rightTrigger || leftTrigger) && Time.time >= nextFireTime)
-        {
-            Debug.Log("Курок нажат, выстрел сделан!");
-            nextFireTime = Time.time + fireRate;
-            Shoot();
         }
     }
 

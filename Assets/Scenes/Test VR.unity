@@ -5414,10 +5414,14 @@ MonoBehaviour:
   animator: {fileID: 1149919303}
   agent: {fileID: 1149919305}
   player: {fileID: 414667234}
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 0
   walkSpeed: 1.5
   runSpeed: 3
-  agroDistance: 5
   attackDistance: 1.6
+  viewAngle: 120
+  viewDistance: 20
   patrolPoints:
   - {fileID: 749057678}
   - {fileID: 834552121}
@@ -9673,6 +9677,34 @@ MonoBehaviour:
   range: 100
   laserEnabled: 1
   laserLine: {fileID: 1900652641}
+  triggerAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Trigger
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: fa8d0c61-5377-4596-891b-3ec370bfe6e2
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 8b7eb8e3-ec8b-471d-b3cc-e48763c7ed92
+        m_Path: <XRController>{LeftHand}/trigger
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Trigger
+        m_Flags: 0
+      - m_Name: 
+        m_Id: ace1dccd-39a2-4b8a-bc5e-c9653ca03fb6
+        m_Path: <XRController>{RightHand}/trigger
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Trigger
+        m_Flags: 0
+      m_Flags: 0
+    m_Reference: {fileID: 0}
   firePoint: {fileID: 1562229984}
   enemyTag: Enemy
 --- !u!4 &1856793069 stripped
