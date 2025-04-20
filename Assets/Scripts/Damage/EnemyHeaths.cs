@@ -14,10 +14,10 @@ public class EnemyHeaths : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        Debug.Log($"[EnemyHealth] Враг получил урон: {damage}, осталось здоровья: {currentHealth}");
+
 
         currentHealth -= damage;
-
+        Debug.Log($"[EnemyHealth] Враг получил урон: {damage}, осталось здоровья: {currentHealth}");
         if (currentHealth <= 0)
         {
             Debug.Log("[EnemyHealth] Здоровье на нуле. Враг умирает.");
