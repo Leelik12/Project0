@@ -32,6 +32,7 @@ public class VRGun : MonoBehaviour
             rightHand = rightDevices[0];
         if (leftDevices.Count > 0)
             leftHand = leftDevices[0];
+        Debug.Log("Рука инициализирована");
     }
     void Start()
     {
@@ -40,6 +41,7 @@ public class VRGun : MonoBehaviour
 
     void Update()
     {
+
         if (!rightHand.isValid || !leftHand.isValid)
         {
             TryInitialize();
@@ -56,8 +58,10 @@ public class VRGun : MonoBehaviour
         // Проверка нажатия любого из триггеров
         bool rightTrigger = rightHand.TryGetFeatureValue(CommonUsages.triggerButton, out bool rTriggerPressed) && rTriggerPressed;
         bool leftTrigger = leftHand.TryGetFeatureValue(CommonUsages.triggerButton, out bool lTriggerPressed) && lTriggerPressed;
+        Debug.Log($"Left: {leftTrigger}, Right: {rightTrigger}");
         if ((rightTrigger || leftTrigger) && Time.time >= nextFireTime)
         {
+            Debug.Log("Курок нажат, выстрел сделан!");
             nextFireTime = Time.time + fireRate;
             Shoot();
         }
