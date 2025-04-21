@@ -55,6 +55,10 @@ public class VRGun : MonoBehaviour
     void Awake()
     {
         triggerAction.action.Enable();
+        if (StaticHolder.Difficulty)
+        {
+            laserLine.enabled = false;
+        }
     }
     void Update()
     {
@@ -72,7 +76,7 @@ public class VRGun : MonoBehaviour
             Shoot();
         }
 
-        if (laserEnabled && laserLine != null)
+        if (laserEnabled && laserLine != null && !StaticHolder.Difficulty)
         {
             UpdateLaser();
         }
@@ -89,6 +93,7 @@ public class VRGun : MonoBehaviour
         {
             Debug.Log("Выстрел! Осталось патронов: " + currentAmmo);
         }
+        StaticHolder.countShots++;
         // Визуальный эффект
         if (muzzleFlash != null)
         {
@@ -137,10 +142,15 @@ public class VRGun : MonoBehaviour
                 EnemyHeaths target = hit.collider.GetComponentInParent<EnemyHeaths>();
                 if (target != null)
                 {
+                    StaticHolder.countHits++;
+                    StaticHolder.Damage += finalDamage;
                     target.TakeDamage(finalDamage);
                 }
             }
         }
+        Debug.Log("Выстрелов - " + StaticHolder.countShots);
+        Debug.Log("Попаданий - " + StaticHolder.countHits);
+        Debug.Log("Урон - " + StaticHolder.Damage);
     }
     public bool CanInsertMagazine()
     {
