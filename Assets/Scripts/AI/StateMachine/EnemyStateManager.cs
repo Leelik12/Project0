@@ -8,15 +8,19 @@ public class EnemyStateManager : MonoBehaviour
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public Transform player;
     [SerializeField] private LayerMask obstructionMask;
-    [SerializeField] public float walkSpeed;
-    [SerializeField] public float runSpeed;
-    [SerializeField] public float attackDistance;
+    [SerializeField] public float walkSpeed = 2f;
+    [SerializeField] public float runSpeed = 3f;
+    [SerializeField] public float attackDistance = 1.6f;
     [SerializeField] private float viewAngle = 120f;
     [SerializeField] private float viewDistance = 20f;
+    [SerializeField] private float radiusInfection = 20f;
     [SerializeField] public float timeIdle = 10f;
+    [SerializeField] private bool infection = true;
     [SerializeField] private bool drawOverview = true;
+    [SerializeField] private bool drawRadiusInfection = false;
     [SerializeField] public bool stopAfterPatrol = false;
     [SerializeField] public Transform[] patrolPoints;
+    public bool isAgroFromInfection = false;
     private int currentPatrolIndex = 0;
     Transform target;
 
@@ -38,6 +42,7 @@ public class EnemyStateManager : MonoBehaviour
     {
         target = player;
         SwitchState(IdleState);
+        EnemyManager.Register(this);
     }
 
     private void Update()
@@ -138,6 +143,60 @@ public class EnemyStateManager : MonoBehaviour
             Gizmos.DrawLine(origin, origin + leftBoundary * viewDistance);
             Gizmos.DrawLine(origin, origin + rightBoundary * viewDistance);
         }
+        if (drawRadiusInfection)
+        {
+            Gizmos.color = new Color(1f, 0f, 1f); // Пурпурный
+            Vector3 center = transform.position;
+
+            int segments = 360;
+            float radius = radiusInfection;
+            float angleStep = 360f / segments;
+
+            Vector3 prevPoint = center + new Vector3(Mathf.Cos(0), 0, Mathf.Sin(0)) * radius;
+
+            for (int i = 1; i <= segments; i++)
+            {
+                float angle = angleStep * i * Mathf.Deg2Rad;
+                Vector3 nextPoint = center + new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
+                Gizmos.DrawLine(prevPoint, nextPoint);
+                prevPoint = nextPoint;
+            }
+        }
+    }
+
+    public void CheckForNearbyAggro()
+    {
+        if (!infection) return;
+
+        foreach (var other in EnemyManager.AllEnemies)
+        {
+            if (other == this) continue;
+
+            float dist = Vector3.Distance(transform.position, other.transform.position);
+            if (dist < radiusInfection)
+            {
+                Vector3 directionToOther = (other.transform.position - transform.position).normalized;
+                Vector3 origin = transform.position + Vector3.up * 1.7f * agent.transform.localScale.y;
+
+                if (!Physics.Raycast(origin, directionToOther, out RaycastHit hit, dist, obstructionMask))
+                {
+                    if (other.currentState == other.AgroState || other.currentState == other.AttackState)
+                    {
+                        if (currentState != AgroState && currentState != AttackState)
+                        {
+                            Debug.Log($"{name} заразился агро от {other.name} (видимость подтверждена)");
+                            SwitchState(AgroState);
+                            isAgroFromInfection = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private void OnDestroy()
+    {
+        EnemyManager.Unregister(this);
     }
     void CheckConditions()
     {
