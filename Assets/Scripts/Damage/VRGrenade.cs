@@ -33,10 +33,14 @@ public class VRGrenade : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(explosionSound, transform.position);
         }
-
+        GameObject explosion = Instantiate(explosionEffect, transform.position, Quaternion.identity);
         //  Визуальный эффект
-        if (explosionEffect != null)
-            Instantiate(explosionEffect, transform.position, transform.rotation);
+        ParticleSystem ps = explosion.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            ps.Play();
+            Destroy(explosion, ps.main.duration + ps.main.startLifetime.constantMax);
+        }
 
         //  Урон врагам
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
