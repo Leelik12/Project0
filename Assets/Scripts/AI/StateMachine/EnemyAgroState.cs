@@ -16,10 +16,14 @@ public class EnemyAgroState : EnemyBaseState
     }
     public override void UpdateState(EnemyStateManager manager)
     {
-        if (!manager.CanSeePlayer())
+        if (!manager.CanSeePlayer() && !manager.isAgroFromInfection)
         {
             manager.SwitchState(manager.IdleState);
             return;
+        }
+        if (manager.CanSeePlayer())
+        {
+            manager.isAgroFromInfection = false;
         }
         if (manager.DistanceToTarget() < manager.attackDistance)
         {

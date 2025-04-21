@@ -15,6 +15,7 @@ public class EnemyPatrolState : EnemyBaseState
     }
     public override void UpdateState(EnemyStateManager manager)
     {
+        manager.CheckForNearbyAggro();
 
         if (manager.CanSeePlayer())
         {

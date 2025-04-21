@@ -17,6 +17,19 @@ public class EnemyAttackState : EnemyBaseState
     public override void UpdateState(EnemyStateManager manager)
     {
         Debug.Log("Атака");
+
+        if (manager.DistanceToPlayer() > manager.attackDistance)
+        {
+            manager.SwitchState(manager.AgroState);
+            return;
+        }
+
+        if (!manager.CanSeePlayer() && !manager.isAgroFromInfection)
+        {
+            manager.SwitchState(manager.IdleState);
+            return;
+        }
+
         Vector3 direction = (manager.player.position - manager.transform.position).normalized;
         direction.y = 0;
 
