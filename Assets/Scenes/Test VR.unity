@@ -11227,7 +11227,7 @@ AudioSource:
   m_GameObject: {fileID: 1331556390}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1746091430128400195, guid: 5f10ca5facfeea64a86ed3e17cdcc886, type: 2}
   m_audioClip: {fileID: 8300000, guid: 6cc999b4e2aaf7a4285dad004ace0798, type: 3}
   m_Resource: {fileID: 8300000, guid: 6cc999b4e2aaf7a4285dad004ace0798, type: 3}
   m_PlayOnAwake: 0
@@ -11717,14 +11717,18 @@ MonoBehaviour:
   attackDistance: 1.6
   viewAngle: 120
   viewDistance: 20
+  radiusInfection: 20
   timeIdle: 10
+  infection: 1
   drawOverview: 1
+  drawRadiusInfection: 0
   stopAfterPatrol: 0
   patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  isAgroFromInfection: 0
 --- !u!95 &1464968871
 Animator:
   serializedVersion: 7
@@ -12701,7 +12705,7 @@ AudioSource:
   m_GameObject: {fileID: 1652489480}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1746091430128400195, guid: 5f10ca5facfeea64a86ed3e17cdcc886, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
