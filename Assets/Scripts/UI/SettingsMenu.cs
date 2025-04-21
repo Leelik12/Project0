@@ -1,29 +1,36 @@
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using UnityEngine.Audio;
 
 public class SettingsMenu : MonoBehaviour
 {
-    public AudioMixer audioMixer; // подключи MainAudioMixer
-    public Slider sfxSlider; // подключи слайдер из Canvas
+    public Slider volumeSlider;
+    public List<AudioSource> sfxAudioSources;
+    public AudioMixer audioMixer;
 
     void Start()
     {
-        // Загрузить сохранённую громкость при старте
-        if (PlayerPrefs.HasKey("GunVolume"))
-        {
-            float volume = PlayerPrefs.GetFloat("GunVolume");
-            sfxSlider.value = volume;
-            SetVolume(volume);
-        }
+        // Устанавливаем значение слайдера из StaticHolder
+        volumeSlider.value = StaticHolder.GunVolume;
+        SetVolume(StaticHolder.GunVolume);
+        volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+    }
 
-        sfxSlider.onValueChanged.AddListener(SetVolume);
+    void OnVolumeChanged(float volume)
+    {
+        SetVolume(volume);
+        StaticHolder.GunVolume = volume; // Сохраняем значение
     }
 
     public void SetVolume(float volume)
     {
-        // от 0 до 1 — линейное значение
-        float db = (volume == 0f) ? -80f : Mathf.Lerp(-40f, 0f, volume); // -40dB = почти неслышно, 0dB = макс
-        audioMixer.SetFloat("GunVolume", db);
+        // Значения громкости в микшере обычно от -80 до 0 дБ
+        // Чтобы громкость не была логарифмической, оставляем линейную шкалу
+        float dB = Mathf.Lerp(-30f, 10f, volume); // volume от 0 до 1
+        audioMixer.SetFloat("GunVolume", dB);
+
+        // Сохраняем в StaticHolder, если нужно
+        StaticHolder.GunVolume = volume;
     }
 }

@@ -188,7 +188,7 @@ MonoBehaviour:
   m_MinValue: 0.1
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.1
+  m_Value: 0.8825523
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5189,6 +5189,7 @@ GameObject:
   - component: {fileID: 1806001174}
   - component: {fileID: 1806001173}
   - component: {fileID: 1806001175}
+  - component: {fileID: 1806001176}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -5238,8 +5239,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e8c1ed23d9ce143abc669379d43f4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 33167471}
+  sfxAudioSources: []
   audioMixer: {fileID: 24100000, guid: 5f10ca5facfeea64a86ed3e17cdcc886, type: 2}
-  sfxSlider: {fileID: 33167471}
+--- !u!114 &1806001176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806001172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d12b87b07130fdf44bbe5223da375a8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 33167471}
+  sfxAudioSources:
+  - {fileID: 0}
 --- !u!4 &1846338746 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6954531691785998512, guid: cf8443763fc34314490f8a3e2f94dd37, type: 3}
