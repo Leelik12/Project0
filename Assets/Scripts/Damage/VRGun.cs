@@ -10,8 +10,8 @@ public class VRGun : MonoBehaviour
 {
     [SerializeField] private XRGrabInteractable grabInteractable;
     [Header("Перезарядка")]
-    [SerializeField] public int maxAmmo = 30;
-    private int currentAmmo = 30;
+    [SerializeField] public int maxAmmo;
+    public int currentAmmo;
     public Transform magazineSocket; // Точка, куда вставляется магазин
     public bool IsLoaded => currentAmmo > 0;
     private VRMagazine currentMagazine;
