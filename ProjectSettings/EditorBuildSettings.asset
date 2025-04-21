@@ -5,9 +5,30 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/GameLevels/MainScene.unity
+    guid: a613b2b3e8af26a41bca1ff523cebb9d
+  - enabled: 1
+    path: Assets/Scenes/GameLevels/Lobby.unity
+    guid: 45fb1fd30df2f4f408306232b28c5a08
+  - enabled: 1
+    path: Assets/Scenes/GameLevels/TheFirstLevel.unity
+    guid: fbda2315754a70d48a167e49494c243e
+  - enabled: 1
+    path: Assets/Scenes/GameLevels/Basement.unity
+    guid: 57c0ca0aa584d2946a3b4fa878841712
+  - enabled: 1
+    path: Assets/Scenes/GameLevels/HighFloor.unity
+    guid: 2bab9b3ae520ec04a8747467d5addd2a
+  - enabled: 1
+    path: Assets/Scenes/GameLevels/HappyRoomAndSmallBossfight.unity
+    guid: b16de0a36bec9284b9d557c416bfb63f
+  - enabled: 1
+    path: Assets/Scenes/GameLevels/BossFight.unity
+    guid: 25ba0ebfe7b6d9b468856ce52a972176
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 7649bdb75e53def47ae6343833ebc087, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
