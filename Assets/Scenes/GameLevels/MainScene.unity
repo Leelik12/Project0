@@ -1437,7 +1437,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1806001173}
         m_TargetAssemblyTypeName: SceneManagerMain, Assembly-CSharp
-        m_MethodName: Quit
+        m_MethodName: Exi
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2840,7 +2840,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1806001173}
         m_TargetAssemblyTypeName: SceneManagerMain, Assembly-CSharp
-        m_MethodName: Back2Menu
+        m_MethodName: Bach2Main
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3207,7 +3207,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1806001173}
         m_TargetAssemblyTypeName: SceneManagerMain, Assembly-CSharp
-        m_MethodName: Back2Menu
+        m_MethodName: Bach2Main
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3652,7 +3652,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1806001173}
         m_TargetAssemblyTypeName: SceneManagerMain, Assembly-CSharp
-        m_MethodName: Achiev
+        m_MethodName: Achie
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4232,7 +4232,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1806001173}
         m_TargetAssemblyTypeName: SceneManagerMain, Assembly-CSharp
-        m_MethodName: Settings
+        m_MethodName: Setti
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4661,9 +4661,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd625df0d52f2d458571b96043602a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Menu: {fileID: 88291271}
+  Main: {fileID: 88291271}
   Setting: {fileID: 214375440}
-  Achievments: {fileID: 639275431}
+  Achievm: {fileID: 639275431}
 --- !u!4 &1806001174
 Transform:
   m_ObjectHideFlags: 0
