@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemyHeaths : MonoBehaviour
 {
-    [SerializeField] private float maxHealth = 100f;
-    private float currentHealth;
+    [SerializeField] public float maxHealth = 100f;
+    public float currentHealth = 0f;
 
     private EnemyStateManager stateManager;
 
@@ -12,6 +12,8 @@ public class EnemyHeaths : MonoBehaviour
         currentHealth = maxHealth;
         stateManager = GetComponent<EnemyStateManager>();
     }
+
+    public float GetCurrentHp() { return currentHealth; }
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
@@ -22,6 +24,10 @@ public class EnemyHeaths : MonoBehaviour
         {
             Debug.Log("[EnemyHealth] Здоровье на нуле. Враг умирает.");
             stateManager.Die();
+        } else
+        {
+            stateManager.SwitchState(stateManager.AgroState);
+            stateManager.isTakeDamage = true;
         }
     }
 }

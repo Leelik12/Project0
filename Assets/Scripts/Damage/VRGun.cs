@@ -42,6 +42,10 @@ public class VRGun : MonoBehaviour
     [Header("XR")]
     public InputActionProperty triggerAction; // <-- сюда привязываем Input Action с триггера
     public Transform firePoint;
+    public InputActionProperty LeftTrigger;
+    public InputActionProperty RightTrigger;
+    public InputActionProperty LeftGrip;
+    public InputActionProperty RightGrip;
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -62,14 +66,19 @@ public class VRGun : MonoBehaviour
     }
     void Update()
     {
-
+        Debug.Log("Левый грип" + LeftGrip.action.ReadValue<float>());
+        Debug.Log("Левый тригер" + LeftTrigger.action.ReadValue<float>());
+        Debug.Log("Правый грип" + RightGrip.action.ReadValue<float>());
+        Debug.Log("Правый Тригер" + RightTrigger.action.ReadValue<float>());
         if (currentAmmo <= 0 && IsCharged)
         {
             IsCharged = false;
+            currentMagazine = null;
             EjectMagazine(); // автоматически выбрасывает магазин при окончании патронов
         }
         // Проверка ввода через Input System
-        if (triggerAction.action != null && triggerAction.action.ReadValue<float>() > 0.8f && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
+        //if (triggerAction.action != null && triggerAction.action.ReadValue<float>() > 0.8f && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
+        if (((LeftGrip.action.ReadValue<float>() > 0.8f && LeftTrigger.action.ReadValue<float>() > 0.8f) || (RightGrip.action.ReadValue<float>() > 0.8f && RightTrigger.action.ReadValue<float>() > 0.8f)) && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
         {
             Debug.Log("Выстрел!");
             nextFireTime = Time.time + fireRate;

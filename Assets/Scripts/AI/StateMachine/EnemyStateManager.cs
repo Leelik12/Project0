@@ -1,28 +1,44 @@
+using MikeNspired.XRIStarterKit;
+using System.Runtime.CompilerServices;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyStateManager : MonoBehaviour
 {
+    [Header("Main")]
     [SerializeField] public Animator animator;
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public Transform player;
     [SerializeField] private LayerMask obstructionMask;
+
+    [Header("Скорость ходьбы")]
     [SerializeField] public float walkSpeed = 2f;
     [SerializeField] public float runSpeed = 3f;
-    [SerializeField] public float attackDistance = 1.6f;
+    
+
+    [Header("Обзор врага")]
     [SerializeField] private float viewAngle = 120f;
     [SerializeField] private float viewDistance = 20f;
     [SerializeField] private float radiusInfection = 20f;
-    [SerializeField] public float timeIdle = 10f;
-    [SerializeField] private bool infection = true;
+
+    [Header("Отрисовка")]
     [SerializeField] private bool drawOverview = true;
     [SerializeField] private bool drawRadiusInfection = false;
+
+    [Header("Атака")]
+    [SerializeField] public float attackDistance = 1.6f;
+    [SerializeField] private bool infection = true;
+
+    [Header("Патрулирование")]
+    [SerializeField] public float timeIdle = 10f;
     [SerializeField] public bool stopAfterPatrol = false;
     [SerializeField] public Transform[] patrolPoints;
-    public bool isAgroFromInfection = false;
+
+    [HideInInspector] public bool isAgroFromInfection = false;
+    [HideInInspector] public bool isTakeDamage = false;
     private int currentPatrolIndex = 0;
-    Transform target;
+    private Transform target;
 
     EnemyBaseState currentState;
     public EnemyIdleState IdleState = new EnemyIdleState();
