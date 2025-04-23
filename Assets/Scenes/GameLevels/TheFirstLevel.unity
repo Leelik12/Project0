@@ -34164,11 +34164,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
       propertyPath: LeftTrigger.m_Action.m_SingletonActionBindings.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
       propertyPath: RightTrigger.m_Action.m_SingletonActionBindings.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
       propertyPath: LeftGrip.m_Action.m_SingletonActionBindings.Array.data[0].m_Id
@@ -34187,6 +34187,10 @@ PrefabInstance:
       value: 80f41cfe-6b55-4798-ab02-a8006f98c71f
       objectReference: {fileID: 0}
     - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
+      propertyPath: LeftTrigger.m_Action.m_SingletonActionBindings.Array.data[1].m_Id
+      value: 8a4f41df-4df4-4535-8379-4ff343184c25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
       propertyPath: RightGrip.m_Action.m_SingletonActionBindings.Array.data[0].m_Path
       value: <XRController>{RightHand}/{Grip}
       objectReference: {fileID: 0}
@@ -34199,7 +34203,15 @@ PrefabInstance:
       value: 6abc4f80-61ed-4197-8385-d2a0b2575aa5
       objectReference: {fileID: 0}
     - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
+      propertyPath: RightTrigger.m_Action.m_SingletonActionBindings.Array.data[1].m_Id
+      value: 11eafb2c-1822-4dea-890d-0beb436d48d7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
       propertyPath: LeftTrigger.m_Action.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <XRController>{LeftHand}/trigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
+      propertyPath: LeftTrigger.m_Action.m_SingletonActionBindings.Array.data[1].m_Path
       value: <XRController>{LeftHand}/trigger
       objectReference: {fileID: 0}
     - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
@@ -34211,11 +34223,23 @@ PrefabInstance:
       value: <XRController>{RightHand}/trigger
       objectReference: {fileID: 0}
     - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
+      propertyPath: RightTrigger.m_Action.m_SingletonActionBindings.Array.data[1].m_Path
+      value: <XRController>{RightHand}/trigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
       propertyPath: LeftTrigger.m_Action.m_SingletonActionBindings.Array.data[0].m_Action
       value: Left Trigger
       objectReference: {fileID: 0}
     - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
+      propertyPath: LeftTrigger.m_Action.m_SingletonActionBindings.Array.data[1].m_Action
+      value: Left Trigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
       propertyPath: RightTrigger.m_Action.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Right Trigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 5836599417195938348, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
+      propertyPath: RightTrigger.m_Action.m_SingletonActionBindings.Array.data[1].m_Action
       value: Right Trigger
       objectReference: {fileID: 0}
     m_RemovedComponents: []

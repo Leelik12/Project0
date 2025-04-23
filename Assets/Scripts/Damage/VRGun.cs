@@ -59,6 +59,10 @@ public class VRGun : MonoBehaviour
     void Awake()
     {
         triggerAction.action.Enable();
+        LeftGrip.action.Enable();
+        RightGrip.action.Enable();
+        LeftTrigger.action.Enable();
+        RightTrigger.action.Enable();
         if (StaticHolder.Difficulty)
         {
             laserLine.enabled = false;
