@@ -12,7 +12,6 @@ public class VRGun : MonoBehaviour
     [Header("Перезарядка")]
     [SerializeField] public int maxAmmo;
     public int currentAmmo;
-    public Transform magazineSocket; // Точка, куда вставляется магазин
     public bool IsLoaded => currentAmmo > 0;
     private VRMagazine currentMagazine;
     public bool IsCharged = true;
@@ -40,6 +39,7 @@ public class VRGun : MonoBehaviour
     public float lightDuration; // длительность вспышки света
 
     [Header("XR")]
+
     public InputActionProperty triggerAction; // <-- сюда привязываем Input Action с триггера
     public Transform firePoint;
     public InputActionProperty LeftTrigger;
@@ -70,10 +70,10 @@ public class VRGun : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log("Левый грип" + LeftGrip.action.ReadValue<float>());
-        Debug.Log("Левый тригер" + LeftTrigger.action.ReadValue<float>());
-        Debug.Log("Правый грип" + RightGrip.action.ReadValue<float>());
-        Debug.Log("Правый Тригер" + RightTrigger.action.ReadValue<float>());
+        //Debug.Log("Левый грип" + LeftGrip.action.ReadValue<float>());
+        //Debug.Log("Левый тригер" + LeftTrigger.action.ReadValue<float>());
+        //Debug.Log("Правый грип" + RightGrip.action.ReadValue<float>());
+        //Debug.Log("Правый Тригер" + RightTrigger.action.ReadValue<float>());
         if (currentAmmo <= 0 && IsCharged)
         {
             IsCharged = false;
@@ -81,8 +81,11 @@ public class VRGun : MonoBehaviour
             EjectMagazine(); // автоматически выбрасывает магазин при окончании патронов
         }
         // Проверка ввода через Input System
+        Debug.Log(grabInteractable.attachTransform);
+        string ap = grabInteractable.attachTransform.name;
+        Debug.Log(grabInteractable.attachTransform.name);
         //if (triggerAction.action != null && triggerAction.action.ReadValue<float>() > 0.8f && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
-        if (((LeftGrip.action.ReadValue<float>() > 0.8f && LeftTrigger.action.ReadValue<float>() > 0.8f) || (RightGrip.action.ReadValue<float>() > 0.8f && RightTrigger.action.ReadValue<float>() > 0.8f)) && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
+        if (((LeftGrip.action.ReadValue<float>() > 0.8f && LeftTrigger.action.ReadValue<float>() > 0.8f && ap.Contains("L")) || (RightGrip.action.ReadValue<float>() > 0.8f && RightTrigger.action.ReadValue<float>() > 0.8f && ap.Contains("R"))) && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
         {
             Debug.Log("Выстрел!");
             nextFireTime = Time.time + fireRate;
