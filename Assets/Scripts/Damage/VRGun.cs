@@ -81,9 +81,9 @@ public class VRGun : MonoBehaviour
             EjectMagazine(); // автоматически выбрасывает магазин при окончании патронов
         }
         // ѕроверка ввода через Input System
-        Debug.Log(grabInteractable.attachTransform);
+        //Debug.Log(grabInteractable.attachTransform);
         string ap = grabInteractable.attachTransform.name;
-        Debug.Log(grabInteractable.attachTransform.name);
+        //Debug.Log(grabInteractable.attachTransform.name);
         //if (triggerAction.action != null && triggerAction.action.ReadValue<float>() > 0.8f && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
         if (((LeftGrip.action.ReadValue<float>() > 0.8f && LeftTrigger.action.ReadValue<float>() > 0.8f && ap.Contains("L")) || (RightGrip.action.ReadValue<float>() > 0.8f && RightTrigger.action.ReadValue<float>() > 0.8f && ap.Contains("R"))) && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
         {

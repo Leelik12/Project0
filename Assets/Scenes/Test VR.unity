@@ -19072,7 +19072,6 @@ MonoBehaviour:
   grabInteractable: {fileID: 2112223577}
   maxAmmo: 7
   currentAmmo: 7
-  magazineSocket: {fileID: 0}
   IsCharged: 1
   emptyMagazinePrefab: {fileID: 0}
   ejectPoint: {fileID: 0}
@@ -19117,6 +19116,54 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 0}
   firePoint: {fileID: 1635691460}
+  LeftTrigger:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: d3ea1a16-0089-4e86-9416-8a8c3935c3e8
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  RightTrigger:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 9e78e487-cdb4-4910-9d55-ab69fece8c39
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  LeftGrip:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 3d53efa3-934b-42a7-a227-02bddf932564
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  RightGrip:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 407b9b69-a4fa-499b-83dd-70f0adeb8221
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
   audioSource: {fileID: 1331556391}
   shotSound: {fileID: 8300000, guid: 2f30d2e54589dbc4fb42926104ab305f, type: 3}
   enemyTag: Enemy
@@ -19544,7 +19591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
