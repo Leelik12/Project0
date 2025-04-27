@@ -55,7 +55,8 @@ public class VRGun : MonoBehaviour
     public string enemyTag = ""; // Тег врага
     private float nextFireTime = 0f;
 
-
+    string ap = null;
+    EnemyStateManager movement = null;
     void Awake()
     {
         triggerAction.action.Enable();
@@ -82,7 +83,11 @@ public class VRGun : MonoBehaviour
         }
         // Проверка ввода через Input System
         //Debug.Log(grabInteractable.attachTransform);
-        string ap = grabInteractable.attachTransform.name;
+        if (grabInteractable.attachTransform != null)
+        {
+            ap = grabInteractable.attachTransform.name;
+        } else { ap = null; }
+        
         //Debug.Log(grabInteractable.attachTransform.name);
         //if (triggerAction.action != null && triggerAction.action.ReadValue<float>() > 0.8f && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
         if (((LeftGrip.action.ReadValue<float>() > 0.8f && LeftTrigger.action.ReadValue<float>() > 0.8f && ap.Contains("L")) || (RightGrip.action.ReadValue<float>() > 0.8f && RightTrigger.action.ReadValue<float>() > 0.8f && ap.Contains("R"))) && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
@@ -142,7 +147,12 @@ public class VRGun : MonoBehaviour
                     Debug.Log("Leg shot!");
 
                     // Замедляем врага
-                    EnemyStateManager movement = hit.collider.GetComponentInParent<EnemyStateManager>();
+                    if (hit.collider.GetComponentInParent<EnemyStateManager>() != null)
+                    {
+                        movement = hit.collider.GetComponentInParent<EnemyStateManager>();
+                    }
+                    else { movement = null; }
+                    
                     if (movement != null)
                     {
                         movement.walkSpeed = movement.walkSpeed * 0.9f;
