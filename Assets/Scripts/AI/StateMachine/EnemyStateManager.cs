@@ -7,16 +7,15 @@ using UnityEngine.AI;
 public class EnemyStateManager : MonoBehaviour
 {
     [Header("Main")]
-    [SerializeField] public Animator animator;
-    [SerializeField] public NavMeshAgent agent;
-    [SerializeField] public Transform player;
+    public Animator animator;
+    public NavMeshAgent agent;
+    public Transform player;
     [SerializeField] private LayerMask obstructionMask;
 
     [Header("Скорость ходьбы")]
-    [SerializeField] public float walkSpeed = 2f;
-    [SerializeField] public float runSpeed = 3f;
-    
-
+    public float walkSpeed = 2f;
+    public float runSpeed = 3f;
+   
     [Header("Обзор врага")]
     [SerializeField] private float viewAngle = 120f;
     [SerializeField] private float viewDistance = 20f;
@@ -27,18 +26,20 @@ public class EnemyStateManager : MonoBehaviour
     [SerializeField] private bool drawRadiusInfection = false;
 
     [Header("Атака")]
-    [SerializeField] public float attackDistance = 1.6f;
+    public float attackDistance = 1.6f;
+    public bool isWeapon = false;
     [SerializeField] private bool infection = true;
 
     [Header("Патрулирование")]
-    [SerializeField] public float timeIdle = 10f;
-    [SerializeField] public bool stopAfterPatrol = false;
-    [SerializeField] public Transform[] patrolPoints;
+    public float timeIdle = 10f;
+    public bool stopAfterPatrol = false;
+    public Transform[] patrolPoints;
 
     [HideInInspector] public bool isAgroFromInfection = false;
     [HideInInspector] public bool isTakeDamage = false;
     private int currentPatrolIndex = 0;
     private Transform target;
+    [HideInInspector] public EnemyWeaponController controller;
 
     EnemyBaseState currentState;
     public EnemyIdleState IdleState = new EnemyIdleState();
@@ -57,7 +58,11 @@ public class EnemyStateManager : MonoBehaviour
     private void Start()
     {
         target = player;
-        SwitchState(IdleState);
+        if (isWeapon)
+        {
+            controller = GetComponent<EnemyWeaponController>();
+        }
+            SwitchState(IdleState);
         EnemyManager.Register(this);
     }
 

@@ -7,6 +7,10 @@ public class EnemyAttackState : EnemyBaseState
         manager.SetSpeed(0);
         manager.animator.SetBool("isAttack", true);
         manager.agent.acceleration = 1000;
+        if (manager.controller != null)
+        {
+            manager.controller.SetHoldAttack();
+        }
         Debug.Log("¬ходим в Attack");
     }
     public override void ExitState(EnemyStateManager manager)

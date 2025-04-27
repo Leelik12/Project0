@@ -9,6 +9,11 @@ public class EnemyAgroState : EnemyBaseState
         Debug.Log("¬ходим в Agro");
         manager.SetSpeed(manager.runSpeed);
         manager.SetDistance(manager.player);
+        if (manager.controller != null)
+        {
+            Debug.Log($"{this} переложил {manager.controller.weapon}");
+            manager.controller.SetHoldRun();
+        }
     }
     public override void ExitState(EnemyStateManager manager)
     {
