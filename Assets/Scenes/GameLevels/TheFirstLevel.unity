@@ -24265,7 +24265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -38104,6 +38104,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
+      propertyPath: infection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
       propertyPath: viewAngle
       value: 100
       objectReference: {fileID: 0}
@@ -40769,6 +40773,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
+      propertyPath: infection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
       propertyPath: viewAngle
       value: 110
       objectReference: {fileID: 0}
@@ -42671,6 +42679,10 @@ PrefabInstance:
     - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
       propertyPath: timeIdle
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
+      propertyPath: infection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
       propertyPath: viewAngle
@@ -46013,6 +46025,10 @@ PrefabInstance:
     - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
       propertyPath: runSpeed
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
+      propertyPath: infection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
       propertyPath: viewAngle
@@ -56637,7 +56653,7 @@ GameObject:
   - component: {fileID: 1747126621}
   - component: {fileID: 1747126620}
   - component: {fileID: 1747126623}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62814,6 +62830,10 @@ PrefabInstance:
     - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
       propertyPath: runSpeed
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
+      propertyPath: infection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4104431004148855743, guid: 9a540223a39010d43be484262265faf6, type: 3}
       propertyPath: viewAngle
