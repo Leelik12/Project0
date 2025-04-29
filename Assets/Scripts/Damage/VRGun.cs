@@ -180,12 +180,12 @@ public class VRGun : MonoBehaviour
     }
     public bool CanInsertMagazine()
     {
-        return currentMagazine == null;
+        return !IsCharged;
     }
     public void InsertMagazine(VRMagazine magazine)
     {
         IsCharged = true;
-        if (currentMagazine != null) return;
+        if (currentMagazine != null) { }
 
         currentMagazine = magazine;
         currentAmmo = Mathf.Min(magazine.ammoAmount, maxAmmo);
