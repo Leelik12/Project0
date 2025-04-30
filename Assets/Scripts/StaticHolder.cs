@@ -12,4 +12,5 @@ public static class StaticHolder
     public static bool levelCheksComplete;
     public static bool UpdateWasBought;
     public static int CurrentLevel =2;
+    public static bool DieStation;
 }

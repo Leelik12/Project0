@@ -129,7 +129,8 @@ public class VRGun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range))
         {
-            if (hit.collider.CompareTag("Head") || hit.collider.CompareTag("Leg") || hit.collider.CompareTag("Body"))
+            //Debug.Log("Попадание в " + hit.collider.tag);
+            if (hit.collider.CompareTag("Head") || hit.collider.CompareTag("Leg") || hit.collider.CompareTag("Body") || hit.collider.CompareTag("Player"))
             {
                 float finalDamage = damage;
                 // Определяем зону попадания
@@ -164,19 +165,29 @@ public class VRGun : MonoBehaviour
                     // тело — обычный урон
                     Debug.Log("Body shot!");
                 }
-
-                EnemyHeaths target = hit.collider.GetComponentInParent<EnemyHeaths>();
-                if (target != null)
+                EnemyHeaths target = null;
+                if (hit.collider.GetComponentInParent<EnemyHeaths>() == null)
+                {
+                    target = null;
+                }
+                else
+                {
+                    target = hit.collider.GetComponentInParent<EnemyHeaths>();
+                }
+                
+                PlayerHealth player = hit.collider.GetComponent<PlayerHealth>();
+                if (target != null || player != null)
                 {
                     StaticHolder.countHits++;
                     StaticHolder.Damage += finalDamage;
-                    target.TakeDamage(finalDamage);
+                    if (target != null) { target.TakeDamage(finalDamage); }
+                    player.PlayerTakeDamage(finalDamage);
                 }
             }
         }
-        Debug.Log("Выстрелов - " + StaticHolder.countShots);
-        Debug.Log("Попаданий - " + StaticHolder.countHits);
-        Debug.Log("Урон - " + StaticHolder.Damage);
+        //Debug.Log("Выстрелов - " + StaticHolder.countShots);
+        //Debug.Log("Попаданий - " + StaticHolder.countHits);
+        //Debug.Log("Урон - " + StaticHolder.Damage);
     }
     public bool CanInsertMagazine()
     {
