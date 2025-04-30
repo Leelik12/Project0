@@ -8,4 +8,8 @@ public static class StaticHolder
     public static int countShots;
     public static int countHits;
     public static float Damage;
+
+    public static bool levelCheksComplete;
+    public static bool UpdateWasBought;
+    public static int CurrentLevel =2;
 }
