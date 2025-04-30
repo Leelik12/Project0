@@ -107,7 +107,7 @@ public class VRGun : MonoBehaviour
         }
     }
 
-    void Shoot()
+    public void Shoot()
     {
         currentAmmo--;
         if (currentAmmo <= 0)
@@ -223,6 +223,10 @@ public class VRGun : MonoBehaviour
     }
     private IEnumerator MoveRecoil()
     {
+        if (movablePart == null)
+        {
+            yield break;
+        }
         // 1) Сохраняем исходную локальную позицию
         Vector3 originalLocalPos = movablePart.localPosition;
 

@@ -40,6 +40,7 @@ public class EnemyStateManager : MonoBehaviour
     private int currentPatrolIndex = 0;
     private Transform target;
     [HideInInspector] public EnemyWeaponController controller;
+    private VRGun weapon;
 
     EnemyBaseState currentState;
     public EnemyIdleState IdleState = new EnemyIdleState();
@@ -61,6 +62,7 @@ public class EnemyStateManager : MonoBehaviour
         if (isWeapon)
         {
             controller = GetComponent<EnemyWeaponController>();
+            weapon = GetComponentInChildren<VRGun>();
         }
             SwitchState(IdleState);
         EnemyManager.Register(this);
@@ -229,5 +231,15 @@ public class EnemyStateManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    void Shoot()
+    {
+        if (weapon == null)
+        {
+            Debug.LogWarning($"{name}: Нет оружия для стрельбы!");
+            return;
+        }
+        weapon.Shoot();
     }
 }
