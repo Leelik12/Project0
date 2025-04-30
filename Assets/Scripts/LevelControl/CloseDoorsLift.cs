@@ -30,7 +30,7 @@ public class CloseLiftDoors : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!hasOpened && other.CompareTag("Player") && StaticHolder.levelCheksComplete)
+        if (!hasOpened && other.CompareTag("Player"))
         {
             isOpening = true;
             hasOpened = true;
