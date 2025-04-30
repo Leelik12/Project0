@@ -8074,7 +8074,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6acaf6097909046acb3d645dcdbd3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies: []
+  enemies:
+  - {fileID: 0}
   optionalItem: {fileID: 0}
   progressText: {fileID: 0}
 --- !u!1001 &313794796
@@ -55657,7 +55658,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
