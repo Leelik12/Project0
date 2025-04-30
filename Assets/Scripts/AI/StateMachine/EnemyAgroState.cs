@@ -7,13 +7,12 @@ public class EnemyAgroState : EnemyBaseState
         manager.animator.SetBool("isAttack", false);
         manager.animator.SetBool("isPatrol", false);
         Debug.Log("¬ходим в Agro");
-        manager.SetSpeed(manager.runSpeed);
-        manager.SetDistance(manager.player);
         if (manager.controller != null)
         {
-            Debug.Log($"{this} переложил {manager.controller.weapon}");
             manager.controller.SetHoldRun();
         }
+        manager.SetSpeed(manager.runSpeed);
+        manager.SetDistance(manager.player);
     }
     public override void ExitState(EnemyStateManager manager)
     {

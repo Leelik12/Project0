@@ -8,6 +8,10 @@ public class EnemyPatrolState : EnemyBaseState
         Debug.Log("¬ходим в Patrol");
         manager.SetDistance(manager.GetNextPatrolPoint());
         manager.SetSpeed(manager.walkSpeed);
+        if (manager.controller != null)
+        {
+            manager.controller.SetHoldWalk();
+        }
     }
     public override void ExitState(EnemyStateManager manager)
     {
