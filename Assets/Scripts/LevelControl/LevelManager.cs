@@ -88,7 +88,7 @@ public class LevelManager : MonoBehaviour
     void LevelCompleted()
     {
         Debug.Log("Уровень пройден!");
-        StaticHolder.level1CheksComplete = true;
+        StaticHolder.levelCheksComplete = true;
         // Здесь вызови свой метод завершения уровня
         // Например: GameManager.Instance.CompleteLevel();
     }

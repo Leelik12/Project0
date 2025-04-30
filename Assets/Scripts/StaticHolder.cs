@@ -9,5 +9,7 @@ public static class StaticHolder
     public static int countHits;
     public static float Damage;
 
-    public static bool level1CheksComplete;
+    public static bool levelCheksComplete;
+    public static bool UpdateWasBought;
+    public static int CurrentLevel =2;
 }

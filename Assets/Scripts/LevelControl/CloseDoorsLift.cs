@@ -30,7 +30,7 @@ public class CloseLiftDoors : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!hasOpened && other.CompareTag("Player") && StaticHolder.level1CheksComplete)
+        if (!hasOpened && other.CompareTag("Player") && StaticHolder.levelCheksComplete)
         {
             isOpening = true;
             hasOpened = true;
@@ -39,7 +39,8 @@ public class CloseLiftDoors : MonoBehaviour
             {
                 openSound.Play();
             }
+            Debug.Log("Дверь закрывается");
         }
-        Debug.Log("Дверь открылась");
+
     }
 }

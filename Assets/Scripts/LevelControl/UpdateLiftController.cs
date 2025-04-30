@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ElevatorController : MonoBehaviour
+public class UpdateLiftController : MonoBehaviour
 {
     [Header("Настройки лифта")]
     public float waitTime = 3f;               // Время ожидания в лифте перед загрузкой сцены
     private bool playerInElevator = false;
     private float timer = 0f;
-    public int CurrentBuildScene; //Текущая сцена по билду
+    int l = StaticHolder.CurrentLevel + 1;
+
 
     private void Start()
     {
@@ -34,24 +35,27 @@ public class ElevatorController : MonoBehaviour
     private void Update()
     {
         Debug.Log("Текущий уровень по билду - " + StaticHolder.CurrentLevel);
+        Debug.Log(l);
         if (playerInElevator)
         {
             timer += Time.deltaTime;
 
             if (timer >= waitTime)
             {
-                LoadNextScene();
+                
+                
+                LoadNextLevel();
             }
         }
     }
 
-    void LoadNextScene()
+    void LoadNextLevel()
     {
         Debug.Log("Загрузка новой сцены");
-        StaticHolder.CurrentLevel = CurrentBuildScene;
+        
+        
+        SceneManager.LoadScene(l);
+        StaticHolder.CurrentLevel = l;
         StaticHolder.levelCheksComplete = false;
-        SceneManager.LoadScene(1);
-
-
     }
 }

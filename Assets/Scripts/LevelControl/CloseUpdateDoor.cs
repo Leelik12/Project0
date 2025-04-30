@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class LevelDoors : MonoBehaviour
+public class CloseUpdateDoors : MonoBehaviour
 {
-    [SerializeField] private float openHeight = -8f;
+    [SerializeField] private float openHeight = 2.5f;
     [SerializeField] private float openSpeed = 1f;
     [SerializeField] private AudioSource openSound;
 
@@ -30,7 +30,7 @@ public class LevelDoors : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!hasOpened && other.CompareTag("Player") && StaticHolder.levelCheksComplete)
+        if (!hasOpened && other.CompareTag("Player") && StaticHolder.UpdateWasBought)
         {
             isOpening = true;
             hasOpened = true;
@@ -39,7 +39,8 @@ public class LevelDoors : MonoBehaviour
             {
                 openSound.Play();
             }
+            Debug.Log("Дверь закрывается");
         }
-        Debug.Log("Дверь открылась");
+
     }
 }
