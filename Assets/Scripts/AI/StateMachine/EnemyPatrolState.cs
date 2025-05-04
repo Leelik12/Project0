@@ -15,7 +15,6 @@ public class EnemyPatrolState : EnemyBaseState
     }
     public override void ExitState(EnemyStateManager manager)
     {
-        Debug.Log("Выходим из Patrol");
     }
     public override void UpdateState(EnemyStateManager manager)
     {
@@ -32,6 +31,7 @@ public class EnemyPatrolState : EnemyBaseState
         {
             if (manager.stopAfterPatrol)
             {
+                manager.animator.SetBool("isPatrol", false);
                 manager.SwitchState(manager.IdleState);
             }
             else
