@@ -25,8 +25,8 @@ public class VRGun : MonoBehaviour
     [SerializeField] private float recoilDuration = 0.1f;     // сколько длится отдача (сек)
 
     [Header("Настройки стрельбы")]
-    public float fireRate = 0.1f;
-    public float damage = 10f;
+    public float fireRate;
+    public float damage;
     public float range = 100f;
 
     [Header("Настройки лазера")]

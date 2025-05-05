@@ -1,7 +1,8 @@
 using UnityEngine;
-
+// Список оружий по коду 0 - Акм; 1 - Лазер. пистолет; 2 - Лазер. винтовка; 3 - Пистолет; 4 - Граната; 5 - Винтовка P40; 6 - дробовик; 7 - Полицейская дубинка; 8 - Бейсбольная бита
 public static class StaticHolder
 {
+    //Для настроек и статистики достижений
     public static float GunVolume = 0.6f;
     public static float EnvVolume = 0.6f;
     public static bool Difficulty = false;
@@ -9,8 +10,16 @@ public static class StaticHolder
     public static int countHits;
     public static float Damage;
 
+    //Для контролирования состояния уровня
     public static bool levelCheksComplete;
     public static bool UpdateWasBought;
     public static int CurrentLevel =2;
     public static bool DieStation;
+
+    //Все что нужно для апдейт сцены. Если че то надо добавить в этот скрипт писать ТОЛЬКО сверху
+    public static int CurrentGun;
+    public static bool CurrentGrenade; //есть они или нет
+    public static int CurrentGunFireRate = 100;// три сотки снизу для тестов, при билде стереть
+    public static int CurrentGunDamage = 100;
+    public static int CurrentGunMaxAmmo = 100;
 }

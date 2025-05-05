@@ -35,7 +35,7 @@ public class UpdateLiftController : MonoBehaviour
     private void Update()
     {
         Debug.Log("Текущий уровень по билду - " + StaticHolder.CurrentLevel);
-        Debug.Log(l);
+        //Debug.Log(l);
         if (playerInElevator)
         {
             timer += Time.deltaTime;
