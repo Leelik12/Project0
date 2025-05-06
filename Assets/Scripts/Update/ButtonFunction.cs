@@ -2,17 +2,30 @@ using UnityEngine;
 
 public class ButtonFunction : MonoBehaviour
 { //если написано процент, то буквально 10 20 50, если вэлью, то число 1 2 3
+    [Header("Скорость стрельбы")]
     public int FireRateUpdatePercent;
+    [Header("Урон оружия")]
     public int DamageUpdatePercent;
+    [Header("Размер магазина")]
     public float MagazineValueUpdateValue;
+    [Header("Прокачка здоровья игрока")]
     public int PlayerHpBuffValue;
+    [Header("Ускорение после получения урона")]
     public int PlayerSpeedBuffAfterDamagePercent;
+    public float PlayerSpeedBuffAfterDamageTime;
+    [Header("Кнопка отхила")]
+    public int HealHPPoints;
+    [Header("Сандевистан")]
+    public int SandewistanTimeWorkable;
+    public float SandewistanTimeSlower;//стандартное время в юнити 1
+
 
     public int MeleeDamageBuffPercent;
     public int SpeedBuffAllTimePercent;
 
     public int PlayerHandDamageBuffPercent;
     public int PlayerSpeedBuffPercent;
+
     //Сверху подкапотка прокачки, все изменения прокачки происходят через эти настройки
     //Не забудь поменять текст на карточках при изменении этих значений
     public void ShablonButton()
@@ -22,25 +35,25 @@ public class ButtonFunction : MonoBehaviour
         Debug.Log("");
     }
     public void UpdateFireRate() //Все хорошо, при прокачке значение должно падать. FireRate - время между выстрелами
-    {
+    {//все работает
         Debug.Log("Скорострельность была " + StaticHolder.BuffGunFireRate);
         StaticHolder.BuffGunFireRate = StaticHolder.BuffGunFireRate * (1f - FireRateUpdatePercent / 100f);
         Debug.Log("Скорострельность увеличена до " + StaticHolder.BuffGunFireRate);
     }
     public void UpdateDamage()
-    {
+    {//все работает
         Debug.Log("Урон был " + StaticHolder.BuffGunDamage);
         StaticHolder.BuffGunDamage = StaticHolder.BuffGunDamage * (1f + DamageUpdatePercent/100f);
         Debug.Log("Урон увеличен до " + StaticHolder.BuffGunDamage);
     }
     public void UpdateMagazineValue()
-    {
-        Debug.Log("Размер магазина был " + StaticHolder.CurrentGunMaxAmmo);
+    {//все работает
+        Debug.Log("Размер магазина был " + StaticHolder.BuffGunMaxAmmo);
         StaticHolder.BuffGunMaxAmmo = StaticHolder.BuffGunMaxAmmo * (MagazineValueUpdateValue);
-        Debug.Log("Размер магазина увеличен до " + StaticHolder.CurrentGunMaxAmmo);
+        Debug.Log("Размер магазина увеличен до " + StaticHolder.BuffGunMaxAmmo);
     }
     public void UpdateLCU()
-    {
+    {//все работает
         StaticHolder.Difficulty = false;
         Debug.Log("ЛЦУ добавлен");
     }
@@ -139,29 +152,32 @@ public class ButtonFunction : MonoBehaviour
         Debug.Log("Гранаты в инвентаре" + StaticHolder.CurrentGrenade);
     }
     public void UpdateHPBuff()
-    {
-        Debug.Log("Текущее максимальное здоровье игрока - " + StaticHolder.PlayerHP);
-        StaticHolder.PlayerHP += PlayerHpBuffValue;
-        Debug.Log("Новое максимальное здоровье игрока - " + StaticHolder.PlayerHP);
+    {//все работает
+        Debug.Log("Текущее максимальное здоровье игрока - " + StaticHolder.PlayerHPBuff);
+        StaticHolder.PlayerHPBuff += PlayerHpBuffValue;
+        Debug.Log("Новое максимальное здоровье игрока - " + StaticHolder.PlayerHPBuff);
     }
-    public void UpdateSpeedUp()
-    {
-        Debug.Log("Текущая максимальная скорость игрока - " + StaticHolder.PlayerSpeed);
+    public void UpdateSpeedUp()// в скрипте здоровья отрабатывает
+    {//должно работать
+        Debug.Log("Текущая максимальная скорость игрока - " + StaticHolder.PlayerBasicSpeed);
         StaticHolder.SpeedBuffAfterDamage = true;
-        StaticHolder.SpeedAfterDamageValue = StaticHolder.SpeedAfterDamageValue * (1 + PlayerSpeedBuffAfterDamagePercent / 100);
-        Debug.Log("Новая максимальная скорость игрока - " + StaticHolder.PlayerSpeed);
-
+        StaticHolder.SpeedTimeAfterDamage = PlayerSpeedBuffAfterDamageTime;
+        StaticHolder.SpeedAfterDamageValue = StaticHolder.SpeedAfterDamageValue * (1f + PlayerSpeedBuffAfterDamagePercent / 100f);
+        Debug.Log("Новая максимальная скорость игрока - " + StaticHolder.PlayerBasicSpeed);
     }
-    public void UpdateHealer()
-    {
+    public void UpdateHealer()// в скрипте здоровья отрабатывает
+    {//работает на левом контроллере! дальняя кнопка по идее
         Debug.Log("Пропитал есть - " + StaticHolder.PropitalHeal);
         StaticHolder.PropitalHeal = true;
+        StaticHolder.PropitalHealValue = HealHPPoints;
         Debug.Log("Пропитал теперь - " + StaticHolder.PropitalHeal);
     }
-    public void UpdateSandevistan()
-    {
+    public void UpdateSandevistan()// в скрипте здоровья отрабатывает
+    {//оно реально работает, я в шоке
         Debug.Log("Сандевистан есть - " + StaticHolder.Sandevistan);
         StaticHolder.Sandevistan = true;
+        StaticHolder.SandevistanTime = SandewistanTimeWorkable;
+        StaticHolder.SandevistanTimeSlower = SandewistanTimeSlower;
         Debug.Log("Сандевистан теперь - " + StaticHolder.Sandevistan);
     }
     public void UpdateAkimbo()

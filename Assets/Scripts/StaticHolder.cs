@@ -29,13 +29,19 @@ public static class StaticHolder
     public static float BuffGunDamage = 1f;
     public static float BuffGunMaxAmmo = 1f;
 
-    public static int PlayerHP = 100;
-    public static float PlayerSpeed = 100f;
+    public static int PlayerHPBuff = 0;
+    public static float PlayerBasicSpeed = 3f;
 
     public static bool SpeedBuffAfterDamage;
     public static float SpeedAfterDamageValue;
+    public static float SpeedTimeAfterDamage;
     public static bool PropitalHeal;
+    public static bool PropitalHealActive = false;
+    public static float PropitalHealValue;
     public static bool Sandevistan;
+    public static bool SandevistanActive;
+    public static int SandevistanTime;
+    public static float SandevistanTimeSlower;
     public static bool Akimbo = false;
     public static bool AkimboWas = false;
     public static bool Katana;
