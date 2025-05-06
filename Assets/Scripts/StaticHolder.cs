@@ -5,7 +5,7 @@ public static class StaticHolder
     //Для настроек и статистики достижений
     public static float GunVolume = 0.6f;
     public static float EnvVolume = 0.6f;
-    public static bool Difficulty = false;
+    public static bool Difficulty = true;
     public static int countShots;
     public static int countHits;
     public static float Damage;
@@ -19,9 +19,15 @@ public static class StaticHolder
     //Все что нужно для апдейт сцены. Если че то надо добавить в этот скрипт писать ТОЛЬКО сверху
     public static int CurrentGun;
     public static bool CurrentGrenade; //есть они или нет
-    public static float CurrentGunFireRate = 100f;// три сотки снизу для тестов, при билде стереть
-    public static float CurrentGunDamage = 100f;
-    public static int CurrentGunMaxAmmo = 100;
+    public static float CurrentGunFireRate;// три сотки снизу для тестов, при билде стереть
+    public static float CurrentGunDamage;
+    public static int CurrentGunMaxAmmo;
+
+    public static int BuffGun;
+    public static bool BuffGrenade; //есть они или нет
+    public static float BuffGunFireRate = 1f;// три сотки снизу для тестов, при билде стереть
+    public static float BuffGunDamage = 1f;
+    public static float BuffGunMaxAmmo = 1f;
 
     public static int PlayerHP = 100;
     public static float PlayerSpeed = 100f;
@@ -30,7 +36,8 @@ public static class StaticHolder
     public static float SpeedAfterDamageValue;
     public static bool PropitalHeal;
     public static bool Sandevistan;
-    public static bool Akimbo;
+    public static bool Akimbo = false;
+    public static bool AkimboWas = false;
     public static bool Katana;
     public static bool StrongArms;
     public static float StrongArmsKoef;

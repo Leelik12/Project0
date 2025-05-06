@@ -10,8 +10,8 @@ public class VRGun : MonoBehaviour
 {
     [SerializeField] private XRGrabInteractable grabInteractable;
     [Header("Перезарядка")]
-    [SerializeField] public int maxAmmo;
-    public int currentAmmo;
+    [SerializeField] public float maxAmmo;
+    public float currentAmmo;
     public bool IsLoaded => currentAmmo > 0;
     private VRMagazine currentMagazine;
     public bool IsCharged = true;
@@ -67,6 +67,22 @@ public class VRGun : MonoBehaviour
         if (StaticHolder.Difficulty)
         {
             laserLine.enabled = false;
+        }
+        //изменения при прокачке
+        if (StaticHolder.BuffGunFireRate != 1)
+        {
+            Debug.Log("Скорость стрельбы былв - " + fireRate);
+            fireRate = fireRate * StaticHolder.BuffGunFireRate;
+            Debug.Log("Скорость стрельбы стала - " + fireRate);
+        }
+        if (StaticHolder.BuffGunDamage != 1)
+        {
+            damage = damage * StaticHolder.BuffGunDamage;
+        }
+        if (StaticHolder.BuffGunMaxAmmo != 1)
+        {
+            currentAmmo = currentAmmo * StaticHolder.BuffGunMaxAmmo;
+            maxAmmo = maxAmmo * StaticHolder.BuffGunMaxAmmo;
         }
     }
     void Update()
@@ -199,7 +215,7 @@ public class VRGun : MonoBehaviour
         if (currentMagazine != null) { }
 
         currentMagazine = magazine;
-        currentAmmo = Mathf.Min(magazine.ammoAmount, maxAmmo);
+        currentAmmo = maxAmmo;
 
         // Прячем внешний магазин
         magazine.gameObject.SetActive(false);

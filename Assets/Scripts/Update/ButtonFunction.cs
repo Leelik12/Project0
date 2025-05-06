@@ -4,7 +4,7 @@ public class ButtonFunction : MonoBehaviour
 { //если написано процент, то буквально 10 20 50, если вэлью, то число 1 2 3
     public int FireRateUpdatePercent;
     public int DamageUpdatePercent;
-    public int MagazineValueUpdateValue;
+    public float MagazineValueUpdateValue;
     public int PlayerHpBuffValue;
     public int PlayerSpeedBuffAfterDamagePercent;
 
@@ -23,20 +23,20 @@ public class ButtonFunction : MonoBehaviour
     }
     public void UpdateFireRate() //Все хорошо, при прокачке значение должно падать. FireRate - время между выстрелами
     {
-        Debug.Log("Скорострельность была " + StaticHolder.CurrentGunFireRate);
-        StaticHolder.CurrentGunFireRate = StaticHolder.CurrentGunFireRate * (1 - FireRateUpdatePercent / 100);
-        Debug.Log("Скорострельность увеличена до " + StaticHolder.CurrentGunFireRate);
+        Debug.Log("Скорострельность была " + StaticHolder.BuffGunFireRate);
+        StaticHolder.BuffGunFireRate = StaticHolder.BuffGunFireRate * (1f - FireRateUpdatePercent / 100f);
+        Debug.Log("Скорострельность увеличена до " + StaticHolder.BuffGunFireRate);
     }
     public void UpdateDamage()
     {
-        Debug.Log("Урон был " + StaticHolder.CurrentGunDamage);
-        StaticHolder.CurrentGunDamage = StaticHolder.CurrentGunDamage * (1 + DamageUpdatePercent / 100);
-        Debug.Log("Урон увеличен до " + StaticHolder.CurrentGunDamage);
+        Debug.Log("Урон был " + StaticHolder.BuffGunDamage);
+        StaticHolder.BuffGunDamage = StaticHolder.BuffGunDamage * (1f + DamageUpdatePercent/100f);
+        Debug.Log("Урон увеличен до " + StaticHolder.BuffGunDamage);
     }
     public void UpdateMagazineValue()
     {
         Debug.Log("Размер магазина был " + StaticHolder.CurrentGunMaxAmmo);
-        StaticHolder.CurrentGunMaxAmmo = StaticHolder.CurrentGunMaxAmmo * (MagazineValueUpdateValue);
+        StaticHolder.BuffGunMaxAmmo = StaticHolder.BuffGunMaxAmmo * (MagazineValueUpdateValue);
         Debug.Log("Размер магазина увеличен до " + StaticHolder.CurrentGunMaxAmmo);
     }
     public void UpdateLCU()
@@ -48,48 +48,88 @@ public class ButtonFunction : MonoBehaviour
     {
         Debug.Log("Оружие было " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 0;
+        if (StaticHolder.Akimbo)
+        {
+            StaticHolder.AkimboWas = true;
+        }
+        StaticHolder.Akimbo = false;
         Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo1()
     {
         Debug.Log("Оружие было " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 1;
+        if (StaticHolder.AkimboWas || StaticHolder.Akimbo)
+        {
+            StaticHolder.Akimbo = true;
+        }
+        StaticHolder.AkimboWas = false;
         Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo2()
     {
         Debug.Log("Оружие было " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 2;
+        if (StaticHolder.Akimbo)
+        {
+            StaticHolder.AkimboWas = true;
+        }
+        StaticHolder.Akimbo = false;
         Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo3()
     {
         Debug.Log("Оружие было " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 3;
+        if (StaticHolder.AkimboWas || StaticHolder.Akimbo)
+        {
+            StaticHolder.Akimbo = true;
+        }
+        StaticHolder.AkimboWas = false;
         Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo5()
     {
         Debug.Log("Оружие было " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 5;
+        if (StaticHolder.Akimbo)
+        {
+            StaticHolder.AkimboWas = true;
+        }
+        StaticHolder.Akimbo = false;
         Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo6()
     {
         Debug.Log("Оружие было " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 6;
+        if (StaticHolder.Akimbo)
+        {
+            StaticHolder.AkimboWas = true;
+        }
+        StaticHolder.Akimbo = false;
         Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo7()
     {
         Debug.Log("Оружие было " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 7;
+        if (StaticHolder.Akimbo)
+        {
+            StaticHolder.AkimboWas = true;
+        }
+        StaticHolder.Akimbo = false;
         Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo8()
     {
         Debug.Log("Оружие было " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 8;
+        if (StaticHolder.Akimbo)
+        {
+            StaticHolder.AkimboWas = true;
+        }
+        StaticHolder.Akimbo = false;
         Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
     }
     public void UpdateAddGrenade()
