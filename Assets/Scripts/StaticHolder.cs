@@ -5,7 +5,7 @@ public static class StaticHolder
     //Для настроек и статистики достижений
     public static float GunVolume = 0.6f;
     public static float EnvVolume = 0.6f;
-    public static bool Difficulty = true;
+    public static bool Difficulty = false;
     public static int countShots;
     public static int countHits;
     public static float Damage;
@@ -33,7 +33,7 @@ public static class StaticHolder
     public static float PlayerBasicSpeed = 3f;
 
     public static bool SpeedBuffAfterDamage;
-    public static float SpeedAfterDamageValue;
+    public static float SpeedAfterDamageValue = 1f;
     public static float SpeedTimeAfterDamage;
     public static bool PropitalHeal;
     public static bool PropitalHealActive = false;

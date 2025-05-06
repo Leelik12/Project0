@@ -682,7 +682,7 @@ PrefabInstance:
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 587720667}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -6530,7 +6530,7 @@ PrefabInstance:
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 587720667}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -13058,7 +13058,7 @@ PrefabInstance:
     - target: {fileID: 2094919104035538380, guid: f4d560052d7d828489b6987065840fd7, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 587720667}
     - target: {fileID: 2094919104035538380, guid: f4d560052d7d828489b6987065840fd7, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -21560,7 +21560,7 @@ PrefabInstance:
     - target: {fileID: 5850937627315527419, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 587720667}
     - target: {fileID: 5850937627315527419, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -27126,7 +27126,7 @@ PrefabInstance:
     - target: {fileID: 3841623028627961235, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 587720667}
     - target: {fileID: 3841623028627961235, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -33716,6 +33716,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 200
   currentHealth: 200
+  HealButton:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Heal Button
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 2e095a1d-42cd-40e2-8259-28258a4e3394
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  SandewistanButton:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Sandewistan Button
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 5d531108-05b1-4339-b237-6c347d32002b
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  controller: {fileID: 1662673146}
   healthSlider: {fileID: 0}
 --- !u!114 &587720657
 MonoBehaviour:
@@ -33761,6 +33786,11 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!4 &587720667 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+  m_PrefabInstance: {fileID: 587720651}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &593602632 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1195415760139927943, guid: aae952dc76387e84287a598d901b120d, type: 3}
@@ -47972,7 +48002,7 @@ PrefabInstance:
     - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 587720667}
     - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -48937,7 +48967,7 @@ PrefabInstance:
     - target: {fileID: 92365508222385783, guid: ae597b11f65aad5419d08c38547b2e7d, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 587720667}
     - target: {fileID: 92365508222385783, guid: ae597b11f65aad5419d08c38547b2e7d, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -97009,6 +97039,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1195415760139927943, guid: aae952dc76387e84287a598d901b120d, type: 3}
   m_PrefabInstance: {fileID: 1297219694}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1662673146 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 58445280694286476, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+  m_PrefabInstance: {fileID: 587720651}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1663050802 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 150f1d6c324cb0741ab28ddb5fe215de, type: 3}
@@ -103659,7 +103694,7 @@ PrefabInstance:
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 587720667}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -110426,7 +110461,7 @@ PrefabInstance:
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 587720667}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -123163,7 +123198,7 @@ PrefabInstance:
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 587720667}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
       value: 6

@@ -89,13 +89,13 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator SpeedAfterDamage()
     {
         // Вызов начального действия
-        Debug.Log("Замедление после получения урона началось");
+        Debug.Log("Ускорение после получения урона началось");
         speed.moveSpeed = StaticHolder.PlayerBasicSpeed * StaticHolder.SpeedAfterDamageValue;
 
         yield return new WaitForSeconds(StaticHolder.SpeedTimeAfterDamage);
 
         // Действие завершено
-        Debug.Log("Замедление после получения урона завершено");
+        Debug.Log("Ускорение после получения урона завершено");
         speed.moveSpeed = oldSpeed;
     }
     IEnumerator Propital()
