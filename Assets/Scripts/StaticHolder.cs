@@ -19,7 +19,22 @@ public static class StaticHolder
     //Все что нужно для апдейт сцены. Если че то надо добавить в этот скрипт писать ТОЛЬКО сверху
     public static int CurrentGun;
     public static bool CurrentGrenade; //есть они или нет
-    public static int CurrentGunFireRate = 100;// три сотки снизу для тестов, при билде стереть
-    public static int CurrentGunDamage = 100;
+    public static float CurrentGunFireRate = 100f;// три сотки снизу для тестов, при билде стереть
+    public static float CurrentGunDamage = 100f;
     public static int CurrentGunMaxAmmo = 100;
+
+    public static int PlayerHP = 100;
+    public static float PlayerSpeed = 100f;
+
+    public static bool SpeedBuffAfterDamage;
+    public static float SpeedAfterDamageValue;
+    public static bool PropitalHeal;
+    public static bool Sandevistan;
+    public static bool Akimbo;
+    public static bool Katana;
+    public static bool StrongArms;
+    public static float StrongArmsKoef;
+    public static bool StrongLegs;
+    public static float StrongLegsKoef;
+
 }
