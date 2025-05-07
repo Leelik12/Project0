@@ -207,5 +207,5 @@ public class ButtonFunction : MonoBehaviour
         StaticHolder.StrongLegsKoef += SpeedBuffAllTimePercent / 100f;
         Debug.Log("Сильные ноги теперь - " + StaticHolder.StrongLegs);
         Debug.Log("Коэф скорости все время теперь - " + StaticHolder.StrongArmsKoef);
-    }+
+    }
 }

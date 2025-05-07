@@ -17,7 +17,7 @@ public static class StaticHolder
     public static bool DieStation;
 
     //Все что нужно для апдейт сцены. Если че то надо добавить в этот скрипт писать ТОЛЬКО сверху
-    public static int CurrentGun;
+    public static int CurrentGun = 0;
     public static bool CurrentGrenade; //есть они или нет
     public static float CurrentGunFireRate;// три сотки снизу для тестов, при билде стереть
     public static float CurrentGunDamage;
