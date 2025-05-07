@@ -18,6 +18,8 @@ public class PlayerHealth : MonoBehaviour
     DynamicMoveProvider speed = null;
     [Header("UI")]
     public Slider healthSlider; // —сылка на UI-слайдер здоровь€
+    [Header("Katana")]
+    public GameObject katana;
     private void Awake()
     {
         HealButton.action.Enable();
@@ -25,7 +27,12 @@ public class PlayerHealth : MonoBehaviour
         speed = controller.GetComponent<DynamicMoveProvider>();
         speed.moveSpeed = StaticHolder.PlayerBasicSpeed;
         oldSpeed = StaticHolder.PlayerBasicSpeed;
+        if (StaticHolder.StrongLegs)
+        {
+            speed.moveSpeed = speed.moveSpeed * StaticHolder.StrongLegsKoef;
+        }
         maxHealth = maxHealth + StaticHolder.PlayerHPBuff;
+        katana.SetActive(StaticHolder.Katana);
     }
     private void Start()
     {
@@ -82,7 +89,6 @@ public class PlayerHealth : MonoBehaviour
         {
             StartCoroutine(Sandewistan());
         }
-
     }
     public float GetCurrentHealth() => currentHealth;
 

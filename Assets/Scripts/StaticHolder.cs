@@ -46,8 +46,8 @@ public static class StaticHolder
     public static bool AkimboWas = false;
     public static bool Katana;
     public static bool StrongArms;
-    public static float StrongArmsKoef;
+    public static float StrongArmsKoef = 1f;
     public static bool StrongLegs;
-    public static float StrongLegsKoef;
+    public static float StrongLegsKoef = 1f;
 
 }

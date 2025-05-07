@@ -18,9 +18,9 @@ public class ButtonFunction : MonoBehaviour
     [Header("Сандевистан")]
     public int SandewistanTimeWorkable;
     public float SandewistanTimeSlower;//стандартное время в юнити 1
-
-
+    [Header("Урон в ближке бафф")]
     public int MeleeDamageBuffPercent;
+    [Header("Быстрые ноги   ")]
     public int SpeedBuffAllTimePercent;
 
     public int PlayerHandDamageBuffPercent;
@@ -181,37 +181,31 @@ public class ButtonFunction : MonoBehaviour
         Debug.Log("Сандевистан теперь - " + StaticHolder.Sandevistan);
     }
     public void UpdateAkimbo()
-    {
+    {//по идее должно работать, но нужно дописать и проверить
         Debug.Log("Акимбо есть - " + StaticHolder.Akimbo);
         StaticHolder.Akimbo = true;
         Debug.Log("Акимбо теперь - " + StaticHolder.Akimbo);
     }
     public void UpdateKatana()
-    {
+    {//работает протестил
         Debug.Log("Катана есть - " + StaticHolder.Katana);
         StaticHolder.Katana = true;
         Debug.Log("Катана теперь - " + StaticHolder.Katana);
     }
     public void UpdateStrongArm()
-    {
+    {//работает
         Debug.Log("Сильные руки есть - " + StaticHolder.StrongArms);
         StaticHolder.StrongArms = true;
-        StaticHolder.StrongArmsKoef += 1 + MeleeDamageBuffPercent/100;
+        StaticHolder.StrongArmsKoef += MeleeDamageBuffPercent/100f;
         Debug.Log("Сильные руки теперь - " + StaticHolder.StrongArms);
         Debug.Log("Коэф урона ближки теперь - " + StaticHolder.StrongArmsKoef);
     }
     public void UpdateStrongLeg()
-    {
+    {//работает
         Debug.Log("Сильные ноги есть - " + StaticHolder.StrongLegs);
         StaticHolder.StrongLegs = true;
-        StaticHolder.StrongLegsKoef += 1 + SpeedBuffAllTimePercent / 100;
+        StaticHolder.StrongLegsKoef += SpeedBuffAllTimePercent / 100f;
         Debug.Log("Сильные ноги теперь - " + StaticHolder.StrongLegs);
         Debug.Log("Коэф скорости все время теперь - " + StaticHolder.StrongArmsKoef);
-    }
-    public void UpdateMeleeBerserk()
-    {
-        Debug.Log("");
-
-        Debug.Log("");
-    }
+    }+
 }
