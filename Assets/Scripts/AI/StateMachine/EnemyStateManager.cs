@@ -40,7 +40,7 @@ public class EnemyStateManager : MonoBehaviour
     private int currentPatrolIndex = 0;
     private Transform target;
     [HideInInspector] public EnemyWeaponController controller;
-    private VRGun weapon;
+    private VRgunForEnemy weapon;
 
     EnemyBaseState currentState;
     public EnemyIdleState IdleState = new EnemyIdleState();
@@ -66,7 +66,7 @@ public class EnemyStateManager : MonoBehaviour
         if (isWeapon)
         {
             controller = GetComponent<EnemyWeaponController>();
-            weapon = GetComponentInChildren<VRGun>();
+            weapon = GetComponentInChildren<VRgunForEnemy>();
         }
             SwitchState(IdleState);
         EnemyManager.Register(this);
