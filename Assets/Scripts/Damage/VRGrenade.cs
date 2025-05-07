@@ -1,5 +1,6 @@
-using MikeNspired.XRIStarterKit;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class VRGrenade : MonoBehaviour
 {
@@ -14,15 +15,35 @@ public class VRGrenade : MonoBehaviour
     private bool hasExploded = false;
     private bool timerStarted = false;
 
+    [SerializeField] private XRGrabInteractable grabInteractable;
+    public InputActionProperty LeftTrigger;
+    public InputActionProperty RightTrigger;
+    public InputActionProperty LeftGrip;
+    public InputActionProperty RightGrip;
+    bool IsReady = false;
+
     void OnCollisionEnter(Collision collision)
     {
-        if (!timerStarted)
+        if (!timerStarted && IsReady)
         {
             timerStarted = true;
             Invoke(nameof(Explode), delay);
         }
     }
-
+    private void Awake()
+    {
+        LeftGrip.action.Enable();
+        RightGrip.action.Enable();
+        LeftTrigger.action.Enable();
+        RightTrigger.action.Enable();
+    }
+    private void Update()
+    {
+        if ((LeftGrip.action.ReadValue<float>() > 0.8f && LeftTrigger.action.ReadValue<float>() > 0.8f) || (RightGrip.action.ReadValue<float>() > 0.8f && RightTrigger.action.ReadValue<float>() > 0.8f))
+        {
+            IsReady = true;
+        }
+    }
     void Explode()
     {
         if (hasExploded) return;

@@ -74,6 +74,26 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("Игрок погиб!");
         StaticHolder.DieStation = true;
+        StaticHolder.CurrentGun = 0;
+        StaticHolder.BuffGrenade = false;
+        StaticHolder.BuffGunFireRate = 1f;
+        StaticHolder.BuffGunDamage = 1f;
+        StaticHolder.BuffGunMaxAmmo = 1f;
+        StaticHolder.PlayerHPBuff = 0;
+        StaticHolder.PlayerBasicSpeed = 3f;
+        StaticHolder.SpeedBuffAfterDamage = false;
+        StaticHolder.SpeedAfterDamageValue = 1f;
+        StaticHolder.PropitalHeal = false;
+        StaticHolder.PropitalHealActive = false;
+        StaticHolder.Sandevistan = false;
+        StaticHolder.SandevistanActive = false;
+        StaticHolder.Akimbo = false;
+        StaticHolder.AkimboWas = false;
+        StaticHolder.Katana = false;
+        StaticHolder.StrongArms = false;
+        StaticHolder.StrongArmsKoef = 1f;
+        StaticHolder.StrongLegs = false;
+        StaticHolder.StrongLegsKoef = 1f;
         SceneManager.LoadScene(0);
         // Здесь можно вызывать экран Game Over и т.д.
     }

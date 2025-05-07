@@ -25,8 +25,8 @@ public static class StaticHolder
 
     public static bool UpdateLevelEnd;
 
-    public static int BuffGun;
-    public static bool BuffGrenade; //есть они или нет
+
+    public static bool BuffGrenade = false; //есть они или нет
     public static float BuffGunFireRate = 1f;// три сотки снизу для тестов, при билде стереть
     public static float BuffGunDamage = 1f;
     public static float BuffGunMaxAmmo = 1f;
@@ -34,22 +34,22 @@ public static class StaticHolder
     public static int PlayerHPBuff = 0;
     public static float PlayerBasicSpeed = 3f;
 
-    public static bool SpeedBuffAfterDamage;
+    public static bool SpeedBuffAfterDamage = false;
     public static float SpeedAfterDamageValue = 1f;
     public static float SpeedTimeAfterDamage;
-    public static bool PropitalHeal;
+    public static bool PropitalHeal = false;
     public static bool PropitalHealActive = false;
     public static float PropitalHealValue;
-    public static bool Sandevistan;
-    public static bool SandevistanActive;
+    public static bool Sandevistan = false;
+    public static bool SandevistanActive = false;
     public static int SandevistanTime;
     public static float SandevistanTimeSlower;
     public static bool Akimbo = false;
     public static bool AkimboWas = false;
-    public static bool Katana;
-    public static bool StrongArms;
+    public static bool Katana = false;
+    public static bool StrongArms = false;
     public static float StrongArmsKoef = 1f;
-    public static bool StrongLegs;
+    public static bool StrongLegs = false;
     public static float StrongLegsKoef = 1f;
 
 }

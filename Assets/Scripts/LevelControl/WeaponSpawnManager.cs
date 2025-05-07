@@ -18,6 +18,7 @@ public class WeaponSpawnManager : MonoBehaviour
     public Transform ammoSpawnPoint7;
     public Transform ammoSpawnPoint8;
     public Transform ammoSpawnPoint9;
+    public Transform Grenade;
 
     [Header("Префабы оружия")]
     public GameObject AKM;
@@ -28,6 +29,7 @@ public class WeaponSpawnManager : MonoBehaviour
     public GameObject Shotgun;
     public GameObject CopBaton;
     public GameObject Beat;
+    public GameObject Grenad;
 
     [Header("Префабы боеприпасов")]
     public GameObject pistolAmmoPrefab;
@@ -97,7 +99,10 @@ public class WeaponSpawnManager : MonoBehaviour
             Instantiate(ammoToSpawn, ammoSpawnPoint7.position, ammoSpawnPoint7.rotation);
             Instantiate(ammoToSpawn, ammoSpawnPoint8.position, ammoSpawnPoint8.rotation);
             Instantiate(ammoToSpawn, ammoSpawnPoint9.position, ammoSpawnPoint9.rotation);
-
+        }
+        if (StaticHolder.CurrentGrenade)
+        {
+            Instantiate(Grenad, Grenade.position, Grenade.rotation);
         }
     }
 }
