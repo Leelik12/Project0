@@ -69,6 +69,12 @@ public class WeaponSpawnManager : MonoBehaviour
                 weaponToSpawn = Shotgun;
                 ammoToSpawn = shotgunAmmoPrefab;
                 break;
+            case 7:
+                weaponToSpawn = CopBaton;
+                break;
+            case 8:
+                weaponToSpawn = Beat;
+                break;
             default:
                 Debug.LogWarning("Неверный индекс оружия!");
                 return;

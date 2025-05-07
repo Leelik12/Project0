@@ -50,6 +50,8 @@ public class ElevatorController : MonoBehaviour
         Debug.Log("Загрузка новой сцены");
         StaticHolder.CurrentLevel = CurrentBuildScene;
         StaticHolder.levelCheksComplete = false;
+        StaticHolder.PropitalHealActive = true;
+        StaticHolder.SandevistanActive = true;
         SceneManager.LoadScene(1);
 
 

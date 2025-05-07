@@ -23,6 +23,8 @@ public static class StaticHolder
     public static float CurrentGunDamage;
     public static int CurrentGunMaxAmmo;
 
+    public static bool UpdateLevelEnd;
+
     public static int BuffGun;
     public static bool BuffGrenade; //есть они или нет
     public static float BuffGunFireRate = 1f;// три сотки снизу для тестов, при билде стереть

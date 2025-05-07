@@ -7,7 +7,7 @@ public class CanvasManager : MonoBehaviour
     public void DisableAllCanvasesExceptExcluded()
     {
         Canvas[] allCanvases = FindObjectsOfType<Canvas>();
-
+        StaticHolder.UpdateLevelEnd = true;
         foreach (Canvas canvas in allCanvases)
         {
             bool isExcluded = false;

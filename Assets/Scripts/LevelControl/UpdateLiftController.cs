@@ -16,7 +16,7 @@ public class UpdateLiftController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && StaticHolder.UpdateLevelEnd)
         {
             playerInElevator = true;
             timer = 0f;
@@ -52,10 +52,11 @@ public class UpdateLiftController : MonoBehaviour
     void LoadNextLevel()
     {
         Debug.Log("Загрузка новой сцены");
-        
-        
         SceneManager.LoadScene(l);
         StaticHolder.CurrentLevel = l;
         StaticHolder.levelCheksComplete = false;
+        StaticHolder.UpdateLevelEnd = false;
+        StaticHolder.PropitalHealActive = true;
+        StaticHolder.SandevistanActive = true;
     }
 }
