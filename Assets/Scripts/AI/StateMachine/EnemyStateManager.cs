@@ -58,6 +58,10 @@ public class EnemyStateManager : MonoBehaviour
 
     private void Start()
     {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+        }
         target = player;
         if (isWeapon)
         {
