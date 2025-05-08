@@ -225,6 +225,15 @@ public class EnemyStateManager : MonoBehaviour
     {
         EnemyManager.Unregister(this);
     }
+
+    public void OnDamageTaken()
+    {
+        isTakeDamage = true;
+        if (currentState != AgroState && currentState != AttackState && currentState != deathState)
+        {
+            SwitchState(AgroState);
+        }
+    }
     void CheckConditions()
     {
         if (currentState == AttackState)
