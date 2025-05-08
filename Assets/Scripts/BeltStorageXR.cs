@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -9,11 +10,13 @@ public class BeltStorageXR : MonoBehaviour
     [SerializeField] private bool showSlotHints = true;
     [SerializeField] private float magnetSpeed = 10f;
 
-    private List<GameObject> storedObjects = new();
+    private GameObject[] storedObjects;
     private List<GameObject> slotHints = new();
 
     private void Start()
     {
+        storedObjects = new GameObject[slotPoints.Count];
+
         if (showSlotHints)
         {
             foreach (var slot in slotPoints)
@@ -36,9 +39,8 @@ public class BeltStorageXR : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         XRGrabInteractable grab = other.GetComponent<XRGrabInteractable>();
-        if (grab == null || storedObjects.Contains(other.gameObject)) return;
+        if (grab == null || System.Array.IndexOf(storedObjects, other.gameObject) >= 0) return;
 
-        // Подписка на событие отпускания
         grab.selectExited.AddListener(OnItemReleasedInTrigger);
     }
 
@@ -47,7 +49,6 @@ public class BeltStorageXR : MonoBehaviour
         XRGrabInteractable grab = other.GetComponent<XRGrabInteractable>();
         if (grab == null) return;
 
-        // Отписка от события при выходе
         grab.selectExited.RemoveListener(OnItemReleasedInTrigger);
     }
 
@@ -55,21 +56,17 @@ public class BeltStorageXR : MonoBehaviour
     {
         GameObject item = args.interactableObject.transform.gameObject;
 
-        // Проверка: предмет всё ещё в зоне пояса
+        if (!item.CompareTag("Ammo")) return;
         if (!IsInsideTrigger(item)) return;
 
-        if (storedObjects.Contains(item)) return;
+        if (System.Array.IndexOf(storedObjects, item) >= 0) return;
 
-        Transform freeSlot = GetFirstFreeSlot();
+        int slotIndex;
+        Transform freeSlot = GetFirstFreeSlot(out slotIndex);
         if (freeSlot == null) return;
-        if (!item.transform.CompareTag("Ammo")) return;
 
-        storedObjects.Add(item);
-        StartCoroutine(MagnetToSlot(item, freeSlot));
-
-        int slotIndex = slotPoints.IndexOf(freeSlot);
-        if (showSlotHints && slotIndex >= 0 && slotIndex < slotHints.Count)
-            slotHints[slotIndex].SetActive(false);
+        storedObjects[slotIndex] = item;
+        StartCoroutine(MagnetToSlot(item, freeSlot, slotIndex));
     }
 
     private bool IsInsideTrigger(GameObject obj)
@@ -83,19 +80,21 @@ public class BeltStorageXR : MonoBehaviour
         return false;
     }
 
-    private Transform GetFirstFreeSlot()
+    private Transform GetFirstFreeSlot(out int index)
     {
         for (int i = 0; i < slotPoints.Count; i++)
         {
-            if (i >= storedObjects.Count || storedObjects[i] == null)
+            if (storedObjects[i] == null)
             {
+                index = i;
                 return slotPoints[i];
             }
         }
+        index = -1;
         return null;
     }
 
-    private System.Collections.IEnumerator MagnetToSlot(GameObject item, Transform targetSlot)
+    private IEnumerator MagnetToSlot(GameObject item, Transform targetSlot, int slotIndex)
     {
         XRGrabInteractable grab = item.GetComponent<XRGrabInteractable>();
         if (grab != null)
@@ -116,12 +115,15 @@ public class BeltStorageXR : MonoBehaviour
         item.transform.localRotation = Quaternion.identity;
 
         grab?.selectExited.AddListener(OnItemTaken);
+
+        if (showSlotHints && slotIndex >= 0 && slotIndex < slotHints.Count)
+            slotHints[slotIndex].SetActive(false);
     }
 
     private void OnItemTaken(SelectExitEventArgs args)
     {
         GameObject item = args.interactableObject.transform.gameObject;
-        int index = storedObjects.IndexOf(item);
+        int index = System.Array.IndexOf(storedObjects, item);
 
         if (index >= 0)
         {
