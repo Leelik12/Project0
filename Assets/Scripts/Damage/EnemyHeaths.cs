@@ -17,17 +17,13 @@ public class EnemyHeaths : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-
+        stateManager.OnDamageTaken();
         Debug.Log($"[EnemyHealth] Враг получил урон: {damage}, осталось здоровья: {currentHealth}");
  
         if (currentHealth <= 0)
         {
             Debug.Log("[EnemyHealth] Здоровье на нуле. Враг умирает.");
             stateManager.Die();
-        } else
-        {
-            stateManager.SwitchState(stateManager.AgroState);
-            stateManager.isTakeDamage = true;
-        }
+        } 
     }
 }

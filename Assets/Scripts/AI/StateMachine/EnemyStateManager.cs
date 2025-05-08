@@ -37,6 +37,7 @@ public class EnemyStateManager : MonoBehaviour
 
     [HideInInspector] public bool isAgroFromInfection = false;
     [HideInInspector] public bool isTakeDamage = false;
+    [HideInInspector] public Vector3? lastKnownPosition = null;
     private int currentPatrolIndex = 0;
     private Transform target;
     [HideInInspector] public EnemyWeaponController controller;
@@ -47,6 +48,7 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyAgroState AgroState = new EnemyAgroState();
     public EnemyAttackState AttackState = new EnemyAttackState();
     public EnemyPatrolState PatrolState = new EnemyPatrolState();
+    public EnemySearchState SearchState = new EnemySearchState();
     public DeathState deathState = new DeathState();
     public void SwitchState(EnemyBaseState newState)
     {
@@ -121,24 +123,35 @@ public class EnemyStateManager : MonoBehaviour
 
     public bool CanSeePlayer()
     {
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        Vector3 headPosition = transform.position + Vector3.up * 1.7f * agent.transform.localScale.y;
+        Vector3 smallForward = transform.forward * 0.2f;
+        Vector3 origin = headPosition + smallForward;
+
+        Vector3 directionToPlayer = (player.position - origin).normalized;
+        float distanceToPlayer = Vector3.Distance(origin, player.position);
         float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
 
-        if (angleToPlayer < viewAngle / 2f && DistanceToPlayer() < viewDistance)
+        if (angleToPlayer < viewAngle / 2f && distanceToPlayer < viewDistance)
         {
-            if (!Physics.Raycast(transform.position + Vector3.up * 1.7f * agent.transform.localScale.y, directionToPlayer, out RaycastHit hit, viewDistance, obstructionMask))
+            RaycastHit hit;
+            if (Physics.Raycast(origin, directionToPlayer, out hit, distanceToPlayer, obstructionMask))
             {
-                return true;
+                if (hit.transform != player)
+                {
+                    return false; // Если луч попал в неигровой объект
+                }
             }
 
-            if (hit.transform == player)
-            {
-                return true;
-            }
+            // Нет препятствий — вижу игрока
+            lastKnownPosition = player.position;
+            return true;
         }
 
         return false;
     }
+
+
+
 
     private void OnDrawGizmos()
     {
@@ -224,6 +237,15 @@ public class EnemyStateManager : MonoBehaviour
     private void OnDestroy()
     {
         EnemyManager.Unregister(this);
+    }
+
+    public void OnDamageTaken()
+    {
+        isTakeDamage = true;
+        if (currentState != AgroState && currentState != AttackState && currentState != deathState)
+        {
+            SwitchState(AgroState);
+        }
     }
     void CheckConditions()
     {

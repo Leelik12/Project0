@@ -22,13 +22,18 @@ public class EnemyAttackState : EnemyBaseState
     {
         Debug.Log("Атака");
 
+        if (manager.DistanceToPlayer() > manager.attackDistance && !manager.CanSeePlayer() && manager.lastKnownPosition.HasValue)
+        {
+            manager.SwitchState(manager.SearchState);
+        }
+
         if (manager.DistanceToPlayer() > manager.attackDistance)
         {
             manager.SwitchState(manager.AgroState);
             return;
         }
 
-        if (!manager.CanSeePlayer() && !manager.isAgroFromInfection)
+        if (!manager.CanSeePlayer() && !manager.isAgroFromInfection )
         {
             manager.SwitchState(manager.IdleState);
             return;
@@ -42,5 +47,6 @@ public class EnemyAttackState : EnemyBaseState
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             manager.transform.rotation = Quaternion.Slerp(manager.transform.rotation, lookRotation, Time.deltaTime * 30f);
         }
+
     }
 }

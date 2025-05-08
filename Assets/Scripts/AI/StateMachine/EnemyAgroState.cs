@@ -22,18 +22,28 @@ public class EnemyAgroState : EnemyBaseState
     {
         if (!manager.CanSeePlayer() && !manager.isAgroFromInfection && !manager.isTakeDamage)
         {
-            manager.SwitchState(manager.IdleState);
+            if (manager.lastKnownPosition.HasValue)
+            {
+                manager.SwitchState(manager.SearchState);
+            }
+            else
+            {
+                manager.SwitchState(manager.IdleState);
+            }
             return;
         }
+
         if (manager.CanSeePlayer())
         {
             manager.isTakeDamage = false;
             manager.isAgroFromInfection = false;
         }
+
         if (manager.DistanceToTarget() < manager.attackDistance)
         {
             manager.SwitchState(manager.AttackState);
             return;
         }
     }
+
 }
