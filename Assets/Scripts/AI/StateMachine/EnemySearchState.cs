@@ -18,7 +18,9 @@ public class EnemySearchState : EnemyBaseState
 
         if (manager.lastKnownPosition.HasValue)
         {
-            manager.agent.SetDestination(manager.lastKnownPosition.Value);
+            Vector3 dest = manager.lastKnownPosition.Value;
+            manager.agent.SetDestination(dest);
+            Debug.Log($"{manager.name} ищет игрока в последней известной позиции: {dest}");
         }
     }
 
@@ -29,16 +31,26 @@ public class EnemySearchState : EnemyBaseState
 
     public override void UpdateState(EnemyStateManager manager)
     {
+        if (manager.DistanceToPlayer() <= 1f)
+        {
+            manager.viewAngle = 360f;
+        } else
+        {
+            manager.viewAngle = manager.basicAngle;
+        }
         if (manager.CanSeePlayer())
         {
             manager.SwitchState(manager.AgroState);
             return;
         }
-        if (!manager.agent.pathPending && manager.agent.remainingDistance <= 0.25f)
+
+        if (!manager.agent.pathPending && manager.agent.remainingDistance <= manager.agent.stoppingDistance)
         {
+            Debug.Log($"{manager.name} дошёл до точки поиска, возвращается к патрулированию");
             manager.lastKnownPosition = null;
-            manager.SwitchState(manager.IdleState);
+            manager.SwitchState(manager.PatrolState);
             return;
         }
     }
+
 }

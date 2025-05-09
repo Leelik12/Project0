@@ -20,6 +20,8 @@ public class EnemyAgroState : EnemyBaseState
     }
     public override void UpdateState(EnemyStateManager manager)
     {
+       
+
         if (!manager.CanSeePlayer() && !manager.isAgroFromInfection && !manager.isTakeDamage)
         {
             if (manager.lastKnownPosition.HasValue)
@@ -32,13 +34,11 @@ public class EnemyAgroState : EnemyBaseState
             }
             return;
         }
-
         if (manager.CanSeePlayer())
         {
             manager.isTakeDamage = false;
             manager.isAgroFromInfection = false;
         }
-
         if (manager.DistanceToTarget() < manager.attackDistance)
         {
             manager.SwitchState(manager.AttackState);

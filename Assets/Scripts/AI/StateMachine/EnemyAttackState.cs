@@ -22,23 +22,36 @@ public class EnemyAttackState : EnemyBaseState
     {
         Debug.Log("јтака");
 
-        if (manager.DistanceToPlayer() > manager.attackDistance && !manager.CanSeePlayer() && manager.lastKnownPosition.HasValue)
-        {
-            manager.SwitchState(manager.SearchState);
-        }
+        bool canSeePlayer = manager.CanSeePlayer();
+        float distanceToPlayer = manager.DistanceToPlayer();
 
-        if (manager.DistanceToPlayer() > manager.attackDistance)
+        // ≈сли игрок вне радиуса атаки Ч уходим в Agro или Search
+        if (distanceToPlayer > manager.attackDistance && canSeePlayer)
         {
             manager.SwitchState(manager.AgroState);
             return;
         }
 
-        if (!manager.CanSeePlayer() && !manager.isAgroFromInfection )
+        if (distanceToPlayer > manager.attackDistance && !canSeePlayer && manager.lastKnownPosition.HasValue)
+        {
+            manager.SwitchState(manager.SearchState);
+            return;
+        }
+
+        if (distanceToPlayer > manager.attackDistance && !canSeePlayer && !manager.isAgroFromInfection && !manager.isTakeDamage)
         {
             manager.SwitchState(manager.IdleState);
             return;
         }
 
+        // ¬ј∆Ќќ: если игрок не виден даже на близком рассто€нии Ч уходим в SearchState
+        if (!canSeePlayer)
+        {
+            manager.SwitchState(manager.SearchState);
+            return;
+        }
+
+        // ¬ращаемс€ к игроку
         Vector3 direction = (manager.player.position - manager.transform.position).normalized;
         direction.y = 0;
 
@@ -47,6 +60,6 @@ public class EnemyAttackState : EnemyBaseState
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             manager.transform.rotation = Quaternion.Slerp(manager.transform.rotation, lookRotation, Time.deltaTime * 30f);
         }
-
     }
+
 }

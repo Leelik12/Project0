@@ -10,6 +10,7 @@ public class EnemyStateManager : MonoBehaviour
     public Animator animator;
     public NavMeshAgent agent;
     public Transform player;
+    public Transform playerHead;
     [SerializeField] private LayerMask obstructionMask;
 
     [Header("Скорость ходьбы")]
@@ -17,7 +18,7 @@ public class EnemyStateManager : MonoBehaviour
     public float runSpeed = 3f;
    
     [Header("Обзор врага")]
-    [SerializeField] private float viewAngle = 120f;
+    [SerializeField] public float viewAngle = 120f;
     [SerializeField] private float viewDistance = 20f;
     [SerializeField] private float radiusInfection = 20f;
 
@@ -41,6 +42,7 @@ public class EnemyStateManager : MonoBehaviour
     private int currentPatrolIndex = 0;
     private Transform target;
     [HideInInspector] public EnemyWeaponController controller;
+    [HideInInspector] public float basicAngle;
     private VRgunForEnemy weapon;
 
     EnemyBaseState currentState;
@@ -60,6 +62,11 @@ public class EnemyStateManager : MonoBehaviour
 
     private void Start()
     {
+        basicAngle = viewAngle;
+        if (playerHead == null)
+        {
+            playerHead = Camera.main.transform; // Или твоя XR-камера напрямую
+        }
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -78,6 +85,7 @@ public class EnemyStateManager : MonoBehaviour
     {
         SetDistance(target);
         agent.destination = target.position;
+
         currentState.UpdateState(this);
     }
 
@@ -123,34 +131,44 @@ public class EnemyStateManager : MonoBehaviour
 
     public bool CanSeePlayer()
     {
-        Vector3 headPosition = transform.position + Vector3.up * 1.7f * agent.transform.localScale.y;
-        Vector3 smallForward = transform.forward * 0.2f;
-        Vector3 origin = headPosition + smallForward;
+        // Найдём голову игрока (в ВР это Camera.main.transform или твоя камера в XR Rig)
+        Transform playerHead = Camera.main.transform;
+        Vector3 playerHeadPos = playerHead.position;
 
-        Vector3 directionToPlayer = (player.position - origin).normalized;
-        float distanceToPlayer = Vector3.Distance(origin, player.position);
-        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+        Vector3 eyeOrigin = transform.position + Vector3.up * 1.7f; // глаза врага
+        Vector3 directionToHead = (playerHeadPos - eyeOrigin).normalized;
+        float distanceToHead = Vector3.Distance(eyeOrigin, playerHeadPos);
 
-        if (angleToPlayer < viewAngle / 2f && distanceToPlayer < viewDistance)
+        // Проверка угла
+        float angleToHead = Vector3.Angle(transform.forward, directionToHead);
+        if (angleToHead > viewAngle / 2f || distanceToHead > viewDistance)
+            return false;
+
+        // Здесь пытаемся сначала использовать простой Raycast
+        RaycastHit hit;
+        if (Physics.Raycast(eyeOrigin, directionToHead, out hit, distanceToHead, obstructionMask, QueryTriggerInteraction.Ignore))
         {
-            RaycastHit hit;
-            if (Physics.Raycast(origin, directionToPlayer, out hit, distanceToPlayer, obstructionMask))
-            {
-                if (hit.transform != player)
-                {
-                    return false; // Если луч попал в неигровой объект
-                }
-            }
-
-            // Нет препятствий — вижу игрока
-            lastKnownPosition = player.position;
-            return true;
+            Debug.Log($"Raycast blocked by: {hit.collider.gameObject.name}");
+            return false;
         }
 
-        return false;
+        // Дополнительная проверка с помощью SphereCast
+        if (Physics.SphereCast(eyeOrigin, 0.1f, directionToHead, out hit, distanceToHead, obstructionMask, QueryTriggerInteraction.Ignore))
+        {
+            Debug.Log($"SphereCast blocked by: {hit.collider.gameObject.name}");
+            return false;
+        }
+
+        // Проверка с использованием CheckSphere, чтобы исключить мелкие объекты
+        if (Physics.CheckSphere(eyeOrigin, 0.1f, obstructionMask))
+        {
+            return false;  // Если есть преграда — игрок не виден
+        }
+
+        // Видит игрока
+        lastKnownPosition = playerHeadPos;
+        return true;
     }
-
-
 
 
     private void OnDrawGizmos()
@@ -182,6 +200,46 @@ public class EnemyStateManager : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawLine(origin, origin + leftBoundary * viewDistance);
             Gizmos.DrawLine(origin, origin + rightBoundary * viewDistance);
+
+            if (player != null && agent != null)
+            {
+                Vector3 headPosition = transform.position + Vector3.up * 1.7f * agent.transform.localScale.y;
+                Vector3 smallForward = transform.forward * 0.2f;
+                origin = headPosition + smallForward;
+
+                Vector3 directionToPlayer = (player.position - origin).normalized;
+                float distanceToPlayer = Vector3.Distance(origin, player.position);
+
+                RaycastHit hit;
+
+                // Raycast (с маской препятствий)
+                if (Physics.Raycast(origin, directionToPlayer, out hit, distanceToPlayer, obstructionMask, QueryTriggerInteraction.Ignore))
+                {
+                    // Нарисовать линию до точки столкновения
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawLine(origin, hit.point);
+
+                    // Шарики
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(origin, 0.1f); // начало
+
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawSphere(hit.point, 0.15f); // место столкновения
+                }
+                else
+                {
+                    // Если не врезался — нарисовать до игрока
+                    Gizmos.color = Color.green;
+                    Gizmos.DrawLine(origin, player.position);
+
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(origin, 0.1f);
+
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawSphere(player.position, 0.15f);
+                }
+            }
+
         }
         if (drawRadiusInfection)
         {
