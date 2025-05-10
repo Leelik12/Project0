@@ -68,7 +68,7 @@ public class VRgunForEnemy : MonoBehaviour
             {
                 Debug.Log("В игрока стреляют");
                 float finalDamage = damage;
-                PlayerHealth player = hit.collider.GetComponent<PlayerHealth>();
+                PlayerHealth player = hit.collider.GetComponentInParent<PlayerHealth>();
                 if (player != null)
                 {
                     player.PlayerTakeDamage(finalDamage);

@@ -28715,7 +28715,7 @@ PrefabInstance:
     - target: {fileID: 3841623028627961235, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 1905537419}
+      objectReference: {fileID: 1320824118}
     - target: {fileID: 3841623028627961235, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
       propertyPath: runSpeed
       value: 4
@@ -107486,7 +107486,7 @@ PrefabInstance:
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 1905537419}
+      objectReference: {fileID: 1320824118}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -107629,7 +107629,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5056330858084644144, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5257382513045621287, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: m_Layer
