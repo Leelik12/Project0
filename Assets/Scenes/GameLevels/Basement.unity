@@ -728,6 +728,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1320824118}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: drawOverview
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
       value: 6
       objectReference: {fileID: 0}
@@ -6795,6 +6799,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1320824118}
+    - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: drawOverview
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -13656,6 +13664,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1320824118}
+    - target: {fileID: 2094919104035538380, guid: f4d560052d7d828489b6987065840fd7, type: 3}
+      propertyPath: drawOverview
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2094919104035538380, guid: f4d560052d7d828489b6987065840fd7, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -22804,6 +22816,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1320824118}
     - target: {fileID: 5850937627315527419, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
+      propertyPath: drawOverview
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5850937627315527419, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
       propertyPath: viewDistance
       value: 6
       objectReference: {fileID: 0}
@@ -28719,6 +28735,10 @@ PrefabInstance:
     - target: {fileID: 3841623028627961235, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
       propertyPath: runSpeed
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3841623028627961235, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
+      propertyPath: drawOverview
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3841623028627961235, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
       propertyPath: viewDistance
@@ -50214,6 +50234,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: drawOverview
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
       propertyPath: viewDistance
       value: 6
       objectReference: {fileID: 0}
@@ -51365,6 +51389,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1320824118}
+    - target: {fileID: 92365508222385783, guid: ae597b11f65aad5419d08c38547b2e7d, type: 3}
+      propertyPath: drawOverview
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 92365508222385783, guid: ae597b11f65aad5419d08c38547b2e7d, type: 3}
       propertyPath: viewDistance
       value: 6
@@ -107499,6 +107527,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1320824118}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: drawOverview
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
       value: 6
       objectReference: {fileID: 0}
@@ -114692,6 +114724,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1320824118}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: drawOverview
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
       value: 6
       objectReference: {fileID: 0}
@@ -117267,6 +117303,14 @@ PrefabInstance:
       propertyPath: m_NearFarEnableTeleportDuringNearInteraction
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5826056641483426609, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_MotionControllerModeStarted.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5826056641483426609, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_MotionControllerModeStarted.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5870790035848123411, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.025
@@ -117615,7 +117659,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1905537403}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 17d333494512dc14cb88e18cde35dc24, type: 3}
   m_Name: 
@@ -123038,7 +123082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -128513,6 +128557,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1320824118}
+    - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: drawOverview
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
       value: 6
