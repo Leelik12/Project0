@@ -6,6 +6,7 @@ public class EnemyAgroState : EnemyBaseState
         manager.animator.SetBool("isAgro", true);
         manager.animator.SetBool("isAttack", false);
         manager.animator.SetBool("isPatrol", false);
+        manager.viewAngle = manager.basicAngle;
         Debug.Log("¬ходим в Agro");
         if (manager.controller != null)
         {
