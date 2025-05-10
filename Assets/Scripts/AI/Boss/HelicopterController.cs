@@ -4,8 +4,9 @@ using UnityEngine;
 public class HelicopterController : MonoBehaviour
 {
     public Transform player;                  // Ссылка на игрока
-    public Transform helicopter;              // Ссылка на вертолёт
+    public Transform helicopter;              // Ссылка на вертолёт (родительский объект)
     public Transform exitPoint;               // Точка, из-под которой вылетает вертолёт
+    public HelicopterWeaponSystem weaponSystem; // ссылка на скрипт оружия
 
     public float flyOutSpeed = 5f;            // Скорость вылета
     public float approachDistance = 10f;      // На каком расстоянии вертолёт начинает кружить
@@ -13,13 +14,6 @@ public class HelicopterController : MonoBehaviour
 
     public float minDirectionChangeTime = 15f; // Мин. интервал смены направления
     public float maxDirectionChangeTime = 30f; // Макс. интервал смены направления
-
-    public float tiltAngle = 20f;             // Угол наклона к игроку
-    public float tiltSpeed = 2f;              // Скорость наклона
-
-    public GameObject bulletPrefab;           // Префаб пули
-    public float bulletSpeed = 30f;           // Скорость пули
-    public float fireInterval = 2f;           // Интервал стрельбы (сек)
 
     private bool isActivated = false;
     private bool isCircling = false;
@@ -44,20 +38,23 @@ public class HelicopterController : MonoBehaviour
             yield return null;
         }
 
-        // Плавно наклоняемся лицом к игроку
-        Quaternion targetRotation = Quaternion.LookRotation(player.position - helicopter.position);
-        targetRotation *= Quaternion.Euler(tiltAngle, 0, 0);  // Добавляем наклон вниз
-
+        // Плавно разворачиваем вертолёт лицом к игроку
+        Quaternion targetRotation = GetCorrectedLookRotation(player.position - helicopter.position);
         while (Quaternion.Angle(helicopter.rotation, targetRotation) > 1f)
         {
-            helicopter.rotation = Quaternion.Slerp(helicopter.rotation, targetRotation, tiltSpeed * Time.deltaTime);
+            helicopter.rotation = Quaternion.Slerp(helicopter.rotation, targetRotation, 2f * Time.deltaTime);
             yield return null;
         }
 
         // Запускаем кружение и стрельбу
         isCircling = true;
+
+        if (weaponSystem != null)
+        {
+            weaponSystem.ActivateWeapons(); // Запускаем стрельбу
+        }
+
         StartCoroutine(ChangeDirectionRoutine());
-        StartCoroutine(FireRoutine());
     }
 
     IEnumerator ChangeDirectionRoutine()
@@ -69,37 +66,25 @@ public class HelicopterController : MonoBehaviour
             circleDirection *= -1;
         }
     }
-
-    IEnumerator FireRoutine()
-    {
-        while (isCircling)
-        {
-            FireAtPlayer();
-            yield return new WaitForSeconds(fireInterval);
-        }
-    }
-
-    void FireAtPlayer()
-    {
-        if (bulletPrefab != null)
-        {
-            GameObject bullet = Instantiate(bulletPrefab, helicopter.position, Quaternion.identity);
-            Vector3 dir = (player.position - helicopter.position).normalized;
-            bullet.GetComponent<Rigidbody>().velocity = dir * bulletSpeed;
-        }
-    }
-
     void Update()
     {
         if (isCircling)
         {
             helicopter.RotateAround(player.position, Vector3.up, circleSpeed * circleDirection * Time.deltaTime);
 
-            // Вертолёт всегда смотрит на игрока с наклоном
+            // Вертолёт всегда смотрит на игрока (ровно)
             Vector3 dirToPlayer = player.position - helicopter.position;
-            Quaternion lookRotation = Quaternion.LookRotation(dirToPlayer);
-            lookRotation *= Quaternion.Euler(tiltAngle, 0, 0);
-            helicopter.rotation = Quaternion.Slerp(helicopter.rotation, lookRotation, tiltSpeed * Time.deltaTime);
+            Quaternion lookRotation = GetCorrectedLookRotation(dirToPlayer);
+            helicopter.rotation = Quaternion.Slerp(helicopter.rotation, lookRotation, 2f * Time.deltaTime);
         }
+    }
+
+    // Эта функция корректирует поворот с учётом того, что нос модели по X+
+    Quaternion GetCorrectedLookRotation(Vector3 direction)
+    {
+        Quaternion baseRotation = Quaternion.LookRotation(direction);
+        // Поворачиваем на -90° вокруг Y, чтобы forward стал по X (а не по Z)
+        baseRotation *= Quaternion.Euler(0, -90f, 0);
+        return baseRotation;
     }
 }
