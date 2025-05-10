@@ -6,7 +6,6 @@ public class LevelManager : MonoBehaviour
     [Header("Настройки уровня")]
     public GameObject[] enemies;      // Все враги на уровне
     public GameObject optionalItem;   // Опциональный предмет для подбора (может быть null)
-
     [Header("UI элементы")]
     public Text progressText;         // Текст прогресса (заполни в инспекторе)
 
@@ -29,16 +28,15 @@ public class LevelManager : MonoBehaviour
         // Проверка всех врагов
         allEnemiesDefeated = AreAllEnemiesDefeated();
 
-        // Проверка предмета
-        if (optionalItem == null)
-        {
-            itemPickedUp = true; // Если предмета нет, считаем его сразу подобранным
-        }
-
         // Если все условия выполнены
-        if (allEnemiesDefeated && itemPickedUp)
+        if (allEnemiesDefeated)
         {
             LevelCompleted();
+        }
+        if (itemPickedUp)
+        {
+            Debug.Log("Предмет подобран!");
+            StaticHolder.ItemPickedUp = true;
         }
 
         // Обновляем прогресс на UI

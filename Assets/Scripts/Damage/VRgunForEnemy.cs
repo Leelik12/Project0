@@ -16,23 +16,26 @@ public class VRgunForEnemy : MonoBehaviour
     public bool IsCharged = true;
 
     [Header("Подвижные части")]
-    [SerializeField] private Transform movablePart; // Подвижная часть оружия (затвор)
-    [SerializeField] private float recoilDistance = 0.2f; // Расстояние, на которое подвижная часть будет двигаться
-    [SerializeField] private float recoilDuration = 0.1f;     // сколько длится отдача (сек)
+    [SerializeField] private Transform movablePart;
+    [SerializeField] private float recoilDistance = 0.2f;
+    [SerializeField] private float recoilDuration = 0.1f;
 
     [Header("Настройки стрельбы")]
     public float fireRate;
     public float damage;
     public float range = 100f;
 
+    [Header("Разброс выстрелов")]
+    [SerializeField] private float spreadAngle = 5f; // угол разброса в градусах
+
     [Header("Настройки лазера")]
     public bool laserEnabled = true;
-    public LineRenderer laserLine; // Сюда подключается LineRenderer в инспекторе
+    public LineRenderer laserLine;
 
     [Header("Muzzle Flash")]
     public ParticleSystem muzzleFlash;
     public Light muzzleLight;
-    public float lightDuration; // длительность вспышки света
+    public float lightDuration;
 
     [Header("XR")]
     public Transform firePoint;
@@ -41,29 +44,46 @@ public class VRgunForEnemy : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip shotSound;
 
+    [Header("Декали")]
+    [SerializeField] private GameObject hitEffectPrefabDust;
+    [SerializeField] private GameObject hitEffectPrefabSparks;
+    [SerializeField] private float hitEffectLifetime = 100f;
+    [SerializeField] private float effectOffset = 0.01f;
+
     [Header("Прочее")]
-    public string enemyTag = ""; // Тег врага
+    public string enemyTag = "";
     private float nextFireTime = 0f;
+
+    private Vector3 lastShotDirection = Vector3.forward;
 
     string ap = null;
     EnemyStateManager movement = null;
+
     public void Shoot()
     {
-        // Визуальный эффект
-        if (muzzleFlash != null)
-        {
-            muzzleFlash.Play();
-        }
-        if (muzzleLight != null)
-            StartCoroutine(MuzzleLightFlash());
-        // Звук
-        if (audioSource != null && shotSound != null)
-            audioSource.PlayOneShot(shotSound);
+        // Эффекты
+        if (muzzleFlash != null) muzzleFlash.Play();
+        if (muzzleLight != null) StartCoroutine(MuzzleLightFlash());
+        if (audioSource != null && shotSound != null) audioSource.PlayOneShot(shotSound);
         StartCoroutine(MoveRecoil());
+
+        // Направление с разбросом
+        Vector3 directionWithSpread = GetSpreadDirection(firePoint.forward, spreadAngle);
+        lastShotDirection = directionWithSpread; // сохраняем для лазера
+
         RaycastHit hit;
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range))
+        if (Physics.Raycast(firePoint.position, directionWithSpread, out hit, range))
         {
-            //Debug.Log("Попадание в " + hit.collider.tag);
+            if (hitEffectPrefabSparks != null)
+            {
+                Vector3 effectPosition = hit.point + hit.normal * effectOffset;
+                Quaternion effectRotation = Quaternion.LookRotation(hit.normal);
+                GameObject fx2 = Instantiate(hitEffectPrefabDust, effectPosition, effectRotation);
+                GameObject fx3 = Instantiate(hitEffectPrefabSparks, effectPosition, effectRotation);
+                Destroy(fx2, hitEffectLifetime);
+                Destroy(fx3, hitEffectLifetime);
+            }
+
             if (hit.collider.CompareTag("Player"))
             {
                 Debug.Log("В игрока стреляют");
@@ -75,73 +95,73 @@ public class VRgunForEnemy : MonoBehaviour
                 }
             }
         }
-        //Debug.Log("Выстрелов - " + StaticHolder.countShots);
-        //Debug.Log("Попаданий - " + StaticHolder.countHits);
-        //Debug.Log("Урон - " + StaticHolder.Damage);
     }
+
+    private Vector3 GetSpreadDirection(Vector3 forward, float angle)
+    {
+        float spreadX = Random.Range(-angle, angle);
+        float spreadY = Random.Range(-angle, angle);
+        Quaternion rotation = Quaternion.Euler(spreadY, spreadX, 0);
+        return rotation * forward;
+    }
+
     IEnumerator MuzzleLightFlash()
     {
         muzzleLight.enabled = true;
         yield return new WaitForSeconds(lightDuration);
         muzzleLight.enabled = false;
     }
+
     private IEnumerator MoveRecoil()
     {
-        if (movablePart == null)
-        {
-            yield break;
-        }
-        // 1) Сохраняем исходную локальную позицию
+        if (movablePart == null) yield break;
+
         Vector3 originalLocalPos = movablePart.localPosition;
-
-        // 2) Чистый локальный вектор отдачи: назад по локальной Z
         Vector3 recoilOffsetLocal = new Vector3(0f, 0f, -recoilDistance);
-
         float halfDur = recoilDuration * 0.5f;
         float timer = 0f;
 
-        // 3) Двигаем затвор назад (половина отдачи)
         while (timer < halfDur)
         {
             float t = timer / halfDur;
-            movablePart.localPosition = Vector3.Lerp(originalLocalPos,
-                                                     originalLocalPos + recoilOffsetLocal,
-                                                     t);
+            movablePart.localPosition = Vector3.Lerp(originalLocalPos, originalLocalPos + recoilOffsetLocal, t);
             timer += Time.deltaTime;
             yield return null;
         }
 
-        // 4) Возвращаем затвор в исходное положение (половина возврата)
         timer = 0f;
         while (timer < halfDur)
         {
             float t = timer / halfDur;
-            movablePart.localPosition = Vector3.Lerp(originalLocalPos + recoilOffsetLocal,
-                                                     originalLocalPos,
-                                                     t);
+            movablePart.localPosition = Vector3.Lerp(originalLocalPos + recoilOffsetLocal, originalLocalPos, t);
             timer += Time.deltaTime;
             yield return null;
         }
 
-        // 5) Гарантируем точно исходную позицию
         movablePart.localPosition = originalLocalPos;
     }
+
     public void Update()
     {
         UpdateLaser();
     }
+
     void UpdateLaser()
     {
+        if (!laserEnabled || laserLine == null || firePoint == null)
+            return;
+
+        Vector3 direction = lastShotDirection;
         RaycastHit hit;
         Vector3 endPoint;
 
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range))
+        if (Physics.Raycast(firePoint.position, direction, out hit, range))
         {
             endPoint = hit.point;
         }
         else
         {
-            endPoint = firePoint.position + firePoint.forward * range;
+            endPoint = firePoint.position + direction * range;
         }
 
         laserLine.enabled = true;
@@ -149,4 +169,3 @@ public class VRgunForEnemy : MonoBehaviour
         laserLine.SetPosition(1, endPoint);
     }
 }
-

@@ -56,6 +56,7 @@ public class UpdateLiftController : MonoBehaviour
         StaticHolder.CurrentLevel = l;
         StaticHolder.levelCheksComplete = false;
         StaticHolder.UpdateLevelEnd = false;
+        StaticHolder.ItemPickedUp = false;
         StaticHolder.PropitalHealActive = true;
         StaticHolder.SandevistanActive = true;
     }

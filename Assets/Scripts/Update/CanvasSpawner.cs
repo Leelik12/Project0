@@ -19,6 +19,7 @@ public class UpgradeCanvasSpawner : MonoBehaviour
         ActivateRandomCanvas(implantCanvasesPlace2);
         ActivateRandomCanvas(weaponUpgradeCanvasesPlace3);
         ActivateRandomCanvas(allMixedCanvasesPlace4);
+        podbor = StaticHolder.ItemPickedUp;
         if (podbor)
             ActivateRandomCanvas(allMixedCanvasesPlace5);
     }

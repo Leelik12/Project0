@@ -12,6 +12,7 @@ public static class StaticHolder
 
     //ƒл€ контролировани€ состо€ни€ уровн€
     public static bool levelCheksComplete;
+    public static bool ItemPickedUp = false;
     public static bool UpdateWasBought;
     public static int CurrentLevel =2;
     public static bool DieStation;
@@ -24,6 +25,7 @@ public static class StaticHolder
     public static int CurrentGunMaxAmmo;
 
     public static bool UpdateLevelEnd;
+
 
 
     public static bool BuffGrenade = false; //есть они или нет
