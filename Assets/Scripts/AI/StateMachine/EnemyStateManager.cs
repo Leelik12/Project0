@@ -36,6 +36,12 @@ public class EnemyStateManager : MonoBehaviour
     public bool stopAfterPatrol = false; //останавливаться на месте после того как дошёл до точки
     public Transform[] patrolPoints; //точки патрулирования
 
+    [Header("Звуки шагов")]
+    public AudioClip dirtWalkClip; //звук ходьбы по земле
+    public AudioClip metalWalkClip; //звук ходьбы по металлу
+    public AudioSource footstepAudioSource; // проигрыватель звуков
+    public LayerMask groundLayerMask; //маска поверхности+
+
     [HideInInspector] public bool isAgroFromInfection = false; //в состоянии агро после заражения?
     [HideInInspector] public bool isTakeDamage = false; //получил ли урон?
     [HideInInspector] public Vector3? lastKnownPosition = null; //последняя позиция где видел игрока
@@ -314,4 +320,33 @@ public class EnemyStateManager : MonoBehaviour
         }
         weapon.Shoot();
     }
+
+    public void PlayFootstep()
+    {
+        if (footstepAudioSource == null) return;
+
+        RaycastHit hit;
+        Vector3 origin = transform.position + Vector3.up * 0.3f;
+
+        if (Physics.Raycast(origin, Vector3.down, out hit, 1.5f, groundLayerMask))
+        {
+            string groundTag = hit.collider.tag;
+            AudioClip clipToPlay = null;
+            Debug.Log(groundTag);
+            if (groundTag == "Metal")
+            {
+                clipToPlay = metalWalkClip;
+            }
+            else if (groundTag == "Dirt")
+            {
+                clipToPlay = dirtWalkClip;
+            }
+
+            if (clipToPlay != null)
+            {
+                footstepAudioSource.PlayOneShot(clipToPlay);
+            }
+        }
+    }
+
 }
