@@ -9,6 +9,8 @@ public static class StaticHolder
     public static int countShots;
     public static int countHits;
     public static float Damage;
+    public static bool Ciborg;
+    public static bool DiedinCyberpunk;
 
     //Для контролирования состояния уровня
     public static bool levelCheksComplete;

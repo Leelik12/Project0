@@ -8,6 +8,8 @@ public class AchievmentController : MonoBehaviour
     public GameObject h500;
     public GameObject d1000;
     public GameObject d5000;
+    public GameObject Cyborg;
+    public GameObject FirstDeath;
     void Update()
     {
         if (StaticHolder.countShots >= 100)
@@ -33,6 +35,14 @@ public class AchievmentController : MonoBehaviour
         if (StaticHolder.Damage >= 5000)
         {
             d5000.SetActive(true);
+        }
+        if (StaticHolder.Ciborg)
+        {
+            Cyborg.SetActive(true);
+        }
+        if (StaticHolder.DiedinCyberpunk)
+        {
+            FirstDeath.SetActive(true);
         }
     }
 }

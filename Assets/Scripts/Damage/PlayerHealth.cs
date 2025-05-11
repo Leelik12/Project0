@@ -78,6 +78,8 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("Игрок погиб!");
+        if (StaticHolder.StrongArms && StaticHolder.StrongLegs) { StaticHolder.Ciborg = true; }
+        StaticHolder.DiedinCyberpunk = true;
         StaticHolder.DieStation = true;
         StaticHolder.CurrentGun = 0;
         StaticHolder.BuffGrenade = false;
