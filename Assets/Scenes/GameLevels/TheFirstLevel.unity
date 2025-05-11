@@ -38718,6 +38718,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyWithPistol1
       objectReference: {fileID: 0}
+    - target: {fileID: 5747567080418954304, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: maxHealth
+      value: 175
+      objectReference: {fileID: 0}
     - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
       propertyPath: player
       value: 
@@ -41569,6 +41573,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7133867841662891620, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: maxHealth
+      value: 250
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -43380,6 +43388,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 956283555}
     m_Modifications:
+    - target: {fileID: 866954364713770649, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
+      propertyPath: maxHealth
+      value: 175
+      objectReference: {fileID: 0}
     - target: {fileID: 1274170026526813436, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.8
@@ -46768,6 +46780,10 @@ PrefabInstance:
     - target: {fileID: 5575564695010242442, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133867841662891620, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: maxHealth
+      value: 250
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -64572,6 +64588,10 @@ PrefabInstance:
     - target: {fileID: 5575564695010242442, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133867841662891620, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: maxHealth
+      value: 250
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

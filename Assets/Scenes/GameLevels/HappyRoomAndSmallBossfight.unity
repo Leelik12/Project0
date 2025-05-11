@@ -5647,6 +5647,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyWithPistol1
       objectReference: {fileID: 0}
+    - target: {fileID: 5747567080418954304, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: maxHealth
+      value: 175
+      objectReference: {fileID: 0}
     - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
       propertyPath: player
       value: 
@@ -8886,6 +8890,10 @@ PrefabInstance:
     - target: {fileID: 5575564695010242442, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133867841662891620, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: maxHealth
+      value: 250
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18452,6 +18460,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7133867841662891620, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: maxHealth
+      value: 250
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20454,6 +20466,10 @@ PrefabInstance:
     - target: {fileID: 6409725493995790360, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
       propertyPath: m_Name
       value: EnemyWithRifle3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8761311157678738395, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
+      propertyPath: maxHealth
+      value: 175
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -36929,6 +36945,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7133867841662891620, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: maxHealth
+      value: 250
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -41226,6 +41246,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyWithPistol1
       objectReference: {fileID: 0}
+    - target: {fileID: 5747567080418954304, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: maxHealth
+      value: 175
+      objectReference: {fileID: 0}
     - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
       propertyPath: player
       value: 
@@ -42964,6 +42988,10 @@ PrefabInstance:
     - target: {fileID: 2094919104035538380, guid: f4d560052d7d828489b6987065840fd7, type: 3}
       propertyPath: radiusInfection
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5716822320687123999, guid: f4d560052d7d828489b6987065840fd7, type: 3}
+      propertyPath: maxHealth
+      value: 175
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -53114,6 +53142,10 @@ PrefabInstance:
       propertyPath: radiusInfection
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 5781241243453071473, guid: ae597b11f65aad5419d08c38547b2e7d, type: 3}
+      propertyPath: maxHealth
+      value: 175
+      objectReference: {fileID: 0}
     - target: {fileID: 8316251148517473808, guid: ae597b11f65aad5419d08c38547b2e7d, type: 3}
       propertyPath: m_Name
       value: EnemyWithRifle1
@@ -61603,6 +61635,10 @@ PrefabInstance:
     - target: {fileID: 2189879451496688896, guid: d7353b94145d57e48ae1b8738e2a12b8, type: 3}
       propertyPath: m_Name
       value: EnemyWithMeeleWeapon2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117352615761584219, guid: d7353b94145d57e48ae1b8738e2a12b8, type: 3}
+      propertyPath: maxHealth
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 7969848667647915613, guid: d7353b94145d57e48ae1b8738e2a12b8, type: 3}
       propertyPath: player
@@ -77590,6 +77626,10 @@ PrefabInstance:
     - target: {fileID: 5575564695010242442, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133867841662891620, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: maxHealth
+      value: 250
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
