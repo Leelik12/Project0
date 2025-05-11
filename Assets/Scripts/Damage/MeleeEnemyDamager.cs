@@ -9,7 +9,7 @@ public class MeleeEnemyDamager : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log($"{this.name} столкнулся с: {collision.name}");
+        //Debug.Log($"{this.name} столкнулся с: {collision.name}");
         if (Time.time - lastDamageTime < damageCooldown) return;
 
         PlayerHealth player = collision.GetComponent<PlayerHealth>();
