@@ -10,7 +10,7 @@ public class VRGrenade : MonoBehaviour
     public float explosionForce = 700f;
     public int damage = 100;
     public GameObject explosionEffect;
-    public AudioClip explosionSound; // звук взрыва
+    public AudioClip explosionSound;
 
     private bool hasExploded = false;
     private bool timerStarted = false;
@@ -39,7 +39,7 @@ public class VRGrenade : MonoBehaviour
     }
     private void Update()
     {
-        if ((LeftGrip.action.ReadValue<float>() > 0.8f && LeftTrigger.action.ReadValue<float>() > 0.8f) || (RightGrip.action.ReadValue<float>() > 0.8f && RightTrigger.action.ReadValue<float>() > 0.8f))
+        if (((LeftGrip.action.ReadValue<float>() > 0.8f && LeftTrigger.action.ReadValue<float>() > 0.8f) || (RightGrip.action.ReadValue<float>() > 0.8f && RightTrigger.action.ReadValue<float>() > 0.8f)) && grabInteractable.isSelected)
         {
             IsReady = true;
         }

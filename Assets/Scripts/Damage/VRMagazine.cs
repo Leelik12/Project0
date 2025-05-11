@@ -22,6 +22,7 @@ public class VRMagazine : MonoBehaviour
         if (gun != null && gun.CanInsertMagazine())
         {
             gun.InsertMagazine(this);
+            Destroy(gameObject);
         }
         Debug.Log("Магазин вставлен!");
 

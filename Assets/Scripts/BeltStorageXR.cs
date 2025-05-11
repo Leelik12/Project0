@@ -35,7 +35,6 @@ public class BeltStorageXR : MonoBehaviour
             }
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
         XRGrabInteractable grab = other.GetComponent<XRGrabInteractable>();
@@ -144,4 +143,23 @@ public class BeltStorageXR : MonoBehaviour
             grab.selectExited.RemoveListener(OnItemTaken);
         }
     }
+    private void Update()
+    {
+        for (int i = 0; i < storedObjects.Length; i++)
+        {
+            GameObject item = storedObjects[i];
+
+            // Если предмет пропал или был уничтожен
+            if (item == null || !item.activeInHierarchy)
+            {
+                storedObjects[i] = null;
+
+                if (showSlotHints && i < slotHints.Count)
+                {
+                    slotHints[i].SetActive(true);
+                }
+            }
+        }
+    }
+
 }

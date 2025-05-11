@@ -18,6 +18,8 @@ public class PlayerHealth : MonoBehaviour
     public InputActionProperty MenuButton;
     public GameObject MenuCanvas;
     public Slider healthSlider; // Ссылка на UI-слайдер здоровья
+    public GameObject MainCheck;
+    public GameObject SecCheck;
     [Header("Не трогать")]
     public GameObject controller;
     float oldSpeed;
@@ -123,6 +125,14 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             MenuCanvas.SetActive(false);
+        }
+        if (StaticHolder.levelCheksComplete)
+        {
+            MainCheck.SetActive(true);
+        }
+        if (StaticHolder.ItemPickedUp)
+        {
+            SecCheck.SetActive(true);
         }
     }
     public float GetCurrentHealth() => currentHealth;
