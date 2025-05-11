@@ -32542,7 +32542,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -35865,6 +35865,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2448484268631144687, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2448485969789697973, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2448882577955217863, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2448961164495885485, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449262423556472017, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449380933799632541, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449683237572464785, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449720356834516521, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8106149417644259035, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -49.645058
@@ -35908,6 +35940,10 @@ PrefabInstance:
     - target: {fileID: 8878005946658106465, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
       propertyPath: m_Name
       value: SCi-fi_Grenade Variant Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8878005946658106465, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

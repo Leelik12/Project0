@@ -149,7 +149,7 @@ public class VRGun : MonoBehaviour
             audioSource.PlayOneShot(shotSound);
         StartCoroutine(MoveRecoil());
         RaycastHit hit;
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range))
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
             if (hitEffectPrefabSparks != null)
             {
@@ -315,7 +315,7 @@ public class VRGun : MonoBehaviour
         RaycastHit hit;
         Vector3 endPoint;
 
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range))
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
             endPoint = hit.point;
         }
