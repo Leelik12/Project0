@@ -59,7 +59,7 @@ public class ElevatorController : MonoBehaviour
     {
         if (!IsLoaded2)
         {
-            loadingUI.SetActive(true);
+            //loadingUI.SetActive(true);
             operation = SceneManager.LoadSceneAsync(sceneIndex);
             IsLoaded2 = true;
         }

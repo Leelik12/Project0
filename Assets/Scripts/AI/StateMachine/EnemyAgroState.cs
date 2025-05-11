@@ -7,7 +7,6 @@ public class EnemyAgroState : EnemyBaseState
         manager.animator.SetBool("isAttack", false);
         manager.animator.SetBool("isPatrol", false);
         manager.viewAngle = manager.basicAngle;
-        Debug.Log("Входим в Agro");
         if (manager.controller != null)
         {
             manager.controller.SetHoldRun();
@@ -17,7 +16,6 @@ public class EnemyAgroState : EnemyBaseState
     }
     public override void ExitState(EnemyStateManager manager)
     {
-        Debug.Log("Выходим из Agro");
     }
     public override void UpdateState(EnemyStateManager manager)
     {

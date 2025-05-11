@@ -12,14 +12,12 @@ public class EnemyIdleState : EnemyBaseState
         {
             manager.controller.SetHoldIdle();
         }
-        Debug.Log("Входим в Idle");
         idleTimer = 0f;
         manager.SetSpeed(0);
     }
 
     public override void ExitState(EnemyStateManager manager)
     {
-        Debug.Log("Выходим из Idle");
     }
 
     public override void UpdateState(EnemyStateManager manager)

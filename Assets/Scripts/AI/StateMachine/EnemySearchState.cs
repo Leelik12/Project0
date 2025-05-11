@@ -4,7 +4,6 @@ public class EnemySearchState : EnemyBaseState
 {
     public override void EnterState(EnemyStateManager manager)
     {
-        Debug.Log("¬ходим в Search");
         manager.animator.SetBool("isAgro", true);
         manager.animator.SetBool("isAttack", false);
         manager.animator.SetBool("isPatrol", false);
@@ -20,13 +19,11 @@ public class EnemySearchState : EnemyBaseState
         {
             Vector3 dest = manager.lastKnownPosition.Value;
             manager.agent.SetDestination(dest);
-            Debug.Log($"{manager.name} ищет игрока в последней известной позиции: {dest}");
         }
     }
 
     public override void ExitState(EnemyStateManager manager)
     {
-        Debug.Log("¬ыходим из Search");
     }
 
     public override void UpdateState(EnemyStateManager manager)
@@ -46,7 +43,6 @@ public class EnemySearchState : EnemyBaseState
 
         if (!manager.agent.pathPending && manager.agent.remainingDistance <= manager.agent.stoppingDistance)
         {
-            Debug.Log($"{manager.name} дошЄл до точки поиска, возвращаетс€ к патрулированию");
             manager.lastKnownPosition = null;
             manager.SwitchState(manager.PatrolState);
             return;

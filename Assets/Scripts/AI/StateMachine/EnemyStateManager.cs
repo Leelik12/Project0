@@ -7,43 +7,43 @@ using UnityEngine.AI;
 public class EnemyStateManager : MonoBehaviour
 {
     [Header("Main")]
-    public Animator animator;
-    public NavMeshAgent agent;
-    public Transform player;
-    public Transform playerHead;
-    [SerializeField] private LayerMask obstructionMask;
+    public Animator animator; //аниматор врага
+    public NavMeshAgent agent; // агнет врага
+    public Transform player; //позиция игрока
+    public Transform playerHead; //позиция головы игрока
+    [SerializeField] private LayerMask obstructionMask; //маска препятствий
 
     [Header("Скорость ходьбы")]
-    public float walkSpeed = 2f;
-    public float runSpeed = 3f;
+    public float walkSpeed = 2f; //скорость ходьбы
+    public float runSpeed = 3f; //скорость бега
    
     [Header("Обзор врага")]
-    [SerializeField] public float viewAngle = 120f;
-    [SerializeField] private float viewDistance = 20f;
-    [SerializeField] private float radiusInfection = 20f;
+    [SerializeField] public float viewAngle = 120f;//FOV
+    [SerializeField] private float viewDistance = 20f; //дальность зрения
+    [SerializeField] private float radiusInfection = 20f; //радиус заражения
 
     [Header("Отрисовка")]
-    [SerializeField] private bool drawOverview = true;
-    [SerializeField] private bool drawRadiusInfection = false;
+    [SerializeField] private bool drawOverview = true; //отрисовывать FOX врага?
+    [SerializeField] private bool drawRadiusInfection = false; //отрисовывать радиус заражения?
 
     [Header("Атака")]
-    public float attackDistance = 1.6f;
-    public bool isWeapon = false;
-    [SerializeField] private bool infection = true;
+    public float attackDistance = 1.6f; // дистанция атаки
+    public bool isWeapon = false; //имеет ли бот оружие?
+    [SerializeField] private bool infection = true; //приминяется ли к боту заражение?
 
     [Header("Патрулирование")]
-    public float timeIdle = 10f;
-    public bool stopAfterPatrol = false;
-    public Transform[] patrolPoints;
+    public float timeIdle = 10f; //время отдыха
+    public bool stopAfterPatrol = false; //останавливаться на месте после того как дошёл до точки
+    public Transform[] patrolPoints; //точки патрулирования
 
-    [HideInInspector] public bool isAgroFromInfection = false;
-    [HideInInspector] public bool isTakeDamage = false;
-    [HideInInspector] public Vector3? lastKnownPosition = null;
-    private int currentPatrolIndex = 0;
-    private Transform target;
-    [HideInInspector] public EnemyWeaponController controller;
-    [HideInInspector] public float basicAngle;
-    private VRgunForEnemy weapon;
+    [HideInInspector] public bool isAgroFromInfection = false; //в состоянии агро после заражения?
+    [HideInInspector] public bool isTakeDamage = false; //получил ли урон?
+    [HideInInspector] public Vector3? lastKnownPosition = null; //последняя позиция где видел игрока
+    private int currentPatrolIndex = 0; //текущая точка патрулирования
+    private Transform target; // цель врага
+    [HideInInspector] public EnemyWeaponController controller; //контроллер оружия
+    [HideInInspector] public float basicAngle; // начальный угол обзора
+    private VRgunForEnemy weapon; // оружие врага
 
     EnemyBaseState currentState;
     public EnemyIdleState IdleState = new EnemyIdleState();
@@ -65,7 +65,7 @@ public class EnemyStateManager : MonoBehaviour
         basicAngle = viewAngle;
         if (playerHead == null)
         {
-            playerHead = Camera.main.transform; // Или твоя XR-камера напрямую
+            playerHead = Camera.main.transform;
         }
         if (player == null)
         {
@@ -131,7 +131,6 @@ public class EnemyStateManager : MonoBehaviour
 
     public bool CanSeePlayer()
     {
-        // Найдём голову игрока (в ВР это Camera.main.transform или твоя камера в XR Rig)
         Transform playerHead = Camera.main.transform;
         Vector3 playerHeadPos = playerHead.position;
 
@@ -144,28 +143,21 @@ public class EnemyStateManager : MonoBehaviour
         if (angleToHead > viewAngle / 2f || distanceToHead > viewDistance)
             return false;
 
-        // Здесь пытаемся сначала использовать простой Raycast
         RaycastHit hit;
         if (Physics.Raycast(eyeOrigin, directionToHead, out hit, distanceToHead, obstructionMask, QueryTriggerInteraction.Ignore))
         {
-            Debug.Log($"Raycast blocked by: {hit.collider.gameObject.name}");
             return false;
         }
 
-        // Дополнительная проверка с помощью SphereCast
         if (Physics.SphereCast(eyeOrigin, 0.1f, directionToHead, out hit, distanceToHead, obstructionMask, QueryTriggerInteraction.Ignore))
         {
-            Debug.Log($"SphereCast blocked by: {hit.collider.gameObject.name}");
             return false;
         }
 
-        // Проверка с использованием CheckSphere, чтобы исключить мелкие объекты
         if (Physics.CheckSphere(eyeOrigin, 0.1f, obstructionMask))
         {
-            return false;  // Если есть преграда — игрок не виден
+            return false; 
         }
-
-        // Видит игрока
         lastKnownPosition = playerHeadPos;
         return true;
     }
@@ -212,7 +204,6 @@ public class EnemyStateManager : MonoBehaviour
 
                 RaycastHit hit;
 
-                // Raycast (с маской препятствий)
                 if (Physics.Raycast(origin, directionToPlayer, out hit, distanceToPlayer, obstructionMask, QueryTriggerInteraction.Ignore))
                 {
                     // Нарисовать линию до точки столкновения
@@ -228,7 +219,6 @@ public class EnemyStateManager : MonoBehaviour
                 }
                 else
                 {
-                    // Если не врезался — нарисовать до игрока
                     Gizmos.color = Color.green;
                     Gizmos.DrawLine(origin, player.position);
 
@@ -282,7 +272,6 @@ public class EnemyStateManager : MonoBehaviour
                     {
                         if (currentState != AgroState && currentState != AttackState)
                         {
-                            Debug.Log($"{name} заразился агро от {other.name} (видимость подтверждена)");
                             SwitchState(AgroState);
                             isAgroFromInfection = true;
                             break;
@@ -321,7 +310,6 @@ public class EnemyStateManager : MonoBehaviour
     {
         if (weapon == null)
         {
-            Debug.LogWarning($"{name}: Нет оружия для стрельбы!");
             return;
         }
         weapon.Shoot();

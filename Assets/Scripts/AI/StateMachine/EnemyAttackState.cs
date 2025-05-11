@@ -11,17 +11,13 @@ public class EnemyAttackState : EnemyBaseState
         {
             manager.controller.SetHoldAttack();
         }
-        Debug.Log("Входим в Attack");
     }
     public override void ExitState(EnemyStateManager manager)
     {
-        Debug.Log("Выходим из Attack");
         manager.agent.acceleration = 8;
     }
     public override void UpdateState(EnemyStateManager manager)
     {
-        Debug.Log("Атака");
-
         bool canSeePlayer = manager.CanSeePlayer();
         float distanceToPlayer = manager.DistanceToPlayer();
 

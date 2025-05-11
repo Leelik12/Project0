@@ -5,7 +5,6 @@ public class EnemyPatrolState : EnemyBaseState
     public override void EnterState(EnemyStateManager manager)
     {
         manager.animator.SetBool("isPatrol", true);
-        Debug.Log("¬ходим в Patrol");
         manager.SetDistance(manager.GetNextPatrolPoint());
         manager.SetSpeed(manager.walkSpeed);
         manager.viewAngle = manager.basicAngle;
