@@ -2694,7 +2694,7 @@ GameObject:
   - component: {fileID: 385673758}
   - component: {fileID: 385673757}
   m_Layer: 5
-  m_Name: XZ
+  m_Name: Cyborg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2739,7 +2739,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: c803610725e4fad41ba7de7699fc14b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5148,7 +5148,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0421\u043E\u0432\u0435\u0440\u0448\u0438\u0442\u044C 500 \u0432\u044B\u0441\u0442\u0440\u0435\u043B\u043E\u0432"
+  m_text: "\u0422\u0430\u043A\u043E\u0432 \u043A\u0438\u0431\u0435\u0440\u043F\u0430\u043D\u043A"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f9f93a1497c50c34a8ede47696015182, type: 2}
   m_sharedMaterial: {fileID: -2116988352231978352, guid: f9f93a1497c50c34a8ede47696015182, type: 2}
@@ -5775,7 +5775,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0421\u043E\u0432\u0435\u0440\u0448\u0438\u0442\u044C 100 \u0432\u044B\u0441\u0442\u0440\u0435\u043B\u043E\u0432"
+  m_text: "\u0421\u0442\u0430\u0442\u044C  \u0431\u043E\u0440\u0433\u043E\u043C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f9f93a1497c50c34a8ede47696015182, type: 2}
   m_sharedMaterial: {fileID: -2116988352231978352, guid: f9f93a1497c50c34a8ede47696015182, type: 2}
@@ -6599,6 +6599,7 @@ MonoBehaviour:
   animator: {fileID: 1313678312}
   agent: {fileID: 1313678314}
   player: {fileID: 581681988}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -6618,6 +6619,7 @@ MonoBehaviour:
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &1313678312
 Animator:
   serializedVersion: 7
@@ -8777,6 +8779,8 @@ MonoBehaviour:
   h500: {fileID: 229256498}
   d1000: {fileID: 1402163386}
   d5000: {fileID: 1353187804}
+  Cyborg: {fileID: 385673755}
+  FirstDeath: {fileID: 2086948986}
 --- !u!1 &1807878979
 GameObject:
   m_ObjectHideFlags: 0
@@ -10067,7 +10071,7 @@ GameObject:
   - component: {fileID: 2086948989}
   - component: {fileID: 2086948988}
   m_Layer: 5
-  m_Name: XZ1
+  m_Name: Death
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10112,7 +10116,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: e6e6c9457e9c4034da4b799d1202350b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
