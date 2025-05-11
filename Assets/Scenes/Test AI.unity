@@ -1316,6 +1316,7 @@ MonoBehaviour:
   animator: {fileID: 140330036}
   agent: {fileID: 140330038}
   player: {fileID: 442537553}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -1333,9 +1334,16 @@ MonoBehaviour:
   stopAfterPatrol: 0
   patrolPoints:
   - {fileID: 2124643907}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &140330036
 Animator:
   serializedVersion: 7
@@ -2508,9 +2516,9 @@ Avatar:
     3223907772: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandMiddle1/mixamorig:RightHandMiddle2/mixamorig:RightHandMiddle3
     2257317975: mixamorig:Hips
     2553124480: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandIndex1
-    3496292551: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandPinky1/mixamorig:RightHandPinky2
-    1928127980: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandPinky1
     165742651: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder/mixamorig:LeftArm/mixamorig:LeftForeArm/mixamorig:LeftHand/mixamorig:LeftHandThumb1/mixamorig:LeftHandThumb2
+    1928127980: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandPinky1
+    3496292551: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandPinky1/mixamorig:RightHandPinky2
     1247441380: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder
     3750036807: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:RightShoulder/mixamorig:RightArm/mixamorig:RightForeArm/mixamorig:RightHand/mixamorig:RightHandThumb1/mixamorig:RightHandThumb2/mixamorig:RightHandThumb3/mixamorig:RightHandThumb4
     3413289642: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2/mixamorig:LeftShoulder/mixamorig:LeftArm/mixamorig:LeftForeArm/mixamorig:LeftHand/mixamorig:LeftHandMiddle1/mixamorig:LeftHandMiddle2
@@ -3633,6 +3641,7 @@ MonoBehaviour:
   animator: {fileID: 278415460}
   agent: {fileID: 278415462}
   player: {fileID: 2055972638}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -3649,9 +3658,16 @@ MonoBehaviour:
   timeIdle: 10
   stopAfterPatrol: 0
   patrolPoints: []
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &278415460
 Animator:
   serializedVersion: 7
@@ -4921,6 +4937,7 @@ MonoBehaviour:
   animator: {fileID: 441119788}
   agent: {fileID: 441119790}
   player: {fileID: 1777256298}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -4941,9 +4958,16 @@ MonoBehaviour:
   - {fileID: 348061567}
   - {fileID: 63110034}
   - {fileID: 1908048609}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &441119788
 Animator:
   serializedVersion: 7
@@ -6366,6 +6390,7 @@ MonoBehaviour:
   animator: {fileID: 692561755}
   agent: {fileID: 692561757}
   player: {fileID: 442537553}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -6382,9 +6407,16 @@ MonoBehaviour:
   timeIdle: 10
   stopAfterPatrol: 0
   patrolPoints: []
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &692561755
 Animator:
   serializedVersion: 7
@@ -7284,6 +7316,7 @@ MonoBehaviour:
   animator: {fileID: 713904826}
   agent: {fileID: 713904828}
   player: {fileID: 236787647}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -7301,9 +7334,16 @@ MonoBehaviour:
   stopAfterPatrol: 0
   patrolPoints:
   - {fileID: 1161135569}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &713904826
 Animator:
   serializedVersion: 7
@@ -7592,6 +7632,7 @@ MonoBehaviour:
   animator: {fileID: 744815547}
   agent: {fileID: 744815549}
   player: {fileID: 1819896948}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -7609,9 +7650,16 @@ MonoBehaviour:
   stopAfterPatrol: 0
   patrolPoints:
   - {fileID: 1557845938}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &744815547
 Animator:
   serializedVersion: 7
@@ -7918,6 +7966,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 937927998}
+    - target: {fileID: 5850937627315527419, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
+      propertyPath: groundLayerMask.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6032637452312787618, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 186.61977
@@ -9059,6 +9111,7 @@ MonoBehaviour:
   animator: {fileID: 890130173}
   agent: {fileID: 890130175}
   player: {fileID: 430778790}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -9076,9 +9129,16 @@ MonoBehaviour:
   stopAfterPatrol: 0
   patrolPoints:
   - {fileID: 1488902983}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &890130173
 Animator:
   serializedVersion: 7
@@ -10648,6 +10708,7 @@ MonoBehaviour:
   animator: {fileID: 1007717864}
   agent: {fileID: 1007717866}
   player: {fileID: 2055972638}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -10665,9 +10726,16 @@ MonoBehaviour:
   stopAfterPatrol: 0
   patrolPoints:
   - {fileID: 1498782283}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &1007717864
 Animator:
   serializedVersion: 7
@@ -14322,6 +14390,7 @@ MonoBehaviour:
   animator: {fileID: 1433602000}
   agent: {fileID: 1433602002}
   player: {fileID: 1187230636}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -14342,9 +14411,16 @@ MonoBehaviour:
   - {fileID: 1826731928}
   - {fileID: 1487727472}
   - {fileID: 776413744}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &1433602000
 Animator:
   serializedVersion: 7
@@ -15567,6 +15643,7 @@ MonoBehaviour:
   animator: {fileID: 1609573708}
   agent: {fileID: 1609573710}
   player: {fileID: 1723755709}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -15587,9 +15664,16 @@ MonoBehaviour:
   - {fileID: 914713145}
   - {fileID: 1837155017}
   - {fileID: 545309773}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &1609573708
 Animator:
   serializedVersion: 7
@@ -17615,6 +17699,7 @@ MonoBehaviour:
   animator: {fileID: 1777256295}
   agent: {fileID: 1777256297}
   player: {fileID: 441119791}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -17635,9 +17720,16 @@ MonoBehaviour:
   - {fileID: 348061567}
   - {fileID: 63110034}
   - {fileID: 1908048609}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &1777256295
 Animator:
   serializedVersion: 7
@@ -17757,6 +17849,7 @@ MonoBehaviour:
   animator: {fileID: 1777472474}
   agent: {fileID: 1777472473}
   player: {fileID: 996865821}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -17777,9 +17870,16 @@ MonoBehaviour:
   - {fileID: 376139507}
   - {fileID: 895596252}
   - {fileID: 1494834648}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!195 &1777472473
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -18422,6 +18522,7 @@ MonoBehaviour:
   animator: {fileID: 1784963276}
   agent: {fileID: 1784963278}
   player: {fileID: 2093872967}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -18438,9 +18539,16 @@ MonoBehaviour:
   timeIdle: 10
   stopAfterPatrol: 0
   patrolPoints: []
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &1784963276
 Animator:
   serializedVersion: 7
@@ -18942,6 +19050,7 @@ MonoBehaviour:
   animator: {fileID: 1815380559}
   agent: {fileID: 1815380561}
   player: {fileID: 1819896948}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -18958,9 +19067,16 @@ MonoBehaviour:
   timeIdle: 10
   stopAfterPatrol: 0
   patrolPoints: []
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &1815380559
 Animator:
   serializedVersion: 7
@@ -20206,6 +20322,7 @@ MonoBehaviour:
   animator: {fileID: 1910620138}
   agent: {fileID: 1910620140}
   player: {fileID: 937927998}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -20223,9 +20340,16 @@ MonoBehaviour:
   stopAfterPatrol: 0
   patrolPoints:
   - {fileID: 1762693789}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &1910620138
 Animator:
   serializedVersion: 7
@@ -20694,6 +20818,7 @@ MonoBehaviour:
   animator: {fileID: 1984963654}
   agent: {fileID: 1984963656}
   player: {fileID: 1469740079}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -20710,9 +20835,16 @@ MonoBehaviour:
   timeIdle: 10
   stopAfterPatrol: 0
   patrolPoints: []
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &1984963654
 Animator:
   serializedVersion: 7
@@ -21720,6 +21852,7 @@ MonoBehaviour:
   animator: {fileID: 2040165542}
   agent: {fileID: 2040165544}
   player: {fileID: 1921676976}
+  playerHead: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 8
@@ -21737,9 +21870,16 @@ MonoBehaviour:
   stopAfterPatrol: 0
   patrolPoints:
   - {fileID: 298689733}
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
+  basicAngle: 0
 --- !u!95 &2040165542
 Animator:
   serializedVersion: 7
