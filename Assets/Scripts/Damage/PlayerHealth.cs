@@ -11,19 +11,24 @@ public class PlayerHealth : MonoBehaviour
     [Header("Настройки здоровья")]
     public float maxHealth;
     public float currentHealth;
+    [Header("Настройки баффов")]
     public InputActionProperty HealButton;
     public InputActionProperty SandewistanButton;
+    [Header("Настройки меню")]
+    public InputActionProperty MenuButton;
+    public GameObject MenuCanvas;
+    public Slider healthSlider; // Ссылка на UI-слайдер здоровья
+    [Header("Не трогать")]
     public GameObject controller;
     float oldSpeed;
     DynamicMoveProvider speed = null;
-    [Header("UI")]
-    public Slider healthSlider; // Ссылка на UI-слайдер здоровья
     [Header("Katana")]
     public GameObject katana;
     private void Awake()
     {
         HealButton.action.Enable();
         SandewistanButton.action.Enable();
+        MenuButton.action.Enable();
         speed = controller.GetComponent<DynamicMoveProvider>();
         speed.moveSpeed = StaticHolder.PlayerBasicSpeed;
         oldSpeed = StaticHolder.PlayerBasicSpeed;
@@ -94,7 +99,7 @@ public class PlayerHealth : MonoBehaviour
         StaticHolder.StrongArmsKoef = 1f;
         StaticHolder.StrongLegs = false;
         StaticHolder.StrongLegsKoef = 1f;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadSceneAsync(0);
         // Здесь можно вызывать экран Game Over и т.д.
     }
     void Update()
@@ -108,6 +113,14 @@ public class PlayerHealth : MonoBehaviour
         if (SandewistanButton.action.ReadValue<float>() >= 0.7 && StaticHolder.Sandevistan && !StaticHolder.SandevistanActive)
         {
             StartCoroutine(Sandewistan());
+        }
+        if (MenuButton.action.ReadValue<float>() >= 0.7)
+        {
+            MenuCanvas.SetActive(true);
+        }
+        else
+        {
+            MenuCanvas.SetActive(false);
         }
     }
     public float GetCurrentHealth() => currentHealth;
@@ -150,5 +163,9 @@ public class PlayerHealth : MonoBehaviour
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
         Debug.Log("Замедление времени окончилось");
+    }
+    public void ToMain()
+    {
+        SceneManager.LoadSceneAsync(0);
     }
 }

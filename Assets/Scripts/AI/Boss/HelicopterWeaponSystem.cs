@@ -19,14 +19,14 @@ public class HelicopterWeaponSystem : MonoBehaviour
 
     public float damage = 10f;
 
-    public float minFireDelay = 3f;       // Мин. пауза между очередями
-    public float maxFireDelay = 10f;      // Макс. пауза между очередями
+    public float minFireDelay = 3f;       // пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    public float maxFireDelay = 10f;      // пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-    public int minShotsPerBurst = 5;      // Мин. выстрелов в очереди
-    public int maxShotsPerBurst = 10;     // Макс. выстрелов в очереди
-    public float timeBetweenShots = 0.1f; // Интервал между выстрелами в очереди
+    public int minShotsPerBurst = 5;      // пїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    public int maxShotsPerBurst = 10;     // пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    public float timeBetweenShots = 0.1f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-    public float aimRandomness = 2f;      // Разброс (в градусах)
+    public float aimRandomness = 2f;      // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
 
     public LineRenderer leftLineRenderer;
     public LineRenderer rightLineRenderer;
@@ -40,7 +40,7 @@ public class HelicopterWeaponSystem : MonoBehaviour
         audioSource.clip = fireSound;
         audioSource.playOnAwake = false;
 
-        // Настроим LineRenderer
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ LineRenderer
         SetupLineRenderer(leftLineRenderer);
         SetupLineRenderer(rightLineRenderer);
 
@@ -85,36 +85,36 @@ public class HelicopterWeaponSystem : MonoBehaviour
             yield return new WaitForSeconds(timeBetweenShots);
         }
 
-        // Очистка линий после очереди
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         ClearLineRenderer(leftLineRenderer);
         ClearLineRenderer(rightLineRenderer);
     }
 
     void FireFromGun(Transform gunMuzzle)
     {
-        // Целимся с разбросом
-        Vector3 dirToPlayer = (player.position + Vector3.up * 1.5f) - gunMuzzle.position; // цель на уровень груди
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        Vector3 dirToPlayer = (player.position + Vector3.up * 1.5f) - gunMuzzle.position; // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         dirToPlayer = ApplySpread(dirToPlayer, aimRandomness);
         dirToPlayer.Normalize();
 
-        // Отрисовка линии
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         DrawLine(gunMuzzle, dirToPlayer, gunMuzzle == leftGun ? leftLineRenderer : rightLineRenderer);
 
-        // Вспышка выстрела
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Instantiate(muzzleFlashPrefab, gunMuzzle.position, gunMuzzle.rotation, gunMuzzle);
 
-        // Звук
+        // пїЅпїЅпїЅпїЅ
         audioSource.PlayOneShot(fireSound);
 
-        // Трассер
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         GameObject tracer = Instantiate(tracerPrefab, gunMuzzle.position, Quaternion.LookRotation(dirToPlayer));
         Rigidbody tracerRb = tracer.GetComponent<Rigidbody>();
         if (tracerRb != null)
         {
-            tracerRb.velocity = dirToPlayer * tracerSpeed;
+            tracerRb.linearVelocity = dirToPlayer * tracerSpeed;
         }
 
-        // Проверка попадания (Raycast)
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (Raycast)
         RaycastHit hit;
         if (Physics.Raycast(gunMuzzle.position, dirToPlayer, out hit, tracerMaxDistance))
         {
@@ -131,7 +131,7 @@ public class HelicopterWeaponSystem : MonoBehaviour
 
     Vector3 ApplySpread(Vector3 direction, float angle)
     {
-        // Добавляем случайный разброс
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         float spreadAngle = Random.Range(-angle, angle);
         Quaternion spreadRotation = Quaternion.AngleAxis(spreadAngle, Random.insideUnitSphere);
         return spreadRotation * direction;

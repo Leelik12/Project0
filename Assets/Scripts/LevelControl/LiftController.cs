@@ -1,14 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEditor;
 
 public class ElevatorController : MonoBehaviour
 {
     [Header("Настройки лифта")]
-    public float waitTime = 3f;               // Время ожидания в лифте перед загрузкой сцены
     private bool playerInElevator = false;
-    private float timer = 0f;
     public int CurrentBuildScene; //Текущая сцена по билду
-
+    public GameObject loadingUI;
+    public Slider progres;
+    bool IsLoading = false;
+    bool IsLoaded2 = false;
+    AsyncOperation operation;
     private void Start()
     {
     }
@@ -18,7 +24,6 @@ public class ElevatorController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInElevator = true;
-            timer = 0f;
         }
     }
 
@@ -27,33 +32,45 @@ public class ElevatorController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInElevator = false;
-            timer = 0f;
         }
     }
 
     private void Update()
     {
         Debug.Log("Текущий уровень по билду - " + StaticHolder.CurrentLevel);
-        if (playerInElevator && StaticHolder.levelCheksComplete)
+        if (playerInElevator && StaticHolder.levelCheksComplete && !IsLoading)
         {
-            timer += Time.deltaTime;
-
-            if (timer >= waitTime)
-            {
-                LoadNextScene();
-            }
+            IsLoading = true;
+            LoadNextScene();
         }
     }
 
     void LoadNextScene()
     {
-        Debug.Log("Загрузка новой сцены");
+        Debug.Log("Асинхронная загрузка сцены...");
         StaticHolder.CurrentLevel = CurrentBuildScene;
         StaticHolder.levelCheksComplete = false;
-        StaticHolder.PropitalHealActive = true;
-        StaticHolder.SandevistanActive = true;
-        SceneManager.LoadScene(1);
-
-
+        StaticHolder.PropitalHealActive = false;
+        StaticHolder.SandevistanActive = false;
+        //SceneManager.LoadScene(1);
+        StartCoroutine(LoadSceneAsync(1)); // подставь нужный индекс
     }
+    IEnumerator LoadSceneAsync(int sceneIndex)
+    {
+        if (!IsLoaded2)
+        {
+            loadingUI.SetActive(true);
+            operation = SceneManager.LoadSceneAsync(sceneIndex);
+            IsLoaded2 = true;
+        }
+
+        while (!operation.isDone)
+        {
+            // Здесь можно обновлять прогресс бар, если он есть:
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+            progres.value = progress;
+            yield return null;
+        }
+    }
+
 }
