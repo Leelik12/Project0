@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using XR.Interaction.Toolkit.Samples;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
     public Slider healthSlider; // Ссылка на UI-слайдер здоровья
     public GameObject MainCheck;
     public GameObject SecCheck;
+    public TextMeshProUGUI hpText;
     [Header("Не трогать")]
     public GameObject controller;
     float oldSpeed;
@@ -55,6 +57,10 @@ public class PlayerHealth : MonoBehaviour
             StartCoroutine(SpeedAfterDamage());
         }
         currentHealth -= damage;
+        if (currentHealth < 0)
+        {
+            currentHealth = 0;
+        }
         Debug.Log("Игрок получил урон: " + damage + ". Текущее здоровье: " + currentHealth);
         UpdateHealthUI();
         if (currentHealth <= 0)
@@ -68,6 +74,7 @@ public class PlayerHealth : MonoBehaviour
         if (healthSlider != null)
         {
             healthSlider.value = currentHealth / maxHealth;
+            hpText.text = currentHealth.ToString();
         }
     }
     private void OnCollisionEnter(Collision collision)
