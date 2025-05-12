@@ -84,6 +84,33 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log("Больно");
         }
     }
+    public void back2Main()
+    {
+        Debug.Log("Выход в мэйн");
+        if (StaticHolder.StrongArms && StaticHolder.StrongLegs) { StaticHolder.Ciborg = true; }
+        StaticHolder.DieStation = true;
+        StaticHolder.CurrentGun = 0;
+        StaticHolder.BuffGrenade = false;
+        StaticHolder.BuffGunFireRate = 1f;
+        StaticHolder.BuffGunDamage = 1f;
+        StaticHolder.BuffGunMaxAmmo = 1f;
+        StaticHolder.PlayerHPBuff = 0;
+        StaticHolder.PlayerBasicSpeed = 3f;
+        StaticHolder.SpeedBuffAfterDamage = false;
+        StaticHolder.SpeedAfterDamageValue = 1f;
+        StaticHolder.PropitalHeal = false;
+        StaticHolder.PropitalHealActive = false;
+        StaticHolder.Sandevistan = false;
+        StaticHolder.SandevistanActive = false;
+        StaticHolder.Akimbo = false;
+        StaticHolder.AkimboWas = false;
+        StaticHolder.Katana = false;
+        StaticHolder.StrongArms = false;
+        StaticHolder.StrongArmsKoef = 1f;
+        StaticHolder.StrongLegs = false;
+        StaticHolder.StrongLegsKoef = 1f;
+        SceneManager.LoadSceneAsync(0);
+    }
     void Die()
     {
         Debug.Log("Игрок погиб!");
