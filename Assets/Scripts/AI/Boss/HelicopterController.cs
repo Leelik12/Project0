@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class HelicopterController : MonoBehaviour
 {
@@ -23,7 +24,8 @@ public class HelicopterController : MonoBehaviour
     private bool isActivated = false;
     private bool isCircling = false;
     private int circleDirection = 1;          // 1 или -1
-    
+    public float delayAfterDeath = 5f;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !isActivated)
@@ -42,7 +44,7 @@ public class HelicopterController : MonoBehaviour
         }
 
         // Вылет из под здания к точке над крышей (рядом с игроком)
-        Vector3 targetPos = player.position + (player.forward * approachDistance) + Vector3.up * 5f;
+        Vector3 targetPos = player.position + (player.forward * approachDistance) + Vector3.up * 10f;
         while (Vector3.Distance(helicopter.position, targetPos) > 0.5f)
         {
             helicopter.position = Vector3.MoveTowards(helicopter.position, targetPos, flyOutSpeed * Time.deltaTime);
@@ -85,6 +87,7 @@ public class HelicopterController : MonoBehaviour
         if (health != null && health.GetCurrentHp() <= 0f)
         {
             StartCoroutine(EscapeAndDestroy());
+            OnFinalBossDefeated();
             isActivated = false; // Чтобы не запускался снова
             return;
         }
@@ -93,7 +96,7 @@ public class HelicopterController : MonoBehaviour
         {
             helicopter.RotateAround(player.position, Vector3.up, circleSpeed * circleDirection * Time.deltaTime);
 
-            Vector3 dirToPlayer = player.position - helicopter.position;
+            Vector3 dirToPlayer = player.position  - Vector3.up - helicopter.position;
             Quaternion lookRotation = GetCorrectedLookRotation(dirToPlayer);
             helicopter.rotation = Quaternion.Slerp(helicopter.rotation, lookRotation, 2f * Time.deltaTime);
         }
@@ -145,5 +148,17 @@ public class HelicopterController : MonoBehaviour
         // Поворачиваем на -90° вокруг Y, чтобы forward стал по X (а не по Z)
         baseRotation *= Quaternion.Euler(0, -90f, 0);
         return baseRotation;
+    }
+
+    public void OnFinalBossDefeated()
+    {
+        Debug.Log("Финальный босс побеждён!");
+        StartCoroutine(DelayedVictory());
+    }
+    IEnumerator DelayedVictory()
+    {
+        yield return new WaitForSeconds(delayAfterDeath);
+        StaticHolder.GameOver = true;
+        SceneManager.LoadSceneAsync(0);
     }
 }

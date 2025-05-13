@@ -84,7 +84,7 @@ public class HelicopterGunSystem : MonoBehaviour
 
         Debug.DrawRay(firePoint.position, direction * range, Color.red, 1f);
 
-        if (Physics.Raycast(firePoint.position, direction, out RaycastHit hit, range))
+        if (Physics.Raycast(firePoint.position, direction, out RaycastHit hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
             Vector3 effectPosition = hit.point + hit.normal * effectOffset;
             Quaternion effectRotation = Quaternion.LookRotation(hit.normal);

@@ -11,6 +11,7 @@ public static class StaticHolder
     public static float Damage;
     public static bool Ciborg;
     public static bool DiedinCyberpunk;
+    public static bool GameOver = false;
 
     //Для контролирования состояния уровня
     public static bool levelCheksComplete;

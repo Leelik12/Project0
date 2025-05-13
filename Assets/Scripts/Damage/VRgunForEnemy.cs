@@ -72,7 +72,7 @@ public class VRgunForEnemy : MonoBehaviour
         lastShotDirection = directionWithSpread; // сохраняем для лазера
 
         RaycastHit hit;
-        if (Physics.Raycast(firePoint.position, directionWithSpread, out hit, range))
+        if (Physics.Raycast(firePoint.position, directionWithSpread, out hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
         {
             if (hitEffectPrefabSparks != null)
             {
