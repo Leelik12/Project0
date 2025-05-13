@@ -52282,6 +52282,22 @@ MonoBehaviour:
   openHeight: -6
   openSpeed: 2
   openSound: {fileID: 714717525}
+--- !u!208 &856520504
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856520494}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.015, y: 0.095, z: 0.955}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.03, y: 2.351, z: 3.0000002}
+  m_TimeToStationary: 0.5
 --- !u!1001 &856607698
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75269,6 +75285,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4975399993979019661, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 856520502}
+    - targetCorrespondingSourceObject: {fileID: 4975399993979019661, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 856520504}
     - targetCorrespondingSourceObject: {fileID: 2647211758135124163, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1037368356}
@@ -75782,14 +75801,14 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1217610045}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.00001, y: 2.8530002, z: 2.4540002}
+  m_Extents: {x: 0.065, y: 0.37, z: 1.175}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0.187, y: 2.351, z: 3.0000002}
+  m_Center: {x: 0.187, y: 1.53, z: 3.0000002}
   m_TimeToStationary: 0.5
 --- !u!1001 &1218839164
 PrefabInstance:
