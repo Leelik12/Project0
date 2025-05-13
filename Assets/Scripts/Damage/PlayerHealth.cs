@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using XR.Interaction.Toolkit.Samples;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class PlayerHealth : MonoBehaviour
     public InputActionProperty MenuButton;
     public GameObject MenuCanvas;
     public Slider healthSlider; // Ссылка на UI-слайдер здоровья
+    public GameObject MainCheck;
+    public GameObject SecCheck;
+    public TextMeshProUGUI hpText;
     [Header("Не трогать")]
     public GameObject controller;
     float oldSpeed;
@@ -53,6 +57,10 @@ public class PlayerHealth : MonoBehaviour
             StartCoroutine(SpeedAfterDamage());
         }
         currentHealth -= damage;
+        //if (currentHealth < 0)
+        //{
+        //    currentHealth = 0;
+        //}
         Debug.Log("Игрок получил урон: " + damage + ". Текущее здоровье: " + currentHealth);
         UpdateHealthUI();
         if (currentHealth <= 0)
@@ -66,6 +74,7 @@ public class PlayerHealth : MonoBehaviour
         if (healthSlider != null)
         {
             healthSlider.value = currentHealth / maxHealth;
+            hpText.text = currentHealth.ToString();
         }
     }
     private void OnCollisionEnter(Collision collision)
@@ -74,6 +83,33 @@ public class PlayerHealth : MonoBehaviour
         {
             Debug.Log("Больно");
         }
+    }
+    public void back2Main()
+    {
+        Debug.Log("Выход в мэйн");
+        if (StaticHolder.StrongArms && StaticHolder.StrongLegs) { StaticHolder.Ciborg = true; }
+        StaticHolder.DieStation = true;
+        StaticHolder.CurrentGun = 0;
+        StaticHolder.BuffGrenade = false;
+        StaticHolder.BuffGunFireRate = 1f;
+        StaticHolder.BuffGunDamage = 1f;
+        StaticHolder.BuffGunMaxAmmo = 1f;
+        StaticHolder.PlayerHPBuff = 0;
+        StaticHolder.PlayerBasicSpeed = 3f;
+        StaticHolder.SpeedBuffAfterDamage = false;
+        StaticHolder.SpeedAfterDamageValue = 1f;
+        StaticHolder.PropitalHeal = false;
+        StaticHolder.PropitalHealActive = false;
+        StaticHolder.Sandevistan = false;
+        StaticHolder.SandevistanActive = false;
+        StaticHolder.Akimbo = false;
+        StaticHolder.AkimboWas = false;
+        StaticHolder.Katana = false;
+        StaticHolder.StrongArms = false;
+        StaticHolder.StrongArmsKoef = 1f;
+        StaticHolder.StrongLegs = false;
+        StaticHolder.StrongLegsKoef = 1f;
+        SceneManager.LoadSceneAsync(0);
     }
     void Die()
     {
@@ -123,6 +159,14 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             MenuCanvas.SetActive(false);
+        }
+        if (StaticHolder.levelCheksComplete)
+        {
+            MainCheck.SetActive(true);
+        }
+        if (StaticHolder.ItemPickedUp)
+        {
+            SecCheck.SetActive(true);
         }
     }
     public float GetCurrentHealth() => currentHealth;

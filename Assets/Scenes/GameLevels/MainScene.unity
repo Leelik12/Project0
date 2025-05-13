@@ -297,7 +297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &88291272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3711,7 +3711,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &639275432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7262,6 +7262,12 @@ MonoBehaviour:
   timeIdle: 10
   stopAfterPatrol: 0
   patrolPoints: []
+  dirtWalkClip: {fileID: 0}
+  metalWalkClip: {fileID: 0}
+  footstepAudioSource: {fileID: 0}
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   isAgroFromInfection: 0
   isTakeDamage: 0
   controller: {fileID: 0}
@@ -8702,6 +8708,8 @@ MonoBehaviour:
     m_Reference: {fileID: 0}
   MenuCanvas: {fileID: 1645776608}
   healthSlider: {fileID: 2124598054}
+  MainCheck: {fileID: 0}
+  SecCheck: {fileID: 0}
   controller: {fileID: 1401233586}
   katana: {fileID: 1303638666}
 --- !u!1 &1402163386
