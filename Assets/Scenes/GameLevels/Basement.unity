@@ -729,11 +729,11 @@ PrefabInstance:
       objectReference: {fileID: 1320824118}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: drawOverview
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: attackDistance
@@ -6816,11 +6816,11 @@ PrefabInstance:
       objectReference: {fileID: 1320824118}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: drawOverview
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: attackDistance
@@ -13796,11 +13796,15 @@ PrefabInstance:
       objectReference: {fileID: 1320824118}
     - target: {fileID: 2094919104035538380, guid: f4d560052d7d828489b6987065840fd7, type: 3}
       propertyPath: drawOverview
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2094919104035538380, guid: f4d560052d7d828489b6987065840fd7, type: 3}
       propertyPath: viewDistance
-      value: 6
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2094919104035538380, guid: f4d560052d7d828489b6987065840fd7, type: 3}
+      propertyPath: attackDistance
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2094919104035538380, guid: f4d560052d7d828489b6987065840fd7, type: 3}
       propertyPath: stopAfterPatrol
@@ -23322,11 +23326,15 @@ PrefabInstance:
       objectReference: {fileID: 1320824118}
     - target: {fileID: 5850937627315527419, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
       propertyPath: drawOverview
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5850937627315527419, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
       propertyPath: viewDistance
-      value: 6
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5850937627315527419, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
+      propertyPath: attackDistance
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5850937627315527419, guid: 11168163c75fc764a9b45178534cad2f, type: 3}
       propertyPath: patrolPoints.Array.size
@@ -29427,15 +29435,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3841623028627961235, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
       propertyPath: drawOverview
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3841623028627961235, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
       propertyPath: viewDistance
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3841623028627961235, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
       propertyPath: attackDistance
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3841623028627961235, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
       propertyPath: stopAfterPatrol
@@ -51722,15 +51730,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
       propertyPath: drawOverview
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
       propertyPath: viewDistance
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
       propertyPath: attackDistance
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
       propertyPath: stopAfterPatrol
@@ -52981,11 +52989,15 @@ PrefabInstance:
       objectReference: {fileID: 1320824118}
     - target: {fileID: 92365508222385783, guid: ae597b11f65aad5419d08c38547b2e7d, type: 3}
       propertyPath: drawOverview
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 92365508222385783, guid: ae597b11f65aad5419d08c38547b2e7d, type: 3}
       propertyPath: viewDistance
-      value: 6
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 92365508222385783, guid: ae597b11f65aad5419d08c38547b2e7d, type: 3}
+      propertyPath: attackDistance
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 92365508222385783, guid: ae597b11f65aad5419d08c38547b2e7d, type: 3}
       propertyPath: patrolPoints.Array.size
@@ -110282,11 +110294,11 @@ PrefabInstance:
       objectReference: {fileID: 1320824118}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: drawOverview
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: attackDistance
@@ -117706,11 +117718,11 @@ PrefabInstance:
       objectReference: {fileID: 1320824118}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: drawOverview
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: attackDistance
@@ -131609,11 +131621,11 @@ PrefabInstance:
       objectReference: {fileID: 1320824118}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: drawOverview
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: viewDistance
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2141767218987434221, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
       propertyPath: attackDistance
