@@ -46870,6 +46870,14 @@ PrefabInstance:
       propertyPath: maxHealth
       value: 250
       objectReference: {fileID: 0}
+    - target: {fileID: 8207010518129698492, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8207010518129698492, guid: 3b0247aac35bad34fb5b857ffca05d60, type: 3}
+      propertyPath: Spatialize
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
