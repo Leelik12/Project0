@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HelicopterGunSystem : MonoBehaviour
@@ -9,6 +8,9 @@ public class HelicopterGunSystem : MonoBehaviour
 
     [Header("Настройки стрельбы")]
     public float fireRate = 0.1f;
+    public float burstInterval = 4f; // Интервал между очередями
+    public int burstCountMin = 15;
+    public int burstCountMax = 20;
     public float damage = 10f;
     public float range = 100f;
     public float spreadAngle = 5f;
@@ -32,24 +34,39 @@ public class HelicopterGunSystem : MonoBehaviour
     public bool autoFire = true;
     public string targetTag = "Player";
 
-    private float nextFireTime = 0f;
+    private Coroutine burstCoroutine;
 
-    void Update()
+    void Start()
     {
-        if (autoFire && Time.time >= nextFireTime)
+        if (autoFire)
         {
-            FireFromAllPoints();
-            nextFireTime = Time.time + fireRate;
+            burstCoroutine = StartCoroutine(FireBurstsLoop());
         }
     }
 
-    public void FireFromAllPoints()
+    IEnumerator FireBurstsLoop()
+    {
+        while (autoFire)
+        {
+            int shotsInBurst = Random.Range(burstCountMin, burstCountMax + 1);
+            for (int i = 0; i < shotsInBurst; i++)
+            {
+                FireFromAllPoints();
+                yield return new WaitForSeconds(fireRate);
+            }
+
+            yield return new WaitForSeconds(burstInterval);
+        }
+    }
+
+    void FireFromAllPoints()
     {
         for (int i = 0; i < firePoints.Length; i++)
         {
             Fire(firePoints[i], i);
         }
     }
+
 
     void Fire(Transform firePoint, int index)
     {
@@ -64,6 +81,8 @@ public class HelicopterGunSystem : MonoBehaviour
             audioSource.PlayOneShot(shotSound);
 
         Vector3 direction = GetSpreadDirection(firePoint.forward, spreadAngle);
+
+        Debug.DrawRay(firePoint.position, direction * range, Color.red, 1f);
 
         if (Physics.Raycast(firePoint.position, direction, out RaycastHit hit, range))
         {
@@ -99,5 +118,24 @@ public class HelicopterGunSystem : MonoBehaviour
         muzzleLight.enabled = true;
         yield return new WaitForSeconds(lightDuration);
         muzzleLight.enabled = false;
+    }
+
+    // Внешний вызов для деактивации стрельбы
+    public void DeactivateWeapons()
+    {
+        autoFire = false;
+        if (burstCoroutine != null)
+        {
+            StopCoroutine(burstCoroutine);
+        }
+    }
+
+    public void ActivateWeapons()
+    {
+        if (!autoFire)
+        {
+            autoFire = true;
+            burstCoroutine = StartCoroutine(FireBurstsLoop());
+        }
     }
 }

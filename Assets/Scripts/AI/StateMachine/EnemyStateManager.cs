@@ -335,7 +335,7 @@ public class EnemyStateManager : MonoBehaviour
             Debug.Log(groundTag);
             if (groundTag == "Metal")
             {
-                footstepAudioSource.maxDistance = 4f;
+                footstepAudioSource.maxDistance = 3f;
                 footstepAudioSource.volume = 0.6f;
                 clipToPlay = metalWalkClip;
             }
