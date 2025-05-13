@@ -57,10 +57,10 @@ public class PlayerHealth : MonoBehaviour
             StartCoroutine(SpeedAfterDamage());
         }
         currentHealth -= damage;
-        if (currentHealth < 0)
-        {
-            currentHealth = 0;
-        }
+        //if (currentHealth < 0)
+        //{
+        //    currentHealth = 0;
+        //}
         Debug.Log("Игрок получил урон: " + damage + ". Текущее здоровье: " + currentHealth);
         UpdateHealthUI();
         if (currentHealth <= 0)
