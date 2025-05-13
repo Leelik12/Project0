@@ -183,7 +183,14 @@ public class ButtonFunction : MonoBehaviour
     public void UpdateAkimbo()
     {//по идее должно работать, но нужно дописать и проверить
         Debug.Log("Акимбо есть - " + StaticHolder.Akimbo);
-        StaticHolder.Akimbo = true;
+        if (StaticHolder.CurrentGun == 1 || StaticHolder.CurrentGun == 1)
+        {
+            StaticHolder.Akimbo = true;
+        }
+        else
+        {
+            StaticHolder.AkimboWas = true;
+        }
         Debug.Log("Акимбо теперь - " + StaticHolder.Akimbo);
     }
     public void UpdateKatana()
