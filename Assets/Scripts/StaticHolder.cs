@@ -20,19 +20,17 @@ public static class StaticHolder
     public static int CurrentLevel =2;
     public static bool DieStation;
 
-    //Все что нужно для апдейт сцены. Если че то надо добавить в этот скрипт писать ТОЛЬКО сверху
+    //Все что нужно для апдейт сцены
     public static int CurrentGun = 0;
     public static bool CurrentGrenade; //есть они или нет
-    public static float CurrentGunFireRate;// три сотки снизу для тестов, при билде стереть
+    public static float CurrentGunFireRate;
     public static float CurrentGunDamage;
     public static int CurrentGunMaxAmmo;
 
     public static bool UpdateLevelEnd;
 
-
-
     public static bool BuffGrenade = false; //есть они или нет
-    public static float BuffGunFireRate = 1f;// три сотки снизу для тестов, при билде стереть
+    public static float BuffGunFireRate = 1f;
     public static float BuffGunDamage = 1f;
     public static float BuffGunMaxAmmo = 1f;
 
@@ -56,5 +54,4 @@ public static class StaticHolder
     public static float StrongArmsKoef = 1f;
     public static bool StrongLegs = false;
     public static float StrongLegsKoef = 1f;
-
 }
