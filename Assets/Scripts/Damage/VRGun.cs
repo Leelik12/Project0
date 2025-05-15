@@ -165,7 +165,7 @@ public class VRGun : MonoBehaviour
 
 
             //Debug.Log("Попадание в " + hit.collider.tag);
-            if (hit.collider.CompareTag("Head") || hit.collider.CompareTag("Leg") || hit.collider.CompareTag("Body") || hit.collider.CompareTag("Player"))
+            if (hit.collider.CompareTag("Head") || hit.collider.CompareTag("Leg") || hit.collider.CompareTag("Body"))
             {
                 float finalDamage = damage;
                 // Определяем зону попадания
@@ -209,14 +209,11 @@ public class VRGun : MonoBehaviour
                 {
                     target = hit.collider.GetComponentInParent<EnemyHeaths>();
                 }
-                
-                PlayerHealth player = hit.collider.GetComponent<PlayerHealth>();
-                if (target != null || player != null)
+                if (target != null)
                 {
                     StaticHolder.countHits++;
                     StaticHolder.Damage += finalDamage;
                     if (target != null) { target.TakeDamage(finalDamage); }
-                    player.PlayerTakeDamage(finalDamage);
                 }
             }
         }
