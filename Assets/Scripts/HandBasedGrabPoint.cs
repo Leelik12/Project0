@@ -26,6 +26,23 @@ public class HandBasedGrabPoint : XRGrabInteractable
 
         // Важно: вызвать базовую реализацию, чтобы объект действительно захватился
         base.OnSelectEntering(args);
+        SetLayerRecursively(gameObject, 2);
+    }
+    public static void SetLayerRecursively(GameObject obj, int layer)
+    {
+        if (obj == null) return;
+
+        obj.layer = layer;
+
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, layer);
+        }
+    }
+    protected override void OnSelectExited(SelectExitEventArgs args)
+    {
+        SetLayerRecursively(gameObject, 0);
+        base.OnSelectExited(args);
     }
 }
 
