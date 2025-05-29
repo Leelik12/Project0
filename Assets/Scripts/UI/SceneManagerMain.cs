@@ -7,6 +7,22 @@ public class SceneManagerMain : MonoBehaviour
     [SerializeField] public GameObject Setting;
     [SerializeField] public GameObject Achievm;
     [SerializeField] public GameObject End;
+
+    void Start()
+    {
+        StaticHolder.LoadData();
+    }
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            StaticHolder.SaveData();
+        }
+    }
+    void OnApplicationQuit()
+    {
+        StaticHolder.SaveData();
+    }
     public void Begin()
     {
         SceneManager.LoadSceneAsync("TheFirstLevel");
