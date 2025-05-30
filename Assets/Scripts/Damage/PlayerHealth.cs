@@ -109,6 +109,7 @@ public class PlayerHealth : MonoBehaviour
         StaticHolder.StrongArmsKoef = 1f;
         StaticHolder.StrongLegs = false;
         StaticHolder.StrongLegsKoef = 1f;
+        StaticHolder.SaveData();
         SceneManager.LoadSceneAsync(0);
     }
     void Die()
@@ -137,6 +138,7 @@ public class PlayerHealth : MonoBehaviour
         StaticHolder.StrongArmsKoef = 1f;
         StaticHolder.StrongLegs = false;
         StaticHolder.StrongLegsKoef = 1f;
+        StaticHolder.SaveData();
         SceneManager.LoadSceneAsync(0);
         // Здесь можно вызывать экран Game Over и т.д.
     }
@@ -212,6 +214,7 @@ public class PlayerHealth : MonoBehaviour
     }
     public void ToMain()
     {
+        StaticHolder.SaveData();
         SceneManager.LoadSceneAsync(0);
     }
 }

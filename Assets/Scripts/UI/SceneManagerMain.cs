@@ -19,10 +19,6 @@ public class SceneManagerMain : MonoBehaviour
             StaticHolder.SaveData();
         }
     }
-    void OnApplicationQuit()
-    {
-        
-    }
     public void Begin()
     {
         SceneManager.LoadSceneAsync("TheFirstLevel");
