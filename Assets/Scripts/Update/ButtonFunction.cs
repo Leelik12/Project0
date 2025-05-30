@@ -22,9 +22,9 @@ public class ButtonFunction : MonoBehaviour
     public int MeleeDamageBuffPercent;
     [Header("Быстрые ноги   ")]
     public int SpeedBuffAllTimePercent;
-
     public int PlayerHandDamageBuffPercent;
     public int PlayerSpeedBuffPercent;
+    
 
     //Сверху подкапотка прокачки, все изменения прокачки происходят через эти настройки
     //Не забудь поменять текст на карточках при изменении этих значений
