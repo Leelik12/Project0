@@ -19,6 +19,7 @@ public class UpdateLiftController : MonoBehaviour
 
     private void Start()
     {
+        StaticHolder.UpdateLevelEnd = false;
         l = StaticHolder.CurrentLevel + 1;
     }
 

@@ -14,6 +14,7 @@ public static class StaticHolder
     public static bool GameOver = false;
 
     //ƒл€ контролировани€ состо€ни€ уровн€
+    public static bool UpdateCheck;
     public static bool levelCheksComplete;
     public static bool ItemPickedUp = false;
     public static bool UpdateWasBought;
@@ -27,7 +28,7 @@ public static class StaticHolder
     public static float CurrentGunDamage;
     public static int CurrentGunMaxAmmo;
 
-    public static bool UpdateLevelEnd;
+    public static bool UpdateLevelEnd = false;
 
     public static bool BuffGrenade = false; //есть они или нет
     public static float BuffGunFireRate = 1f;
