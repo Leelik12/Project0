@@ -10,7 +10,7 @@ public class UpdateLiftController : MonoBehaviour
     public float waitTime = 3f;               // Время ожидания в лифте перед загрузкой сцены
     private bool playerInElevator = false;
     private float timer = 0f;
-    int l = StaticHolder.CurrentLevel + 1;
+    int l = 0;
     public GameObject loadingUI;
     public Slider progres;
     bool IsLoading = false;
@@ -19,6 +19,7 @@ public class UpdateLiftController : MonoBehaviour
 
     private void Start()
     {
+        l = StaticHolder.CurrentLevel + 1;
     }
 
     private void OnTriggerEnter(Collider other)
