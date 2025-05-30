@@ -21,7 +21,7 @@ public class SceneManagerMain : MonoBehaviour
     }
     void OnApplicationQuit()
     {
-        StaticHolder.SaveData();
+        
     }
     public void Begin()
     {
@@ -50,6 +50,7 @@ public class SceneManagerMain : MonoBehaviour
     public void Exi()
     {
         Debug.Log("Выход");
+        StaticHolder.SaveData();
         Application.Quit();
     }
     public void EndClose()

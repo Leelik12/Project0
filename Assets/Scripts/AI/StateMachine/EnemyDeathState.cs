@@ -26,14 +26,7 @@ public class DeathState : EnemyBaseState
     {
 
         yield return new WaitForSeconds(delay);
-
-        var particles = manager.GetComponentInChildren<ParticleSystem>();
-        if (particles != null)
-        {
-            particles.Play();
-        }
-
-        yield return new WaitForSeconds(particles.main.duration + 0.7f);
+        yield return new WaitForSeconds(0.7f);
         Object.Destroy(manager.gameObject);
     }
     public override void ExitState(EnemyStateManager manager)
