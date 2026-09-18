@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class GrabParenter : MonoBehaviour
@@ -7,14 +7,14 @@ public class GrabParenter : MonoBehaviour
     public void OnGrab(SelectEnterEventArgs args)
     {
         gun = args.interactableObject.transform.localScale;
-        Debug.Log("Âçÿë");
+        Debug.Log("Ğ’Ğ·ÑĞ»");
         args.interactableObject.transform.SetParent(args.interactorObject.transform);
         args.interactableObject.transform.localScale = gun;
     }
     public void OnUngrab(SelectExitEventArgs args)
     {
         args.interactableObject.transform.localScale = gun;
-        Debug.Log("Îòïóñòèë");
+        Debug.Log("ĞÑ‚Ğ¿ÑƒÑÑ‚Ğ¸Ğ»");
         args.interactableObject.transform.SetParent(null);
     }
 }

@@ -1,8 +1,8 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class CanvasManager : MonoBehaviour
 {
-    public Canvas[] excludedCanvases; // Укажи тут те 2 Canvas, которые нельзя отключать
+    public Canvas[] excludedCanvases; // РЈРєР°Р¶Рё С‚СѓС‚ С‚Рµ 2 Canvas, РєРѕС‚РѕСЂС‹Рµ РЅРµР»СЊР·СЏ РѕС‚РєР»СЋС‡Р°С‚СЊ
 
     public void DisableAllCanvasesExceptExcluded()
     {

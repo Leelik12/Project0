@@ -1,29 +1,29 @@
-using System.Collections;
+п»їusing System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class HelicopterController : MonoBehaviour
 {
-    public Transform player;                  // Ссылка на игрока
+    public Transform player;                  // РЎСЃС‹Р»РєР° РЅР° РёРіСЂРѕРєР°
     public Transform helicopter;
-    public GameObject hel; // Ссылка на вертолёт (родительский объект)
-    public HelicopterGunSystem gunSystem;     // Система стрельбы
-    public Transform exitPoint;               // Точка, из-под которой вылетает вертолёт
-    public Transform escapePoint;             // Точка куда улетит вертолёт перед смертью
+    public GameObject hel; // РЎСЃС‹Р»РєР° РЅР° РІРµСЂС‚РѕР»С‘С‚ (СЂРѕРґРёС‚РµР»СЊСЃРєРёР№ РѕР±СЉРµРєС‚)
+    public HelicopterGunSystem gunSystem;     // РЎРёСЃС‚РµРјР° СЃС‚СЂРµР»СЊР±С‹
+    public Transform exitPoint;               // РўРѕС‡РєР°, РёР·-РїРѕРґ РєРѕС‚РѕСЂРѕР№ РІС‹Р»РµС‚Р°РµС‚ РІРµСЂС‚РѕР»С‘С‚
+    public Transform escapePoint;             // РўРѕС‡РєР° РєСѓРґР° СѓР»РµС‚РёС‚ РІРµСЂС‚РѕР»С‘С‚ РїРµСЂРµРґ СЃРјРµСЂС‚СЊСЋ
     public AudioSource audioSource;
     public EnemyHeaths health;
 
-    public float flyOutSpeed = 5f;            // Скорость вылета
-    public float approachDistance = 10f;      // На каком расстоянии вертолёт начинает кружить
-    public float circleSpeed = 20f;           // Скорость вращения вокруг игрока (градусов в секунду)
+    public float flyOutSpeed = 5f;            // РЎРєРѕСЂРѕСЃС‚СЊ РІС‹Р»РµС‚Р°
+    public float approachDistance = 10f;      // РќР° РєР°РєРѕРј СЂР°СЃСЃС‚РѕСЏРЅРёРё РІРµСЂС‚РѕР»С‘С‚ РЅР°С‡РёРЅР°РµС‚ РєСЂСѓР¶РёС‚СЊ
+    public float circleSpeed = 20f;           // РЎРєРѕСЂРѕСЃС‚СЊ РІСЂР°С‰РµРЅРёСЏ РІРѕРєСЂСѓРі РёРіСЂРѕРєР° (РіСЂР°РґСѓСЃРѕРІ РІ СЃРµРєСѓРЅРґСѓ)
 
-    public float minDirectionChangeTime = 15f; // Мин. интервал смены направления
-    public float maxDirectionChangeTime = 30f; // Макс. интервал смены направления
+    public float minDirectionChangeTime = 15f; // РњРёРЅ. РёРЅС‚РµСЂРІР°Р» СЃРјРµРЅС‹ РЅР°РїСЂР°РІР»РµРЅРёСЏ
+    public float maxDirectionChangeTime = 30f; // РњР°РєСЃ. РёРЅС‚РµСЂРІР°Р» СЃРјРµРЅС‹ РЅР°РїСЂР°РІР»РµРЅРёСЏ
 
     private bool isActivated = false;
     private bool isCircling = false;
-    private int circleDirection = 1;          // 1 или -1
+    private int circleDirection = 1;          // 1 РёР»Рё -1
     public float delayAfterDeath = 5f;
 
     private void OnTriggerEnter(Collider other)
@@ -43,7 +43,7 @@ public class HelicopterController : MonoBehaviour
             audioSource.Play();
         }
 
-        // Вылет из под здания к точке над крышей (рядом с игроком)
+        // Р’С‹Р»РµС‚ РёР· РїРѕРґ Р·РґР°РЅРёСЏ Рє С‚РѕС‡РєРµ РЅР°Рґ РєСЂС‹С€РµР№ (СЂСЏРґРѕРј СЃ РёРіСЂРѕРєРѕРј)
         Vector3 targetPos = player.position + (player.forward * approachDistance) + Vector3.up * 10f;
         while (Vector3.Distance(helicopter.position, targetPos) > 0.5f)
         {
@@ -51,7 +51,7 @@ public class HelicopterController : MonoBehaviour
             yield return null;
         }
 
-        // Плавно разворачиваем вертолёт лицом к игроку
+        // РџР»Р°РІРЅРѕ СЂР°Р·РІРѕСЂР°С‡РёРІР°РµРј РІРµСЂС‚РѕР»С‘С‚ Р»РёС†РѕРј Рє РёРіСЂРѕРєСѓ
         Quaternion targetRotation = GetCorrectedLookRotation(player.position - helicopter.position);
         while (Quaternion.Angle(helicopter.rotation, targetRotation) > 1f)
         {
@@ -64,7 +64,7 @@ public class HelicopterController : MonoBehaviour
             gunSystem.ActivateWeapons();
         }
 
-        // Запускаем кружение
+        // Р—Р°РїСѓСЃРєР°РµРј РєСЂСѓР¶РµРЅРёРµ
         isCircling = true;
 
         StartCoroutine(ChangeDirectionRoutine());
@@ -83,12 +83,12 @@ public class HelicopterController : MonoBehaviour
     {
         if (!isActivated) return;
 
-        // Проверка смерти
+        // РџСЂРѕРІРµСЂРєР° СЃРјРµСЂС‚Рё
         if (health != null && health.GetCurrentHp() <= 0f)
         {
             StartCoroutine(EscapeAndDestroy());
             OnFinalBossDefeated();
-            isActivated = false; // Чтобы не запускался снова
+            isActivated = false; // Р§С‚РѕР±С‹ РЅРµ Р·Р°РїСѓСЃРєР°Р»СЃСЏ СЃРЅРѕРІР°
             return;
         }
 
@@ -113,76 +113,53 @@ public class HelicopterController : MonoBehaviour
 
         Vector3 target = escapePoint.position;
 
-        // Разворачиваем вертолет в сторону точки побега
+        // Р Р°Р·РІРѕСЂР°С‡РёРІР°РµРј РІРµСЂС‚РѕР»РµС‚ РІ СЃС‚РѕСЂРѕРЅСѓ С‚РѕС‡РєРё РїРѕР±РµРіР°
         Vector3 directionToEscape = target - helicopter.position;
         Quaternion targetRotation = GetCorrectedLookRotation(directionToEscape);
 
-        // Плавно разворачиваем вертолет в нужное направление
+        // РџР»Р°РІРЅРѕ СЂР°Р·РІРѕСЂР°С‡РёРІР°РµРј РІРµСЂС‚РѕР»РµС‚ РІ РЅСѓР¶РЅРѕРµ РЅР°РїСЂР°РІР»РµРЅРёРµ
         while (Quaternion.Angle(helicopter.rotation, targetRotation) > 1f)
         {
             helicopter.rotation = Quaternion.Slerp(helicopter.rotation, targetRotation, 2f * Time.deltaTime);
             yield return null;
         }
 
-        // Перемещаем вертолет в точку побега
+        // РџРµСЂРµРјРµС‰Р°РµРј РІРµСЂС‚РѕР»РµС‚ РІ С‚РѕС‡РєСѓ РїРѕР±РµРіР°
         while (Vector3.Distance(helicopter.position, target) > 1f)
         {
             helicopter.position = Vector3.MoveTowards(helicopter.position, target, flyOutSpeed * 1.5f * Time.deltaTime);
             yield return null;
         }
 
-        // Останавливаем звук, если он был
+        // РћСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р·РІСѓРє, РµСЃР»Рё РѕРЅ Р±С‹Р»
         if (audioSource != null)
             audioSource.Stop();
 
-        // Уничтожаем вертолет
+        // РЈРЅРёС‡С‚РѕР¶Р°РµРј РІРµСЂС‚РѕР»РµС‚
         Destroy(hel);
     }
 
 
 
-    // Эта функция корректирует поворот с учётом того, что нос модели по X+
+    // Р­С‚Р° С„СѓРЅРєС†РёСЏ РєРѕСЂСЂРµРєС‚РёСЂСѓРµС‚ РїРѕРІРѕСЂРѕС‚ СЃ СѓС‡С‘С‚РѕРј С‚РѕРіРѕ, С‡С‚Рѕ РЅРѕСЃ РјРѕРґРµР»Рё РїРѕ X+
     Quaternion GetCorrectedLookRotation(Vector3 direction)
     {
         Quaternion baseRotation = Quaternion.LookRotation(direction);
-        // Поворачиваем на -90° вокруг Y, чтобы forward стал по X (а не по Z)
+        // РџРѕРІРѕСЂР°С‡РёРІР°РµРј РЅР° -90В° РІРѕРєСЂСѓРі Y, С‡С‚РѕР±С‹ forward СЃС‚Р°Р» РїРѕ X (Р° РЅРµ РїРѕ Z)
         baseRotation *= Quaternion.Euler(0, -90f, 0);
         return baseRotation;
     }
 
     public void OnFinalBossDefeated()
     {
-        Debug.Log("Финальный босс побеждён!");
+        Debug.Log("Р¤РёРЅР°Р»СЊРЅС‹Р№ Р±РѕСЃСЃ РїРѕР±РµР¶РґС‘РЅ!");
         StartCoroutine(DelayedVictory());
     }
     IEnumerator DelayedVictory()
     {
         yield return new WaitForSeconds(delayAfterDeath);
         StaticHolder.GameOver = true;
-        Debug.Log("Выход в мэйн");
-        if (StaticHolder.StrongArms && StaticHolder.StrongLegs) { StaticHolder.Ciborg = true; }
-        StaticHolder.DieStation = true;
-        StaticHolder.CurrentGun = 0;
-        StaticHolder.BuffGrenade = false;
-        StaticHolder.BuffGunFireRate = 1f;
-        StaticHolder.BuffGunDamage = 1f;
-        StaticHolder.BuffGunMaxAmmo = 1f;
-        StaticHolder.PlayerHPBuff = 0;
-        StaticHolder.PlayerBasicSpeed = 3f;
-        StaticHolder.SpeedBuffAfterDamage = false;
-        StaticHolder.SpeedAfterDamageValue = 1f;
-        StaticHolder.PropitalHeal = false;
-        StaticHolder.PropitalHealActive = false;
-        StaticHolder.Sandevistan = false;
-        StaticHolder.SandevistanActive = false;
-        StaticHolder.Akimbo = false;
-        StaticHolder.AkimboWas = false;
-        StaticHolder.Katana = false;
-        StaticHolder.StrongArms = false;
-        StaticHolder.StrongArmsKoef = 1f;
-        StaticHolder.StrongLegs = false;
-        StaticHolder.StrongLegsKoef = 1f;
-        StaticHolder.SaveData();
+        StaticHolder.ResetRun();
         SceneManager.LoadSceneAsync(0);
     }
 }

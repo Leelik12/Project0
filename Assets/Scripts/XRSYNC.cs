@@ -1,40 +1,40 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class XRBodyColliderSync : MonoBehaviour
 {
-    [Header("XR Camera (обычно: XR Origin/Main Camera)")]
+    [Header("XR Camera (РѕР±С‹С‡РЅРѕ: XR Origin/Main Camera)")]
     [SerializeField] private Transform cameraTransform;
 
     [Header("Character Controller")]
-    [SerializeField] private CharacterController characterController; // Используем CharacterController
+    [SerializeField] private CharacterController characterController; // РСЃРїРѕР»СЊР·СѓРµРј CharacterController
 
-    [Header("Настройки Capsule")]
-    [SerializeField] private float skinWidth = 0.05f; // отступ от пола
+    [Header("РќР°СЃС‚СЂРѕР№РєРё Capsule")]
+    [SerializeField] private float skinWidth = 0.05f; // РѕС‚СЃС‚СѓРї РѕС‚ РїРѕР»Р°
     [SerializeField] public GameObject PosBelt;
 
     private void Reset()
     {
         cameraTransform = Camera.main?.transform;
-        characterController = GetComponent<CharacterController>(); // Получаем CharacterController
+        characterController = GetComponent<CharacterController>(); // РџРѕР»СѓС‡Р°РµРј CharacterController
     }
 
     private void LateUpdate()
     {
         if (cameraTransform == null || characterController == null)
         {
-            //Debug.LogWarning("CameraTransform или CharacterController не назначены.");
+            //Debug.LogWarning("CameraTransform РёР»Рё CharacterController РЅРµ РЅР°Р·РЅР°С‡РµРЅС‹.");
             return;
         }
 
-        // Лог глобальных позиций камеры и объекта
+        // Р›РѕРі РіР»РѕР±Р°Р»СЊРЅС‹С… РїРѕР·РёС†РёР№ РєР°РјРµСЂС‹ Рё РѕР±СЉРµРєС‚Р°
         //Debug.Log($"[DEBUG] cameraTransform.position = {cameraTransform.position}");
         //Debug.Log($"[DEBUG] XR Origin (this.transform.position) = {transform.position}");
 
-        // Получаем локальную позицию головы относительно XR Origin
+        // РџРѕР»СѓС‡Р°РµРј Р»РѕРєР°Р»СЊРЅСѓСЋ РїРѕР·РёС†РёСЋ РіРѕР»РѕРІС‹ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ XR Origin
         Vector3 localHeadPos = transform.InverseTransformPoint(cameraTransform.position);
         //Debug.Log($"[DEBUG] localHeadPos = {localHeadPos}");
 
-        // Обновляем высоту CharacterController (с учетом skin width)
+        // РћР±РЅРѕРІР»СЏРµРј РІС‹СЃРѕС‚Сѓ CharacterController (СЃ СѓС‡РµС‚РѕРј skin width)
         float newHeight = Mathf.Clamp(localHeadPos.y, 0.5f, 3.0f);
         characterController.height = newHeight;
         characterController.center = new Vector3(localHeadPos.x, newHeight / 2f + skinWidth, localHeadPos.z);

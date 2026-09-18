@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class ActivateOnTrigger : MonoBehaviour
 {
@@ -13,13 +13,13 @@ public class ActivateOnTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"{other.name} вошёл");
+        Debug.Log($"{other.name} РІРѕС€С‘Р»");
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Игрок вошёл");
+            Debug.Log("РРіСЂРѕРє РІРѕС€С‘Р»");
             foreach (EnemyStateManager manager in enemyStateManagers)
             {
-                Debug.Log($"{manager.name} активировался");
+                Debug.Log($"{manager.name} Р°РєС‚РёРІРёСЂРѕРІР°Р»СЃСЏ");
                 manager.enabled = true;
             }
         }

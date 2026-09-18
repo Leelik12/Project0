@@ -1,20 +1,21 @@
-using UnityEngine;
-using UnityEngine.UI; // Для работы с UI, если будет текст
+п»їusing UnityEngine;
+using UnityEngine.UI; // Р”Р»СЏ СЂР°Р±РѕС‚С‹ СЃ UI, РµСЃР»Рё Р±СѓРґРµС‚ С‚РµРєСЃС‚
 
 public class LevelManager : MonoBehaviour
 {
-    [Header("Настройки уровня")]
-    public GameObject[] enemies;      // Все враги на уровне
-    public GameObject optionalItem;   // Опциональный предмет для подбора (может быть null)
-    [Header("UI элементы")]
-    public Text progressText;         // Текст прогресса (заполни в инспекторе)
+    [Header("РќР°СЃС‚СЂРѕР№РєРё СѓСЂРѕРІРЅСЏ")]
+    public GameObject[] enemies;      // Р’СЃРµ РІСЂР°РіРё РЅР° СѓСЂРѕРІРЅРµ
+    public GameObject optionalItem;   // РћРїС†РёРѕРЅР°Р»СЊРЅС‹Р№ РїСЂРµРґРјРµС‚ РґР»СЏ РїРѕРґР±РѕСЂР° (РјРѕР¶РµС‚ Р±С‹С‚СЊ null)
+    [Header("UI СЌР»РµРјРµРЅС‚С‹")]
+    public Text progressText;         // РўРµРєСЃС‚ РїСЂРѕРіСЂРµСЃСЃР° (Р·Р°РїРѕР»РЅРё РІ РёРЅСЃРїРµРєС‚РѕСЂРµ)
 
     private bool itemPickedUp = false;
     private bool allEnemiesDefeated = false;
+    private bool levelCompleted = false;
 
     void Start()
     {
-        // Инициализация: можно обновить UI в начале
+        // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ: РјРѕР¶РЅРѕ РѕР±РЅРѕРІРёС‚СЊ UI РІ РЅР°С‡Р°Р»Рµ
         UpdateProgressUI();
     }
 
@@ -25,21 +26,17 @@ public class LevelManager : MonoBehaviour
 
     void CheckMissionStatus()
     {
-        // Проверка всех врагов
+        // РџСЂРѕРІРµСЂРєР° РІСЃРµС… РІСЂР°РіРѕРІ
         allEnemiesDefeated = AreAllEnemiesDefeated();
 
-        // Если все условия выполнены
-        if (allEnemiesDefeated)
+        // Р•СЃР»Рё РІСЃРµ СѓСЃР»РѕРІРёСЏ РІС‹РїРѕР»РЅРµРЅС‹
+        if (allEnemiesDefeated && !levelCompleted)
         {
+            levelCompleted = true;
             LevelCompleted();
         }
-        if (itemPickedUp)
-        {
-            Debug.Log("Предмет подобран!");
-            StaticHolder.ItemPickedUp = true;
-        }
 
-        // Обновляем прогресс на UI
+        // РћР±РЅРѕРІР»СЏРµРј РїСЂРѕРіСЂРµСЃСЃ РЅР° UI
         UpdateProgressUI();
     }
 
@@ -47,7 +44,7 @@ public class LevelManager : MonoBehaviour
     {
         foreach (GameObject enemy in enemies)
         {
-            if (enemy != null) // Если враг еще существует
+            if (enemy != null) // Р•СЃР»Рё РІСЂР°Рі РµС‰Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚
             {
                 return false;
             }
@@ -58,6 +55,8 @@ public class LevelManager : MonoBehaviour
     public void OnItemPickedUp()
     {
         itemPickedUp = true;
+        StaticHolder.ItemPickedUp = true;
+        Debug.Log("РџСЂРµРґРјРµС‚ РїРѕРґРѕР±СЂР°РЅ!");
     }
 
     void UpdateProgressUI()
@@ -67,16 +66,16 @@ public class LevelManager : MonoBehaviour
             string progress = "";
 
             if (allEnemiesDefeated)
-                progress += "Враги уничтожены! ";
+                progress += "Р’СЂР°РіРё СѓРЅРёС‡С‚РѕР¶РµРЅС‹! ";
             else
-                progress += "Уничтожьте всех врагов. ";
+                progress += "РЈРЅРёС‡С‚РѕР¶СЊС‚Рµ РІСЃРµС… РІСЂР°РіРѕРІ. ";
 
             if (optionalItem != null)
             {
                 if (itemPickedUp)
-                    progress += "Предмет подобран!";
+                    progress += "РџСЂРµРґРјРµС‚ РїРѕРґРѕР±СЂР°РЅ!";
                 else
-                    progress += "Найдите предмет.";
+                    progress += "РќР°Р№РґРёС‚Рµ РїСЂРµРґРјРµС‚.";
             }
 
             progressText.text = progress;
@@ -85,10 +84,10 @@ public class LevelManager : MonoBehaviour
 
     void LevelCompleted()
     {
-        Debug.Log("Уровень пройден!");
+        Debug.Log("РЈСЂРѕРІРµРЅСЊ РїСЂРѕР№РґРµРЅ!");
         StaticHolder.levelCheksComplete = true;
-        // Здесь вызови свой метод завершения уровня
-        // Например: GameManager.Instance.CompleteLevel();
+        // Р—РґРµСЃСЊ РІС‹Р·РѕРІРё СЃРІРѕР№ РјРµС‚РѕРґ Р·Р°РІРµСЂС€РµРЅРёСЏ СѓСЂРѕРІРЅСЏ
+        // РќР°РїСЂРёРјРµСЂ: GameManager.Instance.CompleteLevel();
     }
 }
 

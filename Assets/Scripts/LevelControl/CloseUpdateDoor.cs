@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class CloseUpdateDoors : MonoBehaviour
 {
@@ -23,7 +23,7 @@ public class CloseUpdateDoors : MonoBehaviour
 
             if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
             {
-                isOpening = false; // îñòàíîâêà àíèìàöèè ïîñëå çàâåðøåíèÿ
+                isOpening = false; // Ð¾ÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸Ð¸ Ð¿Ð¾ÑÐ»Ðµ Ð·Ð°Ð²ÐµÑ€ÑˆÐµÐ½Ð¸Ñ
             }
         }
     }
@@ -39,7 +39,7 @@ public class CloseUpdateDoors : MonoBehaviour
             {
                 openSound.Play();
             }
-            Debug.Log("Äâåðü çàêðûâàåòñÿ");
+            Debug.Log("Ð”Ð²ÐµÑ€ÑŒ Ð·Ð°ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ÑÑ");
         }
 
     }

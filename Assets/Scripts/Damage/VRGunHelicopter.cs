@@ -1,36 +1,36 @@
-using System.Collections;
+п»їusing System.Collections;
 using UnityEngine;
 
 public class HelicopterGunSystem : MonoBehaviour
 {
-    [Header("Настройки точек стрельбы")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё С‚РѕС‡РµРє СЃС‚СЂРµР»СЊР±С‹")]
     public Transform[] firePoints;
 
-    [Header("Настройки стрельбы")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё СЃС‚СЂРµР»СЊР±С‹")]
     public float fireRate = 0.1f;
-    public float burstInterval = 4f; // Интервал между очередями
+    public float burstInterval = 4f; // РРЅС‚РµСЂРІР°Р» РјРµР¶РґСѓ РѕС‡РµСЂРµРґСЏРјРё
     public int burstCountMin = 15;
     public int burstCountMax = 20;
     public float damage = 10f;
     public float range = 100f;
     public float spreadAngle = 5f;
 
-    [Header("Эффекты")]
+    [Header("Р­С„С„РµРєС‚С‹")]
     public ParticleSystem[] muzzleFlashes;
     public Light[] muzzleLights;
     public float lightDuration = 0.05f;
 
-    [Header("Декали")]
+    [Header("Р”РµРєР°Р»Рё")]
     public GameObject hitEffectDust;
     public GameObject hitEffectSparks;
     public float hitEffectLifetime = 5f;
     public float effectOffset = 0.01f;
 
-    [Header("Звук")]
+    [Header("Р—РІСѓРє")]
     public AudioSource audioSource;
     public AudioClip shotSound;
 
-    [Header("Цель и автоогонь")]
+    [Header("Р¦РµР»СЊ Рё Р°РІС‚РѕРѕРіРѕРЅСЊ")]
     public bool autoFire = true;
     public string targetTag = "Player";
 
@@ -70,7 +70,7 @@ public class HelicopterGunSystem : MonoBehaviour
 
     void Fire(Transform firePoint, int index)
     {
-        // Эффекты
+        // Р­С„С„РµРєС‚С‹
         if (muzzleFlashes != null && index < muzzleFlashes.Length && muzzleFlashes[index] != null)
             muzzleFlashes[index].Play();
 
@@ -120,7 +120,7 @@ public class HelicopterGunSystem : MonoBehaviour
         muzzleLight.enabled = false;
     }
 
-    // Внешний вызов для деактивации стрельбы
+    // Р’РЅРµС€РЅРёР№ РІС‹Р·РѕРІ РґР»СЏ РґРµР°РєС‚РёРІР°С†РёРё СЃС‚СЂРµР»СЊР±С‹
     public void DeactivateWeapons()
     {
         autoFire = false;

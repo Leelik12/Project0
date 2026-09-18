@@ -1,12 +1,12 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class WeaponSpawnManager : MonoBehaviour
 {
-    [Header("Настройки")]
-    [Tooltip("0 - АКМ, 1 - Лазерный Пистолет, 2 - Лазерная винтовка, 3 - Пистолет; 4 - Граната; 5 - Винтовка P40; 6 - дробовик; 7 - Полицейская дубинка; 8 - Бейсбольная бита")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё")]
+    [Tooltip("0 - РђРљРњ, 1 - Р›Р°Р·РµСЂРЅС‹Р№ РџРёСЃС‚РѕР»РµС‚, 2 - Р›Р°Р·РµСЂРЅР°СЏ РІРёРЅС‚РѕРІРєР°, 3 - РџРёСЃС‚РѕР»РµС‚; 4 - Р“СЂР°РЅР°С‚Р°; 5 - Р’РёРЅС‚РѕРІРєР° P40; 6 - РґСЂРѕР±РѕРІРёРє; 7 - РџРѕР»РёС†РµР№СЃРєР°СЏ РґСѓР±РёРЅРєР°; 8 - Р‘РµР№СЃР±РѕР»СЊРЅР°СЏ Р±РёС‚Р°")]
     public int weaponIndex;
 
-    [Header("Точки спавна")]
+    [Header("РўРѕС‡РєРё СЃРїР°РІРЅР°")]
     public Transform weaponSpawnPoint;
     public Transform weaponSpawnPointAkimbo;
     public Transform ammoSpawnPoint1;
@@ -20,7 +20,7 @@ public class WeaponSpawnManager : MonoBehaviour
     public Transform ammoSpawnPoint9;
     public Transform Grenade;
 
-    [Header("Префабы оружия")]
+    [Header("РџСЂРµС„Р°Р±С‹ РѕСЂСѓР¶РёСЏ")]
     public GameObject AKM;
     public GameObject LaserPistol;
     public GameObject LaserRifle;
@@ -31,7 +31,7 @@ public class WeaponSpawnManager : MonoBehaviour
     public GameObject Beat;
     public GameObject Grenad;
 
-    [Header("Префабы боеприпасов")]
+    [Header("РџСЂРµС„Р°Р±С‹ Р±РѕРµРїСЂРёРїР°СЃРѕРІ")]
     public GameObject pistolAmmoPrefab;
     public GameObject AKMAmmoPrefab;
     public GameObject shotgunAmmoPrefab;
@@ -78,7 +78,7 @@ public class WeaponSpawnManager : MonoBehaviour
                 weaponToSpawn = Beat;
                 break;
             default:
-                Debug.LogWarning("Неверный индекс оружия!");
+                Debug.LogWarning("РќРµРІРµСЂРЅС‹Р№ РёРЅРґРµРєСЃ РѕСЂСѓР¶РёСЏ!");
                 return;
         }
 

@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class DifficultyChanger : MonoBehaviour
 {
@@ -9,13 +9,13 @@ public class DifficultyChanger : MonoBehaviour
         EasyDiffGal.SetActive(true);
         HardDiffGal.SetActive(false);
         StaticHolder.Difficulty = false;
-        Debug.Log("Установлена легкая сложность!");
+        Debug.Log("РЈСЃС‚Р°РЅРѕРІР»РµРЅР° Р»РµРіРєР°СЏ СЃР»РѕР¶РЅРѕСЃС‚СЊ!");
     }
     public void HardDif()
     {
         EasyDiffGal.SetActive(false);
         HardDiffGal.SetActive(true);
         StaticHolder.Difficulty = true;
-        Debug.Log("Установлена сложная сложность!");
+        Debug.Log("РЈСЃС‚Р°РЅРѕРІР»РµРЅР° СЃР»РѕР¶РЅР°СЏ СЃР»РѕР¶РЅРѕСЃС‚СЊ!");
     }
 }

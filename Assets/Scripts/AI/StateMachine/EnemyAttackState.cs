@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class EnemyAttackState : EnemyBaseState
 {
@@ -21,7 +21,7 @@ public class EnemyAttackState : EnemyBaseState
         bool canSeePlayer = manager.CanSeePlayer();
         float distanceToPlayer = manager.DistanceToPlayer();
 
-        // Если игрок вне радиуса атаки — уходим в Agro или Search
+        // Р•СЃР»Рё РёРіСЂРѕРє РІРЅРµ СЂР°РґРёСѓСЃР° Р°С‚Р°РєРё вЂ” СѓС…РѕРґРёРј РІ Agro РёР»Рё Search
         if (distanceToPlayer > manager.attackDistance && canSeePlayer)
         {
             manager.SwitchState(manager.AgroState);
@@ -40,14 +40,14 @@ public class EnemyAttackState : EnemyBaseState
             return;
         }
 
-        // ВАЖНО: если игрок не виден даже на близком расстоянии — уходим в SearchState
+        // Р’РђР–РќРћ: РµСЃР»Рё РёРіСЂРѕРє РЅРµ РІРёРґРµРЅ РґР°Р¶Рµ РЅР° Р±Р»РёР·РєРѕРј СЂР°СЃСЃС‚РѕСЏРЅРёРё вЂ” СѓС…РѕРґРёРј РІ SearchState
         if (!canSeePlayer)
         {
             manager.SwitchState(manager.SearchState);
             return;
         }
 
-        // Вращаемся к игроку
+        // Р’СЂР°С‰Р°РµРјСЃСЏ Рє РёРіСЂРѕРєСѓ
         Vector3 direction = (manager.player.position - manager.transform.position).normalized;
         direction.y = 0;
 

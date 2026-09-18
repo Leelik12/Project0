@@ -1,8 +1,8 @@
-using UnityEngine;
-// Список оружий по коду 0 - Акм; 1 - Лазер. пистолет; 2 - Лазер. винтовка; 3 - Пистолет; 4 - Граната; 5 - Винтовка P40; 6 - дробовик; 7 - Полицейская дубинка; 8 - Бейсбольная бита
+п»їusing UnityEngine;
+// РЎРїРёСЃРѕРє РѕСЂСѓР¶РёР№ РїРѕ РєРѕРґСѓ 0 - РђРєРј; 1 - Р›Р°Р·РµСЂ. РїРёСЃС‚РѕР»РµС‚; 2 - Р›Р°Р·РµСЂ. РІРёРЅС‚РѕРІРєР°; 3 - РџРёСЃС‚РѕР»РµС‚; 4 - Р“СЂР°РЅР°С‚Р°; 5 - Р’РёРЅС‚РѕРІРєР° P40; 6 - РґСЂРѕР±РѕРІРёРє; 7 - РџРѕР»РёС†РµР№СЃРєР°СЏ РґСѓР±РёРЅРєР°; 8 - Р‘РµР№СЃР±РѕР»СЊРЅР°СЏ Р±РёС‚Р°
 public static class StaticHolder
 {
-    //Для настроек и статистики достижений
+    //Р”Р»СЏ РЅР°СЃС‚СЂРѕРµРє Рё СЃС‚Р°С‚РёСЃС‚РёРєРё РґРѕСЃС‚РёР¶РµРЅРёР№
     public static float GunVolume = 0.6f;
     public static float EnvVolume = 0.6f;
     public static bool Difficulty = false;
@@ -11,9 +11,10 @@ public static class StaticHolder
     public static float Damage;
     public static bool Ciborg;
     public static bool DiedinCyberpunk;
-    public static bool GameOver = false;
+    public static bool GameOver = false;   // РїРѕР±РµРґР°: РїРѕРєР°Р·Р°С‚СЊ СЌРєСЂР°РЅ End РІ РјРµРЅСЋ (С‚РѕР»СЊРєРѕ РІ РїР°РјСЏС‚Рё, РЅРµ СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ)
+    public static bool PlayerLost = false; // РїРѕСЂР°Р¶РµРЅРёРµ: РїРѕРєР°Р·Р°С‚СЊ СЌРєСЂР°РЅ Defeat РІ РјРµРЅСЋ (С‚РѕР»СЊРєРѕ РІ РїР°РјСЏС‚Рё, РЅРµ СЃРѕС…СЂР°РЅСЏРµС‚СЃСЏ)
 
-    //Для контролирования состояния уровня
+    //Р”Р»СЏ РєРѕРЅС‚СЂРѕР»РёСЂРѕРІР°РЅРёСЏ СЃРѕСЃС‚РѕСЏРЅРёСЏ СѓСЂРѕРІРЅСЏ
     public static bool UpdateCheck;
     public static bool levelCheksComplete;
     public static bool ItemPickedUp = false;
@@ -21,16 +22,16 @@ public static class StaticHolder
     public static int CurrentLevel =2;
     public static bool DieStation;
 
-    //Все что нужно для апдейт сцены
+    //Р’СЃРµ С‡С‚Рѕ РЅСѓР¶РЅРѕ РґР»СЏ Р°РїРґРµР№С‚ СЃС†РµРЅС‹
     public static int CurrentGun = 0;
-    public static bool CurrentGrenade; //есть они или нет
+    public static bool CurrentGrenade; //РµСЃС‚СЊ РѕРЅРё РёР»Рё РЅРµС‚
     public static float CurrentGunFireRate;
     public static float CurrentGunDamage;
     public static int CurrentGunMaxAmmo;
 
     public static bool UpdateLevelEnd = false;
 
-    public static bool BuffGrenade = false; //есть они или нет
+    public static bool BuffGrenade = false; //РµСЃС‚СЊ РѕРЅРё РёР»Рё РЅРµС‚
     public static float BuffGunFireRate = 1f;
     public static float BuffGunDamage = 1f;
     public static float BuffGunMaxAmmo = 1f;
@@ -56,6 +57,38 @@ public static class StaticHolder
     public static bool StrongLegs = false;
     public static float StrongLegsKoef = 1f;
 
+    // РЎР±СЂРѕСЃ РІСЃРµРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ Р·Р°Р±РµРіР° (РїСЂРѕРєР°С‡РєР°, РѕСЂСѓР¶РёРµ, РёРјРїР»Р°РЅС‚С‹). Р’С‹Р·С‹РІР°РµС‚СЃСЏ РїСЂРё СЃРјРµСЂС‚Рё, РїРѕР±РµРґРµ Рё РІС‹С…РѕРґРµ РІ РјРµРЅСЋ.
+    public static void ResetRun()
+    {
+        if (StrongArms && StrongLegs) { Ciborg = true; }
+        DieStation = true;
+        CurrentGun = 0;
+        CurrentGrenade = false;
+        BuffGrenade = false;
+        BuffGunFireRate = 1f;
+        BuffGunDamage = 1f;
+        BuffGunMaxAmmo = 1f;
+        PlayerHPBuff = 0;
+        PlayerBasicSpeed = 3f;
+        SpeedBuffAfterDamage = false;
+        SpeedAfterDamageValue = 1f;
+        PropitalHeal = false;
+        PropitalHealActive = false;
+        Sandevistan = false;
+        SandevistanActive = false;
+        Akimbo = false;
+        AkimboWas = false;
+        Katana = false;
+        StrongArms = false;
+        StrongArmsKoef = 1f;
+        StrongLegs = false;
+        StrongLegsKoef = 1f;
+        levelCheksComplete = false;
+        ItemPickedUp = false;
+        UpdateLevelEnd = false;
+        SaveData();
+    }
+
     public static void SaveData()
     {
         PlayerPrefs.SetFloat("GunVolume", GunVolume);
@@ -66,7 +99,6 @@ public static class StaticHolder
         PlayerPrefs.SetFloat("Damage", Damage);
         PlayerPrefs.SetInt("Ciborg", Ciborg ? 1 : 0);
         PlayerPrefs.SetInt("DiedinCyberpunk", DiedinCyberpunk ? 1 : 0);
-        PlayerPrefs.SetInt("GameOver", GameOver ? 1 : 0);
 
         PlayerPrefs.SetInt("levelCheksComplete", levelCheksComplete ? 1 : 0);
         PlayerPrefs.SetInt("ItemPickedUp", ItemPickedUp ? 1 : 0);
@@ -95,11 +127,9 @@ public static class StaticHolder
         PlayerPrefs.SetFloat("SpeedTimeAfterDamage", SpeedTimeAfterDamage);
 
         PlayerPrefs.SetInt("PropitalHeal", PropitalHeal ? 1 : 0);
-        PlayerPrefs.SetInt("PropitalHealActive", PropitalHealActive ? 1 : 0);
         PlayerPrefs.SetFloat("PropitalHealValue", PropitalHealValue);
 
         PlayerPrefs.SetInt("Sandevistan", Sandevistan ? 1 : 0);
-        PlayerPrefs.SetInt("SandevistanActive", SandevistanActive ? 1 : 0);
         PlayerPrefs.SetInt("SandevistanTime", SandevistanTime);
         PlayerPrefs.SetFloat("SandevistanTimeSlower", SandevistanTimeSlower);
 
@@ -125,7 +155,6 @@ public static class StaticHolder
         Damage = PlayerPrefs.GetFloat("Damage", 0f);
         Ciborg = PlayerPrefs.GetInt("Ciborg", 0) == 1;
         DiedinCyberpunk = PlayerPrefs.GetInt("DiedinCyberpunk", 0) == 1;
-        GameOver = PlayerPrefs.GetInt("GameOver", 0) == 1;
 
         levelCheksComplete = PlayerPrefs.GetInt("levelCheksComplete", 0) == 1;
         ItemPickedUp = PlayerPrefs.GetInt("ItemPickedUp", 0) == 1;
@@ -154,11 +183,9 @@ public static class StaticHolder
         SpeedTimeAfterDamage = PlayerPrefs.GetFloat("SpeedTimeAfterDamage", 0f);
 
         PropitalHeal = PlayerPrefs.GetInt("PropitalHeal", 0) == 1;
-        PropitalHealActive = PlayerPrefs.GetInt("PropitalHealActive", 0) == 1;
         PropitalHealValue = PlayerPrefs.GetFloat("PropitalHealValue", 0f);
 
         Sandevistan = PlayerPrefs.GetInt("Sandevistan", 0) == 1;
-        SandevistanActive = PlayerPrefs.GetInt("SandevistanActive", 0) == 1;
         SandevistanTime = PlayerPrefs.GetInt("SandevistanTime", 0);
         SandevistanTimeSlower = PlayerPrefs.GetFloat("SandevistanTimeSlower", 0f);
 

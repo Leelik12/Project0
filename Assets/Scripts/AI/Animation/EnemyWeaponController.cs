@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class EnemyWeaponController : MonoBehaviour
 {
@@ -8,9 +8,9 @@ public class EnemyWeaponController : MonoBehaviour
     public Transform holdWalkPoint;
     public Transform holdAttackPoint;
 
-    private Transform targetPoint; // Куда хотим прийти
-    private float smoothTime = 0.2f; // Время сглаживания
-    private Vector3 velocity = Vector3.zero; // для сглаживания позиции
+    private Transform targetPoint; // РљСѓРґР° С…РѕС‚РёРј РїСЂРёР№С‚Рё
+    private float smoothTime = 0.2f; // Р’СЂРµРјСЏ СЃРіР»Р°Р¶РёРІР°РЅРёСЏ
+    private Vector3 velocity = Vector3.zero; // РґР»СЏ СЃРіР»Р°Р¶РёРІР°РЅРёСЏ РїРѕР·РёС†РёРё
 
     private void Update()
     {

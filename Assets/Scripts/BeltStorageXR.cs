@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -149,7 +149,7 @@ public class BeltStorageXR : MonoBehaviour
         {
             GameObject item = storedObjects[i];
 
-            // Если предмет пропал или был уничтожен
+            // Р•СЃР»Рё РїСЂРµРґРјРµС‚ РїСЂРѕРїР°Р» РёР»Рё Р±С‹Р» СѓРЅРёС‡С‚РѕР¶РµРЅ
             if (item == null || !item.activeInHierarchy)
             {
                 storedObjects[i] = null;
