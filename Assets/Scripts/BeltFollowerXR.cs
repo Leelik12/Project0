@@ -1,24 +1,24 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class BeltFollower : MonoBehaviour
 {
     public Transform headTransform; // Main Camera
-    public Vector3 localOffset = new Vector3(0, -0.5f, 0.3f); // Смещение "вперёд" от головы, как если бы объект был дочерним
+    public Vector3 localOffset = new Vector3(0, -0.5f, 0.3f); // РЎРјРµС‰РµРЅРёРµ "РІРїРµСЂС‘Рґ" РѕС‚ РіРѕР»РѕРІС‹, РєР°Рє РµСЃР»Рё Р±С‹ РѕР±СЉРµРєС‚ Р±С‹Р» РґРѕС‡РµСЂРЅРёРј
 
     void LateUpdate()
     {
-        // Получаем плоское направление взгляда (вектор вперед по Y=0)
+        // РџРѕР»СѓС‡Р°РµРј РїР»РѕСЃРєРѕРµ РЅР°РїСЂР°РІР»РµРЅРёРµ РІР·РіР»СЏРґР° (РІРµРєС‚РѕСЂ РІРїРµСЂРµРґ РїРѕ Y=0)
         Vector3 flatForward = Vector3.ProjectOnPlane(headTransform.forward, Vector3.up).normalized;
         Vector3 flatRight = Vector3.Cross(Vector3.up, flatForward).normalized;
 
-        // Собираем матрицу горизонтального вращения
+        // РЎРѕР±РёСЂР°РµРј РјР°С‚СЂРёС†Сѓ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРіРѕ РІСЂР°С‰РµРЅРёСЏ
         Quaternion flatRotation = Quaternion.LookRotation(flatForward, Vector3.up);
 
-        // Позиция — как если бы offset применялся в этой плоскости
+        // РџРѕР·РёС†РёСЏ вЂ” РєР°Рє РµСЃР»Рё Р±С‹ offset РїСЂРёРјРµРЅСЏР»СЃСЏ РІ СЌС‚РѕР№ РїР»РѕСЃРєРѕСЃС‚Рё
         Vector3 worldOffset = flatRotation * localOffset;
         transform.position = headTransform.position + worldOffset;
 
-        // Вращение — только по Y
+        // Р’СЂР°С‰РµРЅРёРµ вЂ” С‚РѕР»СЊРєРѕ РїРѕ Y
         transform.rotation = flatRotation;
     }
 }

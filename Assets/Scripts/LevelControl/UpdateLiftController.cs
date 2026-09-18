@@ -1,13 +1,12 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.HDROutputUtils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 public class UpdateLiftController : MonoBehaviour
 {
-    [Header("Настройки лифта")]
-    public float waitTime = 3f;               // Время ожидания в лифте перед загрузкой сцены
+    [Header("РќР°СЃС‚СЂРѕР№РєРё Р»РёС„С‚Р°")]
+    public float waitTime = 3f;               // Р’СЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ РІ Р»РёС„С‚Рµ РїРµСЂРµРґ Р·Р°РіСЂСѓР·РєРѕР№ СЃС†РµРЅС‹
     private bool playerInElevator = false;
     private float timer = 0f;
     int l = 0;
@@ -43,8 +42,6 @@ public class UpdateLiftController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Текущий уровень по билду - " + StaticHolder.CurrentLevel);
-        //Debug.Log(l);
         if (playerInElevator && !IsLoading)
         {
             IsLoading = true;
@@ -54,7 +51,7 @@ public class UpdateLiftController : MonoBehaviour
 
     void LoadNextLevel()
     {
-        Debug.Log("Асинхронная загрузка сцены...");
+        Debug.Log("РђСЃРёРЅС…СЂРѕРЅРЅР°СЏ Р·Р°РіСЂСѓР·РєР° СЃС†РµРЅС‹...");
         //SceneManager.LoadSceneAsync(l);
         StaticHolder.CurrentLevel = l;
         StaticHolder.levelCheksComplete = false;
@@ -66,18 +63,18 @@ public class UpdateLiftController : MonoBehaviour
     }
     IEnumerator LoadSceneAsync(int sceneIndex)
     {
-        Debug.Log("загрузка идет");
+        Debug.Log("Р·Р°РіСЂСѓР·РєР° РёРґРµС‚");
         if (!IsLoaded)
         {
             //loadingUI.SetActive(true);
             operation = SceneManager.LoadSceneAsync(sceneIndex);
-            Debug.Log("Пошла загрузка");
+            Debug.Log("РџРѕС€Р»Р° Р·Р°РіСЂСѓР·РєР°");
             IsLoaded = true;
         }
 
         while (!operation.isDone)
         {
-            // Здесь можно обновлять прогресс бар, если он есть:
+            // Р—РґРµСЃСЊ РјРѕР¶РЅРѕ РѕР±РЅРѕРІР»СЏС‚СЊ РїСЂРѕРіСЂРµСЃСЃ Р±Р°СЂ, РµСЃР»Рё РѕРЅ РµСЃС‚СЊ:
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
             progres.value = progress;
             yield return null;

@@ -1,11 +1,12 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class EnemyHeaths : MonoBehaviour
 {
     [SerializeField] public float maxHealth = 100f;
     public float currentHealth = 0f;
 
-    private EnemyStateManager stateManager;
+    private EnemyStateManager stateManager; // РјРѕР¶РµС‚ РѕС‚СЃСѓС‚СЃС‚РІРѕРІР°С‚СЊ (РЅР°РїСЂРёРјРµСЂ, Сѓ РІРµСЂС‚РѕР»С‘С‚Р°-Р±РѕСЃСЃР°)
+    private bool isDead = false;
 
     private void Start()
     {
@@ -16,14 +17,21 @@ public class EnemyHeaths : MonoBehaviour
     public float GetCurrentHp() { return currentHealth; }
     public void TakeDamage(float damage)
     {
+        if (isDead) return;
+
         currentHealth -= damage;
-        stateManager.OnDamageTaken();
-        Debug.Log($"[EnemyHealth] Враг получил урон: {damage}, осталось здоровья: {currentHealth}");
- 
+        if (stateManager != null)
+        {
+            stateManager.OnDamageTaken();
+        }
+
         if (currentHealth <= 0)
         {
-            Debug.Log("[EnemyHealth] Здоровье на нуле. Враг умирает.");
-            stateManager.Die();
-        } 
+            isDead = true;
+            if (stateManager != null)
+            {
+                stateManager.Die();
+            }
+        }
     }
 }

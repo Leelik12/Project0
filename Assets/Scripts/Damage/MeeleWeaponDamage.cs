@@ -1,4 +1,4 @@
-using MikeNspired.XRIStarterKit;
+п»їusing MikeNspired.XRIStarterKit;
 using UnityEngine;
 
 public class MeeleWeaponDamage : MonoBehaviour
@@ -10,7 +10,7 @@ public class MeeleWeaponDamage : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log($"{this.name} столкнулся с: {collision.name}");
+        Debug.Log($"{this.name} СЃС‚РѕР»РєРЅСѓР»СЃСЏ СЃ: {collision.name}");
         if (Time.time - lastDamageTime < damageCooldown) return;
 
         EnemyHeaths enemyHealth = collision.GetComponentInParent<EnemyHeaths>();

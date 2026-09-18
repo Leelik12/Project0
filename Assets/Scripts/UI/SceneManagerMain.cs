@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneManagerMain : MonoBehaviour
@@ -7,6 +7,8 @@ public class SceneManagerMain : MonoBehaviour
     [SerializeField] public GameObject Setting;
     [SerializeField] public GameObject Achievm;
     [SerializeField] public GameObject End;
+    [Tooltip("Р­РєСЂР°РЅ РїРѕСЂР°Р¶РµРЅРёСЏ. Р•СЃР»Рё РЅРµ РЅР°Р·РЅР°С‡РµРЅ, РїСЂРё СЃРјРµСЂС‚Рё РїРѕРєР°Р·С‹РІР°РµС‚СЃСЏ End.")]
+    [SerializeField] public GameObject Defeat;
 
     void Start()
     {
@@ -22,30 +24,30 @@ public class SceneManagerMain : MonoBehaviour
     public void Begin()
     {
         SceneManager.LoadSceneAsync("TheFirstLevel");
-        Debug.Log("Загрузка первого уровня");
+        Debug.Log("Р—Р°РіСЂСѓР·РєР° РїРµСЂРІРѕРіРѕ СѓСЂРѕРІРЅСЏ");
     }
     public void Setti()
     {
         Main.SetActive(false);
         Setting.SetActive(true);
-        Debug.Log("Переход в настройки");
+        Debug.Log("РџРµСЂРµС…РѕРґ РІ РЅР°СЃС‚СЂРѕР№РєРё");
     }
     public void Achie()
     {
         Main.SetActive(false);
         Achievm.SetActive(true);
-        Debug.Log("Переход в достижения");
+        Debug.Log("РџРµСЂРµС…РѕРґ РІ РґРѕСЃС‚РёР¶РµРЅРёСЏ");
     }
     public void Bach2Main()
     {
         Main.SetActive(true);
         Achievm.SetActive(false);
         Setting.SetActive(false);
-        Debug.Log("Переход в меню");
+        Debug.Log("РџРµСЂРµС…РѕРґ РІ РјРµРЅСЋ");
     }
     public void Exi()
     {
-        Debug.Log("Выход");
+        Debug.Log("Р’С‹С…РѕРґ");
         StaticHolder.SaveData();
         Application.Quit();
     }
@@ -53,16 +55,22 @@ public class SceneManagerMain : MonoBehaviour
     {
         Main.SetActive(true);
         End.SetActive(false);
+        if (Defeat != null) Defeat.SetActive(false);
     }
     private void Update()
     {
-        if (StaticHolder.GameOver)
+        if (StaticHolder.GameOver || StaticHolder.PlayerLost)
         {
+            bool lost = StaticHolder.PlayerLost;
             StaticHolder.GameOver = false;
+            StaticHolder.PlayerLost = false;
             Main.SetActive(false);
             Achievm.SetActive(false);
             Setting.SetActive(false);
-            End.SetActive(true);
+            if (lost && Defeat != null)
+                Defeat.SetActive(true);
+            else
+                End.SetActive(true);
         }
     }
 }

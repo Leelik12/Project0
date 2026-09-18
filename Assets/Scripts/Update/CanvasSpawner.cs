@@ -1,16 +1,16 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class UpgradeCanvasSpawner : MonoBehaviour
 {
-    [Header("Группы канвасов по местам")]
+    [Header("Р“СЂСѓРїРїС‹ РєР°РЅРІР°СЃРѕРІ РїРѕ РјРµСЃС‚Р°Рј")]
     public GameObject[] weaponCanvasesPlace1;
     public GameObject[] implantCanvasesPlace2;
     public GameObject[] weaponUpgradeCanvasesPlace3;
 
-    [Tooltip("Здесь комбинируются все типы")]
+    [Tooltip("Р—РґРµСЃСЊ РєРѕРјР±РёРЅРёСЂСѓСЋС‚СЃСЏ РІСЃРµ С‚РёРїС‹")]
     public GameObject[] allMixedCanvasesPlace4;
     public GameObject[] allMixedCanvasesPlace5;
-    [Header("Условие для 5 места")]
+    [Header("РЈСЃР»РѕРІРёРµ РґР»СЏ 5 РјРµСЃС‚Р°")]
     public bool podbor = false;
 
     void Start()
@@ -36,6 +36,6 @@ public class UpgradeCanvasSpawner : MonoBehaviour
 
         int randomIndex = Random.Range(0, canvases.Length);
         canvases[randomIndex].SetActive(true);
-        Debug.Log("Канвас активирован");
+        Debug.Log("РљР°РЅРІР°СЃ Р°РєС‚РёРІРёСЂРѕРІР°РЅ");
     }
 }

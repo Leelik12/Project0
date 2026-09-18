@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
@@ -9,7 +9,7 @@ public class HandBasedGrabPoint : XRGrabInteractable
 
     protected override void OnSelectEntering(SelectEnterEventArgs args)
     {
-        // Выбор attachTransform до базовой логики захвата
+        // Р’С‹Р±РѕСЂ attachTransform РґРѕ Р±Р°Р·РѕРІРѕР№ Р»РѕРіРёРєРё Р·Р°С…РІР°С‚Р°
         if (args.interactorObject != null)
         {
             var interactorTransform = args.interactorObject.transform;
@@ -24,7 +24,7 @@ public class HandBasedGrabPoint : XRGrabInteractable
             }
         }
 
-        // Важно: вызвать базовую реализацию, чтобы объект действительно захватился
+        // Р’Р°Р¶РЅРѕ: РІС‹Р·РІР°С‚СЊ Р±Р°Р·РѕРІСѓСЋ СЂРµР°Р»РёР·Р°С†РёСЋ, С‡С‚РѕР±С‹ РѕР±СЉРµРєС‚ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ Р·Р°С…РІР°С‚РёР»СЃСЏ
         base.OnSelectEntering(args);
         SetLayerRecursively(gameObject, 2);
     }

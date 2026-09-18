@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
@@ -9,20 +9,20 @@ using TMPro;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [Header("Настройки здоровья")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё Р·РґРѕСЂРѕРІСЊСЏ")]
     public float maxHealth;
     public float currentHealth;
-    [Header("Настройки баффов")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё Р±Р°С„С„РѕРІ")]
     public InputActionProperty HealButton;
     public InputActionProperty SandewistanButton;
-    [Header("Настройки меню")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё РјРµРЅСЋ")]
     public InputActionProperty MenuButton;
     public GameObject MenuCanvas;
-    public Slider healthSlider; // Ссылка на UI-слайдер здоровья
+    public Slider healthSlider; // РЎСЃС‹Р»РєР° РЅР° UI-СЃР»Р°Р№РґРµСЂ Р·РґРѕСЂРѕРІСЊСЏ
     public GameObject MainCheck;
     public GameObject SecCheck;
     public TextMeshProUGUI hpText;
-    [Header("Не трогать")]
+    [Header("РќРµ С‚СЂРѕРіР°С‚СЊ")]
     public GameObject controller;
     float oldSpeed;
     DynamicMoveProvider speed = null;
@@ -47,7 +47,7 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         UpdateHealthUI();
-        Debug.Log("Здоровье игрока = " + currentHealth);
+        Debug.Log("Р—РґРѕСЂРѕРІСЊРµ РёРіСЂРѕРєР° = " + currentHealth);
     }
 
     public void PlayerTakeDamage(float damage)
@@ -57,11 +57,6 @@ public class PlayerHealth : MonoBehaviour
             StartCoroutine(SpeedAfterDamage());
         }
         currentHealth -= damage;
-        //if (currentHealth < 0)
-        //{
-        //    currentHealth = 0;
-        //}
-        Debug.Log("Игрок получил урон: " + damage + ". Текущее здоровье: " + currentHealth);
         UpdateHealthUI();
         if (currentHealth <= 0)
         {
@@ -74,99 +69,54 @@ public class PlayerHealth : MonoBehaviour
         if (healthSlider != null)
         {
             healthSlider.value = currentHealth / maxHealth;
-            hpText.text = currentHealth.ToString();
+        }
+        if (hpText != null)
+        {
+            hpText.text = Mathf.Max(0f, currentHealth).ToString("0");
         }
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Body") && collision.collider.name.Contains("Hand"))
         {
-            Debug.Log("Больно");
+            Debug.Log("Р‘РѕР»СЊРЅРѕ");
         }
     }
+    // Р’С‹С…РѕРґ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ СЃ РїРѕС‚РµСЂРµР№ РїСЂРѕРіСЂРµСЃСЃР° Р·Р°Р±РµРіР° (РєРЅРѕРїРєР° РІ РјРµРЅСЋ РїР°СѓР·С‹)
     public void back2Main()
     {
-        Debug.Log("Выход в мэйн");
-        if (StaticHolder.StrongArms && StaticHolder.StrongLegs) { StaticHolder.Ciborg = true; }
-        StaticHolder.DieStation = true;
-        StaticHolder.CurrentGun = 0;
-        StaticHolder.BuffGrenade = false;
-        StaticHolder.BuffGunFireRate = 1f;
-        StaticHolder.BuffGunDamage = 1f;
-        StaticHolder.BuffGunMaxAmmo = 1f;
-        StaticHolder.PlayerHPBuff = 0;
-        StaticHolder.PlayerBasicSpeed = 3f;
-        StaticHolder.SpeedBuffAfterDamage = false;
-        StaticHolder.SpeedAfterDamageValue = 1f;
-        StaticHolder.PropitalHeal = false;
-        StaticHolder.PropitalHealActive = false;
-        StaticHolder.Sandevistan = false;
-        StaticHolder.SandevistanActive = false;
-        StaticHolder.Akimbo = false;
-        StaticHolder.AkimboWas = false;
-        StaticHolder.Katana = false;
-        StaticHolder.StrongArms = false;
-        StaticHolder.StrongArmsKoef = 1f;
-        StaticHolder.StrongLegs = false;
-        StaticHolder.StrongLegsKoef = 1f;
-        StaticHolder.SaveData();
+        Debug.Log("Р’С‹С…РѕРґ РІ РјСЌР№РЅ");
+        StaticHolder.ResetRun();
         SceneManager.LoadSceneAsync(0);
     }
     void Die()
     {
-        Debug.Log("Игрок погиб!");
-        if (StaticHolder.StrongArms && StaticHolder.StrongLegs) { StaticHolder.Ciborg = true; }
+        Debug.Log("РРіСЂРѕРє РїРѕРіРёР±!");
         StaticHolder.DiedinCyberpunk = true;
-        StaticHolder.DieStation = true;
-        StaticHolder.CurrentGun = 0;
-        StaticHolder.BuffGrenade = false;
-        StaticHolder.BuffGunFireRate = 1f;
-        StaticHolder.BuffGunDamage = 1f;
-        StaticHolder.BuffGunMaxAmmo = 1f;
-        StaticHolder.PlayerHPBuff = 0;
-        StaticHolder.PlayerBasicSpeed = 3f;
-        StaticHolder.SpeedBuffAfterDamage = false;
-        StaticHolder.SpeedAfterDamageValue = 1f;
-        StaticHolder.PropitalHeal = false;
-        StaticHolder.PropitalHealActive = false;
-        StaticHolder.Sandevistan = false;
-        StaticHolder.SandevistanActive = false;
-        StaticHolder.Akimbo = false;
-        StaticHolder.AkimboWas = false;
-        StaticHolder.Katana = false;
-        StaticHolder.StrongArms = false;
-        StaticHolder.StrongArmsKoef = 1f;
-        StaticHolder.StrongLegs = false;
-        StaticHolder.StrongLegsKoef = 1f;
-        StaticHolder.SaveData();
+        StaticHolder.PlayerLost = true; // РІ РјРµРЅСЋ РїРѕРєР°Р¶РµС‚СЃСЏ СЌРєСЂР°РЅ РїРѕСЂР°Р¶РµРЅРёСЏ
+        StaticHolder.ResetRun();
         SceneManager.LoadSceneAsync(0);
-        // Здесь можно вызывать экран Game Over и т.д.
     }
     void Update()
     {
-        Debug.Log("Здоровья - " + currentHealth + " Из "+ maxHealth + " Кнопка отхила " + HealButton.action.ReadValue<float>());
         if (HealButton.action.ReadValue<float>() >= 0.7f && StaticHolder.PropitalHeal && currentHealth < maxHealth && !StaticHolder.PropitalHealActive)
         {
             StartCoroutine(Propital());
         }
-        Debug.Log("Кнопка сандевистана " + SandewistanButton.action.ReadValue<float>());
         if (SandewistanButton.action.ReadValue<float>() >= 0.7 && StaticHolder.Sandevistan && !StaticHolder.SandevistanActive)
         {
             StartCoroutine(Sandewistan());
         }
-        if (MenuButton.action.ReadValue<float>() >= 0.7)
+        bool menuPressed = MenuButton.action.ReadValue<float>() >= 0.7;
+        if (MenuCanvas.activeSelf != menuPressed)
         {
-            MenuCanvas.SetActive(true);
+            MenuCanvas.SetActive(menuPressed);
         }
-        else
-        {
-            MenuCanvas.SetActive(false);
-        }
-        if (StaticHolder.levelCheksComplete)
+        if (StaticHolder.levelCheksComplete && !MainCheck.activeSelf)
         {
             MainCheck.SetActive(true);
         }
-        if (StaticHolder.ItemPickedUp)
+        if (StaticHolder.ItemPickedUp && !SecCheck.activeSelf)
         {
             SecCheck.SetActive(true);
         }
@@ -176,41 +126,43 @@ public class PlayerHealth : MonoBehaviour
     public float GetHealthPercent() => currentHealth / maxHealth;
     IEnumerator SpeedAfterDamage()
     {
-        // Вызов начального действия
-        Debug.Log("Ускорение после получения урона началось");
+        // Р’С‹Р·РѕРІ РЅР°С‡Р°Р»СЊРЅРѕРіРѕ РґРµР№СЃС‚РІРёСЏ
+        Debug.Log("РЈСЃРєРѕСЂРµРЅРёРµ РїРѕСЃР»Рµ РїРѕР»СѓС‡РµРЅРёСЏ СѓСЂРѕРЅР° РЅР°С‡Р°Р»РѕСЃСЊ");
         speed.moveSpeed = StaticHolder.PlayerBasicSpeed * StaticHolder.SpeedAfterDamageValue;
 
         yield return new WaitForSeconds(StaticHolder.SpeedTimeAfterDamage);
 
-        // Действие завершено
-        Debug.Log("Ускорение после получения урона завершено");
+        // Р”РµР№СЃС‚РІРёРµ Р·Р°РІРµСЂС€РµРЅРѕ
+        Debug.Log("РЈСЃРєРѕСЂРµРЅРёРµ РїРѕСЃР»Рµ РїРѕР»СѓС‡РµРЅРёСЏ СѓСЂРѕРЅР° Р·Р°РІРµСЂС€РµРЅРѕ");
         speed.moveSpeed = oldSpeed;
     }
     IEnumerator Propital()
     {
-        Debug.Log("Отхил начат");
+        Debug.Log("РћС‚С…РёР» РЅР°С‡Р°С‚");
         float wastedTime = 0f;
         StaticHolder.PropitalHealActive = true;
         while (wastedTime < StaticHolder.PropitalHealValue)
         {
             if (currentHealth < maxHealth) { currentHealth++; }
+            UpdateHealthUI();
             wastedTime += 1f;
-            yield return new WaitForSecondsRealtime(1f); // ждём 1 секунду
+            yield return new WaitForSecondsRealtime(1f); // Р¶РґС‘Рј 1 СЃРµРєСѓРЅРґСѓ
         }
-        Debug.Log("Отхил завершён");
+        Debug.Log("РћС‚С…РёР» Р·Р°РІРµСЂС€С‘РЅ");
     }
     IEnumerator Sandewistan()
     {
-        Debug.Log("Замедление времени началось");
+        Debug.Log("Р—Р°РјРµРґР»РµРЅРёРµ РІСЂРµРјРµРЅРё РЅР°С‡Р°Р»РѕСЃСЊ");
         StaticHolder.SandevistanActive = true;
-        // Замедляем время
+        // Р—Р°РјРµРґР»СЏРµРј РІСЂРµРјСЏ
+        float normalFixedDelta = Time.fixedDeltaTime;
         Time.timeScale = StaticHolder.SandevistanTimeSlower;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale; // важно для корректной работы физики
-        yield return new WaitForSecondsRealtime(StaticHolder.SandevistanTime); // ждём 
-        // Возвращаем время к нормальному состоянию
+        Time.fixedDeltaTime = normalFixedDelta * Time.timeScale; // РІР°Р¶РЅРѕ РґР»СЏ РєРѕСЂСЂРµРєС‚РЅРѕР№ СЂР°Р±РѕС‚С‹ С„РёР·РёРєРё
+        yield return new WaitForSecondsRealtime(StaticHolder.SandevistanTime); // Р¶РґС‘Рј 
+        // Р’РѕР·РІСЂР°С‰Р°РµРј РІСЂРµРјСЏ Рє РЅРѕСЂРјР°Р»СЊРЅРѕРјСѓ СЃРѕСЃС‚РѕСЏРЅРёСЋ
         Time.timeScale = 1f;
-        Time.fixedDeltaTime = 0.02f;
-        Debug.Log("Замедление времени окончилось");
+        Time.fixedDeltaTime = normalFixedDelta;
+        Debug.Log("Р—Р°РјРµРґР»РµРЅРёРµ РІСЂРµРјРµРЅРё РѕРєРѕРЅС‡РёР»РѕСЃСЊ");
     }
     public void ToMain()
     {

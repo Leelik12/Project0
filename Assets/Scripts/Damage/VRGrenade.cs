@@ -1,10 +1,10 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class VRGrenade : MonoBehaviour
 {
-    [Header("Взрыв")]
+    [Header("Р’Р·СЂС‹РІ")]
     public float delay = 3f;
     public float explosionRadius = 5f;
     public float explosionForce = 700f;
@@ -49,13 +49,13 @@ public class VRGrenade : MonoBehaviour
         if (hasExploded) return;
         hasExploded = true;
 
-        //  Воспроизведение звука
+        //  Р’РѕСЃРїСЂРѕРёР·РІРµРґРµРЅРёРµ Р·РІСѓРєР°
         if (explosionSound != null)
         {
             AudioSource.PlayClipAtPoint(explosionSound, transform.position);
         }
         GameObject explosion = Instantiate(explosionEffect, transform.position, Quaternion.identity);
-        //  Визуальный эффект
+        //  Р’РёР·СѓР°Р»СЊРЅС‹Р№ СЌС„С„РµРєС‚
         ParticleSystem ps = explosion.GetComponent<ParticleSystem>();
         if (ps != null)
         {
@@ -63,7 +63,7 @@ public class VRGrenade : MonoBehaviour
             Destroy(explosion, ps.main.duration + ps.main.startLifetime.constantMax);
         }
 
-        //  Урон врагам
+        //  РЈСЂРѕРЅ РІСЂР°РіР°Рј
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider nearbyObject in colliders)
         {
@@ -71,8 +71,9 @@ public class VRGrenade : MonoBehaviour
             {
                 EnemyHeaths enemy = nearbyObject.GetComponentInParent<EnemyHeaths>();
                 if (enemy != null)
-                    Debug.Log("Урон прошел!");
+                {
                     enemy.TakeDamage(damage);
+                }
             }
 
             Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();

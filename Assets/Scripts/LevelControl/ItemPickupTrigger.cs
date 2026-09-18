@@ -1,21 +1,21 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class ItemPickupTrigger : MonoBehaviour
 {
-    [Tooltip("Ссылка на LevelManager, чтобы уведомить об успешном подборе")]
+    [Tooltip("РЎСЃС‹Р»РєР° РЅР° LevelManager, С‡С‚РѕР±С‹ СѓРІРµРґРѕРјРёС‚СЊ РѕР± СѓСЃРїРµС€РЅРѕРј РїРѕРґР±РѕСЂРµ")]
     public LevelManager levelManager;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            // Уведомляем LevelManager
+            // РЈРІРµРґРѕРјР»СЏРµРј LevelManager
             if (levelManager != null)
             {
                 levelManager.OnItemPickedUp();
             }
 
-            // Делаем предмет невидимым и неактивным
+            // Р”РµР»Р°РµРј РїСЂРµРґРјРµС‚ РЅРµРІРёРґРёРјС‹Рј Рё РЅРµР°РєС‚РёРІРЅС‹Рј
             gameObject.SetActive(false);
         }
     }

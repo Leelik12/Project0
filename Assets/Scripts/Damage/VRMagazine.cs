@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
@@ -24,7 +24,7 @@ public class VRMagazine : MonoBehaviour
             gun.InsertMagazine(this);
             Destroy(gameObject);
         }
-        Debug.Log("Магазин вставлен!");
+        Debug.Log("РњР°РіР°Р·РёРЅ РІСЃС‚Р°РІР»РµРЅ!");
 
     }
 

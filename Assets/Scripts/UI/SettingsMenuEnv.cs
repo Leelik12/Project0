@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.Audio;
@@ -11,7 +11,7 @@ public class SettingsMenuEnv : MonoBehaviour
 
     void Start()
     {
-        // Устанавливаем значение слайдера из StaticHolder
+        // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р·РЅР°С‡РµРЅРёРµ СЃР»Р°Р№РґРµСЂР° РёР· StaticHolder
         volumeSlider.value = StaticHolder.EnvVolume;
         SetVolume(StaticHolder.EnvVolume);
         volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
@@ -20,17 +20,17 @@ public class SettingsMenuEnv : MonoBehaviour
     void OnVolumeChanged(float volume)
     {
         SetVolume(volume);
-        StaticHolder.EnvVolume = volume; // Сохраняем значение
+        StaticHolder.EnvVolume = volume; // РЎРѕС…СЂР°РЅСЏРµРј Р·РЅР°С‡РµРЅРёРµ
     }
 
     public void SetVolume(float volume)
     {
-        // Значения громкости в микшере обычно от -80 до 0 дБ
-        // Чтобы громкость не была логарифмической, оставляем линейную шкалу
-        float dB = Mathf.Lerp(-30f, 10f, volume); // volume от 0 до 1
+        // Р—РЅР°С‡РµРЅРёСЏ РіСЂРѕРјРєРѕСЃС‚Рё РІ РјРёРєС€РµСЂРµ РѕР±С‹С‡РЅРѕ РѕС‚ -80 РґРѕ 0 РґР‘
+        // Р§С‚РѕР±С‹ РіСЂРѕРјРєРѕСЃС‚СЊ РЅРµ Р±С‹Р»Р° Р»РѕРіР°СЂРёС„РјРёС‡РµСЃРєРѕР№, РѕСЃС‚Р°РІР»СЏРµРј Р»РёРЅРµР№РЅСѓСЋ С€РєР°Р»Сѓ
+        float dB = Mathf.Lerp(-30f, 10f, volume); // volume РѕС‚ 0 РґРѕ 1
         audioMixer.SetFloat("EnvVolume", dB);
 
-        // Сохраняем в StaticHolder, если нужно
+        // РЎРѕС…СЂР°РЅСЏРµРј РІ StaticHolder, РµСЃР»Рё РЅСѓР¶РЅРѕ
         StaticHolder.EnvVolume = volume;
     }
 }

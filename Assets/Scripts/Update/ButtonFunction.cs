@@ -1,189 +1,189 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class ButtonFunction : MonoBehaviour
-{ //если написано процент, то буквально 10 20 50, если вэлью, то число 1 2 3
-    [Header("Скорость стрельбы")]
+{ //РµСЃР»Рё РЅР°РїРёСЃР°РЅРѕ РїСЂРѕС†РµРЅС‚, С‚Рѕ Р±СѓРєРІР°Р»СЊРЅРѕ 10 20 50, РµСЃР»Рё РІСЌР»СЊСЋ, С‚Рѕ С‡РёСЃР»Рѕ 1 2 3
+    [Header("РЎРєРѕСЂРѕСЃС‚СЊ СЃС‚СЂРµР»СЊР±С‹")]
     public int FireRateUpdatePercent;
-    [Header("Урон оружия")]
+    [Header("РЈСЂРѕРЅ РѕСЂСѓР¶РёСЏ")]
     public int DamageUpdatePercent;
-    [Header("Размер магазина")]
+    [Header("Р Р°Р·РјРµСЂ РјР°РіР°Р·РёРЅР°")]
     public float MagazineValueUpdateValue;
-    [Header("Прокачка здоровья игрока")]
+    [Header("РџСЂРѕРєР°С‡РєР° Р·РґРѕСЂРѕРІСЊСЏ РёРіСЂРѕРєР°")]
     public int PlayerHpBuffValue;
-    [Header("Ускорение после получения урона")]
+    [Header("РЈСЃРєРѕСЂРµРЅРёРµ РїРѕСЃР»Рµ РїРѕР»СѓС‡РµРЅРёСЏ СѓСЂРѕРЅР°")]
     public int PlayerSpeedBuffAfterDamagePercent;
     public float PlayerSpeedBuffAfterDamageTime;
-    [Header("Кнопка отхила")]
+    [Header("РљРЅРѕРїРєР° РѕС‚С…РёР»Р°")]
     public int HealHPPoints;
-    [Header("Сандевистан")]
+    [Header("РЎР°РЅРґРµРІРёСЃС‚Р°РЅ")]
     public int SandewistanTimeWorkable;
-    public float SandewistanTimeSlower;//стандартное время в юнити 1
-    [Header("Урон в ближке бафф")]
+    public float SandewistanTimeSlower;//СЃС‚Р°РЅРґР°СЂС‚РЅРѕРµ РІСЂРµРјСЏ РІ СЋРЅРёС‚Рё 1
+    [Header("РЈСЂРѕРЅ РІ Р±Р»РёР¶РєРµ Р±Р°С„С„")]
     public int MeleeDamageBuffPercent;
-    [Header("Быстрые ноги   ")]
+    [Header("Р‘С‹СЃС‚СЂС‹Рµ РЅРѕРіРё   ")]
     public int SpeedBuffAllTimePercent;
     public int PlayerHandDamageBuffPercent;
     public int PlayerSpeedBuffPercent;
     
 
-    //Сверху подкапотка прокачки, все изменения прокачки происходят через эти настройки
-    //Не забудь поменять текст на карточках при изменении этих значений
+    //РЎРІРµСЂС…Сѓ РїРѕРґРєР°РїРѕС‚РєР° РїСЂРѕРєР°С‡РєРё, РІСЃРµ РёР·РјРµРЅРµРЅРёСЏ РїСЂРѕРєР°С‡РєРё РїСЂРѕРёСЃС…РѕРґСЏС‚ С‡РµСЂРµР· СЌС‚Рё РЅР°СЃС‚СЂРѕР№РєРё
+    //РќРµ Р·Р°Р±СѓРґСЊ РїРѕРјРµРЅСЏС‚СЊ С‚РµРєСЃС‚ РЅР° РєР°СЂС‚РѕС‡РєР°С… РїСЂРё РёР·РјРµРЅРµРЅРёРё СЌС‚РёС… Р·РЅР°С‡РµРЅРёР№
     public void ShablonButton()
     {
         Debug.Log("");
 
         Debug.Log("");
     }
-    public void UpdateFireRate() //Все хорошо, при прокачке значение должно падать. FireRate - время между выстрелами
-    {//все работает
-        Debug.Log("Скорострельность была " + StaticHolder.BuffGunFireRate);
+    public void UpdateFireRate() //Р’СЃРµ С…РѕСЂРѕС€Рѕ, РїСЂРё РїСЂРѕРєР°С‡РєРµ Р·РЅР°С‡РµРЅРёРµ РґРѕР»Р¶РЅРѕ РїР°РґР°С‚СЊ. FireRate - РІСЂРµРјСЏ РјРµР¶РґСѓ РІС‹СЃС‚СЂРµР»Р°РјРё
+    {//РІСЃРµ СЂР°Р±РѕС‚Р°РµС‚
+        Debug.Log("РЎРєРѕСЂРѕСЃС‚СЂРµР»СЊРЅРѕСЃС‚СЊ Р±С‹Р»Р° " + StaticHolder.BuffGunFireRate);
         StaticHolder.BuffGunFireRate = StaticHolder.BuffGunFireRate * (1f - FireRateUpdatePercent / 100f);
-        Debug.Log("Скорострельность увеличена до " + StaticHolder.BuffGunFireRate);
+        Debug.Log("РЎРєРѕСЂРѕСЃС‚СЂРµР»СЊРЅРѕСЃС‚СЊ СѓРІРµР»РёС‡РµРЅР° РґРѕ " + StaticHolder.BuffGunFireRate);
     }
     public void UpdateDamage()
-    {//все работает
-        Debug.Log("Урон был " + StaticHolder.BuffGunDamage);
+    {//РІСЃРµ СЂР°Р±РѕС‚Р°РµС‚
+        Debug.Log("РЈСЂРѕРЅ Р±С‹Р» " + StaticHolder.BuffGunDamage);
         StaticHolder.BuffGunDamage = StaticHolder.BuffGunDamage * (1f + DamageUpdatePercent/100f);
-        Debug.Log("Урон увеличен до " + StaticHolder.BuffGunDamage);
+        Debug.Log("РЈСЂРѕРЅ СѓРІРµР»РёС‡РµРЅ РґРѕ " + StaticHolder.BuffGunDamage);
     }
     public void UpdateMagazineValue()
-    {//все работает
-        Debug.Log("Размер магазина был " + StaticHolder.BuffGunMaxAmmo);
+    {//РІСЃРµ СЂР°Р±РѕС‚Р°РµС‚
+        Debug.Log("Р Р°Р·РјРµСЂ РјР°РіР°Р·РёРЅР° Р±С‹Р» " + StaticHolder.BuffGunMaxAmmo);
         StaticHolder.BuffGunMaxAmmo = StaticHolder.BuffGunMaxAmmo * (MagazineValueUpdateValue);
-        Debug.Log("Размер магазина увеличен до " + StaticHolder.BuffGunMaxAmmo);
+        Debug.Log("Р Р°Р·РјРµСЂ РјР°РіР°Р·РёРЅР° СѓРІРµР»РёС‡РµРЅ РґРѕ " + StaticHolder.BuffGunMaxAmmo);
     }
     public void UpdateLCU()
-    {//все работает
+    {//РІСЃРµ СЂР°Р±РѕС‚Р°РµС‚
         StaticHolder.Difficulty = false;
-        Debug.Log("ЛЦУ добавлен");
+        Debug.Log("Р›Р¦РЈ РґРѕР±Р°РІР»РµРЅ");
     }
     public void UpdateChangeCurrentGunTo0()
     {
-        Debug.Log("Оружие было " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ Р±С‹Р»Рѕ " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 0;
         if (StaticHolder.Akimbo)
         {
             StaticHolder.AkimboWas = true;
         }
         StaticHolder.Akimbo = false;
-        Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ СЃС‚Р°Р»Рѕ " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo1()
     {
-        Debug.Log("Оружие было " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ Р±С‹Р»Рѕ " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 1;
         if (StaticHolder.AkimboWas || StaticHolder.Akimbo)
         {
             StaticHolder.Akimbo = true;
         }
         StaticHolder.AkimboWas = false;
-        Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ СЃС‚Р°Р»Рѕ " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo2()
     {
-        Debug.Log("Оружие было " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ Р±С‹Р»Рѕ " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 2;
         if (StaticHolder.Akimbo)
         {
             StaticHolder.AkimboWas = true;
         }
         StaticHolder.Akimbo = false;
-        Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ СЃС‚Р°Р»Рѕ " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo3()
     {
-        Debug.Log("Оружие было " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ Р±С‹Р»Рѕ " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 3;
         if (StaticHolder.AkimboWas || StaticHolder.Akimbo)
         {
             StaticHolder.Akimbo = true;
         }
         StaticHolder.AkimboWas = false;
-        Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ СЃС‚Р°Р»Рѕ " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo5()
     {
-        Debug.Log("Оружие было " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ Р±С‹Р»Рѕ " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 5;
         if (StaticHolder.Akimbo)
         {
             StaticHolder.AkimboWas = true;
         }
         StaticHolder.Akimbo = false;
-        Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ СЃС‚Р°Р»Рѕ " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo6()
     {
-        Debug.Log("Оружие было " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ Р±С‹Р»Рѕ " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 6;
         if (StaticHolder.Akimbo)
         {
             StaticHolder.AkimboWas = true;
         }
         StaticHolder.Akimbo = false;
-        Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ СЃС‚Р°Р»Рѕ " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo7()
     {
-        Debug.Log("Оружие было " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ Р±С‹Р»Рѕ " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 7;
         if (StaticHolder.Akimbo)
         {
             StaticHolder.AkimboWas = true;
         }
         StaticHolder.Akimbo = false;
-        Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ СЃС‚Р°Р»Рѕ " + StaticHolder.CurrentGun);
     }
     public void UpdateChangeCurrentGunTo8()
     {
-        Debug.Log("Оружие было " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ Р±С‹Р»Рѕ " + StaticHolder.CurrentGun);
         StaticHolder.CurrentGun = 8;
         if (StaticHolder.Akimbo)
         {
             StaticHolder.AkimboWas = true;
         }
         StaticHolder.Akimbo = false;
-        Debug.Log("Оружие стало " + StaticHolder.CurrentGun);
+        Debug.Log("РћСЂСѓР¶РёРµ СЃС‚Р°Р»Рѕ " + StaticHolder.CurrentGun);
     }
     public void UpdateAddGrenade()
     {
-        Debug.Log("Гранаты в инвентаре" + StaticHolder.CurrentGrenade);
+        Debug.Log("Р“СЂР°РЅР°С‚С‹ РІ РёРЅРІРµРЅС‚Р°СЂРµ" + StaticHolder.CurrentGrenade);
         StaticHolder.CurrentGrenade = true;
-        Debug.Log("Гранаты в инвентаре" + StaticHolder.CurrentGrenade);
+        Debug.Log("Р“СЂР°РЅР°С‚С‹ РІ РёРЅРІРµРЅС‚Р°СЂРµ" + StaticHolder.CurrentGrenade);
     }
     public void UpdateHPBuff()
-    {//все работает
-        Debug.Log("Текущее максимальное здоровье игрока - " + StaticHolder.PlayerHPBuff);
+    {//РІСЃРµ СЂР°Р±РѕС‚Р°РµС‚
+        Debug.Log("РўРµРєСѓС‰РµРµ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р·РґРѕСЂРѕРІСЊРµ РёРіСЂРѕРєР° - " + StaticHolder.PlayerHPBuff);
         StaticHolder.PlayerHPBuff += PlayerHpBuffValue;
-        Debug.Log("Новое максимальное здоровье игрока - " + StaticHolder.PlayerHPBuff);
+        Debug.Log("РќРѕРІРѕРµ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р·РґРѕСЂРѕРІСЊРµ РёРіСЂРѕРєР° - " + StaticHolder.PlayerHPBuff);
     }
-    public void UpdateSpeedUp()// в скрипте здоровья отрабатывает
-    {//должно работать
-        Debug.Log("Текущая максимальная скорость игрока - " + StaticHolder.PlayerBasicSpeed);
+    public void UpdateSpeedUp()// РІ СЃРєСЂРёРїС‚Рµ Р·РґРѕСЂРѕРІСЊСЏ РѕС‚СЂР°Р±Р°С‚С‹РІР°РµС‚
+    {//РґРѕР»Р¶РЅРѕ СЂР°Р±РѕС‚Р°С‚СЊ
+        Debug.Log("РўРµРєСѓС‰Р°СЏ РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ СЃРєРѕСЂРѕСЃС‚СЊ РёРіСЂРѕРєР° - " + StaticHolder.PlayerBasicSpeed);
         StaticHolder.SpeedBuffAfterDamage = true;
         StaticHolder.SpeedTimeAfterDamage = PlayerSpeedBuffAfterDamageTime;
         StaticHolder.SpeedAfterDamageValue = StaticHolder.SpeedAfterDamageValue * (1f + PlayerSpeedBuffAfterDamagePercent / 100f);
-        Debug.Log("Новая максимальная скорость игрока - " + StaticHolder.PlayerBasicSpeed);
+        Debug.Log("РќРѕРІР°СЏ РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ СЃРєРѕСЂРѕСЃС‚СЊ РёРіСЂРѕРєР° - " + StaticHolder.PlayerBasicSpeed);
     }
-    public void UpdateHealer()// в скрипте здоровья отрабатывает
-    {//работает на левом контроллере! дальняя кнопка по идее
-        Debug.Log("Пропитал есть - " + StaticHolder.PropitalHeal);
+    public void UpdateHealer()// РІ СЃРєСЂРёРїС‚Рµ Р·РґРѕСЂРѕРІСЊСЏ РѕС‚СЂР°Р±Р°С‚С‹РІР°РµС‚
+    {//СЂР°Р±РѕС‚Р°РµС‚ РЅР° Р»РµРІРѕРј РєРѕРЅС‚СЂРѕР»Р»РµСЂРµ! РґР°Р»СЊРЅСЏСЏ РєРЅРѕРїРєР° РїРѕ РёРґРµРµ
+        Debug.Log("РџСЂРѕРїРёС‚Р°Р» РµСЃС‚СЊ - " + StaticHolder.PropitalHeal);
         StaticHolder.PropitalHeal = true;
         StaticHolder.PropitalHealValue = HealHPPoints;
-        Debug.Log("Пропитал теперь - " + StaticHolder.PropitalHeal);
+        Debug.Log("РџСЂРѕРїРёС‚Р°Р» С‚РµРїРµСЂСЊ - " + StaticHolder.PropitalHeal);
     }
-    public void UpdateSandevistan()// в скрипте здоровья отрабатывает
-    {//оно реально работает, я в шоке
-        Debug.Log("Сандевистан есть - " + StaticHolder.Sandevistan);
+    public void UpdateSandevistan()// РІ СЃРєСЂРёРїС‚Рµ Р·РґРѕСЂРѕРІСЊСЏ РѕС‚СЂР°Р±Р°С‚С‹РІР°РµС‚
+    {//РѕРЅРѕ СЂРµР°Р»СЊРЅРѕ СЂР°Р±РѕС‚Р°РµС‚, СЏ РІ С€РѕРєРµ
+        Debug.Log("РЎР°РЅРґРµРІРёСЃС‚Р°РЅ РµСЃС‚СЊ - " + StaticHolder.Sandevistan);
         StaticHolder.Sandevistan = true;
         StaticHolder.SandevistanTime = SandewistanTimeWorkable;
         StaticHolder.SandevistanTimeSlower = SandewistanTimeSlower;
-        Debug.Log("Сандевистан теперь - " + StaticHolder.Sandevistan);
+        Debug.Log("РЎР°РЅРґРµРІРёСЃС‚Р°РЅ С‚РµРїРµСЂСЊ - " + StaticHolder.Sandevistan);
     }
     public void UpdateAkimbo()
-    {//по идее должно работать, но нужно дописать и проверить
-        Debug.Log("Акимбо есть - " + StaticHolder.Akimbo);
-        if (StaticHolder.CurrentGun == 1 || StaticHolder.CurrentGun == 1)
+    {//РїРѕ РёРґРµРµ РґРѕР»Р¶РЅРѕ СЂР°Р±РѕС‚Р°С‚СЊ, РЅРѕ РЅСѓР¶РЅРѕ РґРѕРїРёСЃР°С‚СЊ Рё РїСЂРѕРІРµСЂРёС‚СЊ
+        Debug.Log("РђРєРёРјР±Рѕ РµСЃС‚СЊ - " + StaticHolder.Akimbo);
+        if (StaticHolder.CurrentGun == 1 || StaticHolder.CurrentGun == 3)
         {
             StaticHolder.Akimbo = true;
         }
@@ -191,28 +191,28 @@ public class ButtonFunction : MonoBehaviour
         {
             StaticHolder.AkimboWas = true;
         }
-        Debug.Log("Акимбо теперь - " + StaticHolder.Akimbo);
+        Debug.Log("РђРєРёРјР±Рѕ С‚РµРїРµСЂСЊ - " + StaticHolder.Akimbo);
     }
     public void UpdateKatana()
-    {//работает протестил
-        Debug.Log("Катана есть - " + StaticHolder.Katana);
+    {//СЂР°Р±РѕС‚Р°РµС‚ РїСЂРѕС‚РµСЃС‚РёР»
+        Debug.Log("РљР°С‚Р°РЅР° РµСЃС‚СЊ - " + StaticHolder.Katana);
         StaticHolder.Katana = true;
-        Debug.Log("Катана теперь - " + StaticHolder.Katana);
+        Debug.Log("РљР°С‚Р°РЅР° С‚РµРїРµСЂСЊ - " + StaticHolder.Katana);
     }
     public void UpdateStrongArm()
-    {//работает
-        Debug.Log("Сильные руки есть - " + StaticHolder.StrongArms);
+    {//СЂР°Р±РѕС‚Р°РµС‚
+        Debug.Log("РЎРёР»СЊРЅС‹Рµ СЂСѓРєРё РµСЃС‚СЊ - " + StaticHolder.StrongArms);
         StaticHolder.StrongArms = true;
         StaticHolder.StrongArmsKoef += MeleeDamageBuffPercent/100f;
-        Debug.Log("Сильные руки теперь - " + StaticHolder.StrongArms);
-        Debug.Log("Коэф урона ближки теперь - " + StaticHolder.StrongArmsKoef);
+        Debug.Log("РЎРёР»СЊРЅС‹Рµ СЂСѓРєРё С‚РµРїРµСЂСЊ - " + StaticHolder.StrongArms);
+        Debug.Log("РљРѕСЌС„ СѓСЂРѕРЅР° Р±Р»РёР¶РєРё С‚РµРїРµСЂСЊ - " + StaticHolder.StrongArmsKoef);
     }
     public void UpdateStrongLeg()
-    {//работает
-        Debug.Log("Сильные ноги есть - " + StaticHolder.StrongLegs);
+    {//СЂР°Р±РѕС‚Р°РµС‚
+        Debug.Log("РЎРёР»СЊРЅС‹Рµ РЅРѕРіРё РµСЃС‚СЊ - " + StaticHolder.StrongLegs);
         StaticHolder.StrongLegs = true;
         StaticHolder.StrongLegsKoef += SpeedBuffAllTimePercent / 100f;
-        Debug.Log("Сильные ноги теперь - " + StaticHolder.StrongLegs);
-        Debug.Log("Коэф скорости все время теперь - " + StaticHolder.StrongArmsKoef);
+        Debug.Log("РЎРёР»СЊРЅС‹Рµ РЅРѕРіРё С‚РµРїРµСЂСЊ - " + StaticHolder.StrongLegs);
+        Debug.Log("РљРѕСЌС„ СЃРєРѕСЂРѕСЃС‚Рё РІСЃРµ РІСЂРµРјСЏ С‚РµРїРµСЂСЊ - " + StaticHolder.StrongLegsKoef);
     }
 }

@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.Audio;
@@ -17,11 +17,11 @@ public class SettingsMenu : MonoBehaviour
     void OnVolumeChanged(float volume)
     {
         SetVolume(volume);
-        StaticHolder.GunVolume = volume; // Сохраняем значение
+        StaticHolder.GunVolume = volume; // РЎРѕС…СЂР°РЅСЏРµРј Р·РЅР°С‡РµРЅРёРµ
     }
     public void SetVolume(float volume)
     {
-        float dB = Mathf.Lerp(-30f, 10f, volume); // volume от 0 до 1
+        float dB = Mathf.Lerp(-30f, 10f, volume); // volume РѕС‚ 0 РґРѕ 1
         audioMixer.SetFloat("GunVolume", dB);
         StaticHolder.GunVolume = volume;
     }

@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,38 +7,41 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class VRGun : MonoBehaviour
 {
+    // РћСЂСѓР¶РёРµ, РєРѕС‚РѕСЂРѕРµ СЃРµР№С‡Р°СЃ РґРµСЂР¶РёС‚ РёРіСЂРѕРє (РґР»СЏ HUD). null вЂ” РЅРёС‡РµРіРѕ РЅРµ РґРµСЂР¶РёС‚.
+    public static VRGun Held { get; private set; }
+
     [SerializeField] private XRGrabInteractable grabInteractable;
-    [Header("Перезарядка")]
+    [Header("РџРµСЂРµР·Р°СЂСЏРґРєР°")]
     [SerializeField] public float maxAmmo;
     public float currentAmmo;
     public bool IsLoaded => currentAmmo > 0;
     private VRMagazine currentMagazine;
     public bool IsCharged = true;
-    public GameObject emptyMagazinePrefab; // Префаб пустого магазина
-    public Transform ejectPoint; // Точка, откуда выпадает магазин
-    [SerializeField] private GameObject internalMagazineModel; // Встроенный визуальный магазин (активируется/скрывается)
+    public GameObject emptyMagazinePrefab; // РџСЂРµС„Р°Р± РїСѓСЃС‚РѕРіРѕ РјР°РіР°Р·РёРЅР°
+    public Transform ejectPoint; // РўРѕС‡РєР°, РѕС‚РєСѓРґР° РІС‹РїР°РґР°РµС‚ РјР°РіР°Р·РёРЅ
+    [SerializeField] private GameObject internalMagazineModel; // Р’СЃС‚СЂРѕРµРЅРЅС‹Р№ РІРёР·СѓР°Р»СЊРЅС‹Р№ РјР°РіР°Р·РёРЅ (Р°РєС‚РёРІРёСЂСѓРµС‚СЃСЏ/СЃРєСЂС‹РІР°РµС‚СЃСЏ)
 
-    [Header("Подвижные части")]
-    [SerializeField] private Transform movablePart; // Подвижная часть оружия (затвор)
-    [SerializeField] private float recoilDistance = 0.2f; // Расстояние, на которое подвижная часть будет двигаться
-    [SerializeField] private float recoilDuration = 0.1f;     // сколько длится отдача (сек)
+    [Header("РџРѕРґРІРёР¶РЅС‹Рµ С‡Р°СЃС‚Рё")]
+    [SerializeField] private Transform movablePart; // РџРѕРґРІРёР¶РЅР°СЏ С‡Р°СЃС‚СЊ РѕСЂСѓР¶РёСЏ (Р·Р°С‚РІРѕСЂ)
+    [SerializeField] private float recoilDistance = 0.2f; // Р Р°СЃСЃС‚РѕСЏРЅРёРµ, РЅР° РєРѕС‚РѕСЂРѕРµ РїРѕРґРІРёР¶РЅР°СЏ С‡Р°СЃС‚СЊ Р±СѓРґРµС‚ РґРІРёРіР°С‚СЊСЃСЏ
+    [SerializeField] private float recoilDuration = 0.1f;     // СЃРєРѕР»СЊРєРѕ РґР»РёС‚СЃСЏ РѕС‚РґР°С‡Р° (СЃРµРє)
 
-    [Header("Настройки стрельбы")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё СЃС‚СЂРµР»СЊР±С‹")]
     public float fireRate;
     public float damage;
     public float range = 100f;
 
-    [Header("Настройки лазера")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё Р»Р°Р·РµСЂР°")]
     public bool laserEnabled = true;
-    public LineRenderer laserLine; // Сюда подключается LineRenderer в инспекторе
+    public LineRenderer laserLine; // РЎСЋРґР° РїРѕРґРєР»СЋС‡Р°РµС‚СЃСЏ LineRenderer РІ РёРЅСЃРїРµРєС‚РѕСЂРµ
 
     [Header("Muzzle Flash")]
     public ParticleSystem muzzleFlash;
     public Light muzzleLight;
-    public float lightDuration; // длительность вспышки света
+    public float lightDuration; // РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ РІСЃРїС‹С€РєРё СЃРІРµС‚Р°
 
     [Header("XR")]
-    public InputActionProperty triggerAction; // <-- сюда привязываем Input Action с триггера
+    public InputActionProperty triggerAction; // <-- СЃСЋРґР° РїСЂРёРІСЏР·С‹РІР°РµРј Input Action СЃ С‚СЂРёРіРіРµСЂР°
     public Transform firePoint;
     public InputActionProperty LeftTrigger;
     public InputActionProperty RightTrigger;
@@ -49,14 +52,14 @@ public class VRGun : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip shotSound;
 
-    [Header("Декали")]
+    [Header("Р”РµРєР°Р»Рё")]
     [SerializeField] private GameObject hitEffectPrefabDust;
     [SerializeField] private GameObject hitEffectPrefabSparks;
     [SerializeField] private float hitEffectLifetime = 100f;
     [SerializeField] private float effectOffset = 0.01f;
 
-    [Header("Прочее")]
-    public string enemyTag = ""; // Тег врага
+    [Header("РџСЂРѕС‡РµРµ")]
+    public string enemyTag = ""; // РўРµРі РІСЂР°РіР°
     private float nextFireTime = 0f;
 
     string ap = null;
@@ -72,12 +75,12 @@ public class VRGun : MonoBehaviour
         {
             laserLine.enabled = false;
         }
-        //изменения при прокачке
+        //РёР·РјРµРЅРµРЅРёСЏ РїСЂРё РїСЂРѕРєР°С‡РєРµ
         if (StaticHolder.BuffGunFireRate != 1)
         {
-            //Debug.Log("Скорость стрельбы былв - " + fireRate);
+            //Debug.Log("РЎРєРѕСЂРѕСЃС‚СЊ СЃС‚СЂРµР»СЊР±С‹ Р±С‹Р»РІ - " + fireRate);
             fireRate = fireRate * StaticHolder.BuffGunFireRate;
-            //Debug.Log("Скорость стрельбы стала - " + fireRate);
+            //Debug.Log("РЎРєРѕСЂРѕСЃС‚СЊ СЃС‚СЂРµР»СЊР±С‹ СЃС‚Р°Р»Р° - " + fireRate);
         }
         if (StaticHolder.BuffGunDamage != 1)
         {
@@ -91,28 +94,31 @@ public class VRGun : MonoBehaviour
     }
     void Update()
     {
-        //Debug.Log("Левый грип" + LeftGrip.action.ReadValue<float>());
-        //Debug.Log("Левый тригер" + LeftTrigger.action.ReadValue<float>());
-        //Debug.Log("Правый грип" + RightGrip.action.ReadValue<float>());
-        //Debug.Log("Правый Тригер" + RightTrigger.action.ReadValue<float>());
+        //Debug.Log("Р›РµРІС‹Р№ РіСЂРёРї" + LeftGrip.action.ReadValue<float>());
+        //Debug.Log("Р›РµРІС‹Р№ С‚СЂРёРіРµСЂ" + LeftTrigger.action.ReadValue<float>());
+        //Debug.Log("РџСЂР°РІС‹Р№ РіСЂРёРї" + RightGrip.action.ReadValue<float>());
+        //Debug.Log("РџСЂР°РІС‹Р№ РўСЂРёРіРµСЂ" + RightTrigger.action.ReadValue<float>());
         if (currentAmmo <= 0 && IsCharged)
         {
             IsCharged = false;
             currentMagazine = null;
-            EjectMagazine(); // автоматически выбрасывает магазин при окончании патронов
+            EjectMagazine(); // Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РІС‹Р±СЂР°СЃС‹РІР°РµС‚ РјР°РіР°Р·РёРЅ РїСЂРё РѕРєРѕРЅС‡Р°РЅРёРё РїР°С‚СЂРѕРЅРѕРІ
         }
-        // Проверка ввода через Input System
+        // РџСЂРѕРІРµСЂРєР° РІРІРѕРґР° С‡РµСЂРµР· Input System
         //Debug.Log(grabInteractable.attachTransform);
         if (grabInteractable.attachTransform != null)
         {
             ap = grabInteractable.attachTransform.name;
         } else { ap = null; }
+
+        if (grabInteractable.isSelected) Held = this;
+        else if (Held == this) Held = null;
         
         //Debug.Log(grabInteractable.attachTransform.name);
         //if (triggerAction.action != null && triggerAction.action.ReadValue<float>() > 0.8f && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
-        if (((LeftGrip.action.ReadValue<float>() > 0.8f && LeftTrigger.action.ReadValue<float>() > 0.8f && ap.Contains("L")) || (RightGrip.action.ReadValue<float>() > 0.8f && RightTrigger.action.ReadValue<float>() > 0.8f && ap.Contains("R"))) && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
+        if (((LeftGrip.action.ReadValue<float>() > 0.8f && LeftTrigger.action.ReadValue<float>() > 0.8f && ap != null && ap.Contains("L")) || (RightGrip.action.ReadValue<float>() > 0.8f && RightTrigger.action.ReadValue<float>() > 0.8f && ap != null && ap.Contains("R"))) && Time.time >= nextFireTime && grabInteractable.isSelected && IsLoaded)
         {
-            //Debug.Log("Выстрел игрока!");
+            //Debug.Log("Р’С‹СЃС‚СЂРµР» РёРіСЂРѕРєР°!");
             nextFireTime = Time.time + fireRate;
             Shoot();
         }
@@ -132,10 +138,10 @@ public class VRGun : MonoBehaviour
         currentAmmo--;
         if (currentAmmo <= 0)
         {
-            Debug.Log("Выстрел! Осталось патронов: " + currentAmmo);
+            Debug.Log("Р’С‹СЃС‚СЂРµР»! РћСЃС‚Р°Р»РѕСЃСЊ РїР°С‚СЂРѕРЅРѕРІ: " + currentAmmo);
         }
         StaticHolder.countShots++;
-        // Визуальный эффект
+        // Р’РёР·СѓР°Р»СЊРЅС‹Р№ СЌС„С„РµРєС‚
         if (muzzleFlash != null)
         {
             muzzleFlash.Play();
@@ -143,7 +149,7 @@ public class VRGun : MonoBehaviour
 
         if (muzzleLight != null)
             StartCoroutine(MuzzleLightFlash());
-        // Звук
+        // Р—РІСѓРє
         if (audioSource != null && shotSound != null)
             audioSource.PlayOneShot(shotSound);
         StartCoroutine(MoveRecoil());
@@ -164,11 +170,11 @@ public class VRGun : MonoBehaviour
             }
 
 
-            //Debug.Log("Попадание в " + hit.collider.tag);
+            //Debug.Log("РџРѕРїР°РґР°РЅРёРµ РІ " + hit.collider.tag);
             if (hit.collider.CompareTag("Head") || hit.collider.CompareTag("Leg") || hit.collider.CompareTag("Body"))
             {
                 float finalDamage = damage;
-                // Определяем зону попадания
+                // РћРїСЂРµРґРµР»СЏРµРј Р·РѕРЅСѓ РїРѕРїР°РґР°РЅРёСЏ
                 string hitPartName = hit.collider.name.ToLower();
 
 
@@ -182,7 +188,7 @@ public class VRGun : MonoBehaviour
                     finalDamage *= 0.5f;
                     //Debug.Log("Leg shot!");
 
-                    // Замедляем врага
+                    // Р—Р°РјРµРґР»СЏРµРј РІСЂР°РіР°
                     if (hit.collider.GetComponentInParent<EnemyStateManager>() != null)
                     {
                         movement = hit.collider.GetComponentInParent<EnemyStateManager>();
@@ -197,7 +203,7 @@ public class VRGun : MonoBehaviour
                 }
                 else
                 {
-                    // тело — обычный урон
+                    // С‚РµР»Рѕ вЂ” РѕР±С‹С‡РЅС‹Р№ СѓСЂРѕРЅ
                     //Debug.Log("Body shot!");
                 }
                 EnemyHeaths target = null;
@@ -217,9 +223,9 @@ public class VRGun : MonoBehaviour
                 }
             }
         }
-        //Debug.Log("Выстрелов - " + StaticHolder.countShots);
-        //Debug.Log("Попаданий - " + StaticHolder.countHits);
-        //Debug.Log("Урон - " + StaticHolder.Damage);
+        //Debug.Log("Р’С‹СЃС‚СЂРµР»РѕРІ - " + StaticHolder.countShots);
+        //Debug.Log("РџРѕРїР°РґР°РЅРёР№ - " + StaticHolder.countHits);
+        //Debug.Log("РЈСЂРѕРЅ - " + StaticHolder.Damage);
     }
     public bool CanInsertMagazine()
     {
@@ -233,30 +239,30 @@ public class VRGun : MonoBehaviour
         currentMagazine = magazine;
         currentAmmo = maxAmmo;
 
-        // Прячем внешний магазин
+        // РџСЂСЏС‡РµРј РІРЅРµС€РЅРёР№ РјР°РіР°Р·РёРЅ
         magazine.gameObject.SetActive(false);
 
-        // Активируем встроенный визуальный магазин
+        // РђРєС‚РёРІРёСЂСѓРµРј РІСЃС‚СЂРѕРµРЅРЅС‹Р№ РІРёР·СѓР°Р»СЊРЅС‹Р№ РјР°РіР°Р·РёРЅ
         if (internalMagazineModel != null)
             internalMagazineModel.SetActive(true);
 
-        Debug.Log("Магазин вставлен. Патроны: " + currentAmmo);
+        Debug.Log("РњР°РіР°Р·РёРЅ РІСЃС‚Р°РІР»РµРЅ. РџР°С‚СЂРѕРЅС‹: " + currentAmmo);
     }
     public void EjectMagazine()
     {
-        // Выкинуть пустой магазин
+        // Р’С‹РєРёРЅСѓС‚СЊ РїСѓСЃС‚РѕР№ РјР°РіР°Р·РёРЅ
         if (currentMagazine == null && emptyMagazinePrefab != null && ejectPoint != null)
         {
             Instantiate(emptyMagazinePrefab, ejectPoint.position, ejectPoint.rotation);
         }
-        //Debug.Log("Встроенный магазин ВЫКЛ");
-        // Выключить визуальный встроенный магазин
+        //Debug.Log("Р’СЃС‚СЂРѕРµРЅРЅС‹Р№ РјР°РіР°Р·РёРЅ Р’Р«РљР›");
+        // Р’С‹РєР»СЋС‡РёС‚СЊ РІРёР·СѓР°Р»СЊРЅС‹Р№ РІСЃС‚СЂРѕРµРЅРЅС‹Р№ РјР°РіР°Р·РёРЅ
         internalMagazineModel.SetActive(false);
         internalMagazineModel.gameObject.SetActive(false);
-        //Debug.Log("Отключаем встроенный магазин: " + internalMagazineModel.name);
+        //Debug.Log("РћС‚РєР»СЋС‡Р°РµРј РІСЃС‚СЂРѕРµРЅРЅС‹Р№ РјР°РіР°Р·РёРЅ: " + internalMagazineModel.name);
         currentAmmo = 0;
 
-        //Debug.Log("Магазин выброшен.");
+        //Debug.Log("РњР°РіР°Р·РёРЅ РІС‹Р±СЂРѕС€РµРЅ.");
     }
     IEnumerator MuzzleLightFlash()
     {
@@ -270,16 +276,16 @@ public class VRGun : MonoBehaviour
         {
             yield break;
         }
-        // 1) Сохраняем исходную локальную позицию
+        // 1) РЎРѕС…СЂР°РЅСЏРµРј РёСЃС…РѕРґРЅСѓСЋ Р»РѕРєР°Р»СЊРЅСѓСЋ РїРѕР·РёС†РёСЋ
         Vector3 originalLocalPos = movablePart.localPosition;
 
-        // 2) Чистый локальный вектор отдачи: назад по локальной Z
+        // 2) Р§РёСЃС‚С‹Р№ Р»РѕРєР°Р»СЊРЅС‹Р№ РІРµРєС‚РѕСЂ РѕС‚РґР°С‡Рё: РЅР°Р·Р°Рґ РїРѕ Р»РѕРєР°Р»СЊРЅРѕР№ Z
         Vector3 recoilOffsetLocal = new Vector3(0f, 0f, -recoilDistance);
 
         float halfDur = recoilDuration * 0.5f;
         float timer = 0f;
 
-        // 3) Двигаем затвор назад (половина отдачи)
+        // 3) Р”РІРёРіР°РµРј Р·Р°С‚РІРѕСЂ РЅР°Р·Р°Рґ (РїРѕР»РѕРІРёРЅР° РѕС‚РґР°С‡Рё)
         while (timer < halfDur)
         {
             float t = timer / halfDur; 
@@ -290,7 +296,7 @@ public class VRGun : MonoBehaviour
             yield return null;
         }
 
-        // 4) Возвращаем затвор в исходное положение (половина возврата)
+        // 4) Р’РѕР·РІСЂР°С‰Р°РµРј Р·Р°С‚РІРѕСЂ РІ РёСЃС…РѕРґРЅРѕРµ РїРѕР»РѕР¶РµРЅРёРµ (РїРѕР»РѕРІРёРЅР° РІРѕР·РІСЂР°С‚Р°)
         timer = 0f;
         while (timer < halfDur)
         {
@@ -302,8 +308,13 @@ public class VRGun : MonoBehaviour
             yield return null;
         }
 
-        // 5) Гарантируем точно исходную позицию
+        // 5) Р“Р°СЂР°РЅС‚РёСЂСѓРµРј С‚РѕС‡РЅРѕ РёСЃС…РѕРґРЅСѓСЋ РїРѕР·РёС†РёСЋ
         movablePart.localPosition = originalLocalPos;
+    }
+
+    private void OnDisable()
+    {
+        if (Held == this) Held = null;
     }
 
     void UpdateLaser()

@@ -1,4 +1,4 @@
-using MikeNspired.XRIStarterKit;
+п»їusing MikeNspired.XRIStarterKit;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,27 +8,27 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class VRgunForEnemy : MonoBehaviour
 {
-    [Header("Перезарядка")]
+    [Header("РџРµСЂРµР·Р°СЂСЏРґРєР°")]
     [SerializeField] public float maxAmmo;
     public float currentAmmo;
     public bool IsLoaded => currentAmmo > 0;
     private VRMagazine currentMagazine;
     public bool IsCharged = true;
 
-    [Header("Подвижные части")]
+    [Header("РџРѕРґРІРёР¶РЅС‹Рµ С‡Р°СЃС‚Рё")]
     [SerializeField] private Transform movablePart;
     [SerializeField] private float recoilDistance = 0.2f;
     [SerializeField] private float recoilDuration = 0.1f;
 
-    [Header("Настройки стрельбы")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё СЃС‚СЂРµР»СЊР±С‹")]
     public float fireRate;
     public float damage;
     public float range = 100f;
 
-    [Header("Разброс выстрелов")]
-    [SerializeField] private float spreadAngle = 5f; // угол разброса в градусах
+    [Header("Р Р°Р·Р±СЂРѕСЃ РІС‹СЃС‚СЂРµР»РѕРІ")]
+    [SerializeField] private float spreadAngle = 5f; // СѓРіРѕР» СЂР°Р·Р±СЂРѕСЃР° РІ РіСЂР°РґСѓСЃР°С…
 
-    [Header("Настройки лазера")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё Р»Р°Р·РµСЂР°")]
     public bool laserEnabled = true;
     public LineRenderer laserLine;
 
@@ -44,13 +44,13 @@ public class VRgunForEnemy : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip shotSound;
 
-    [Header("Декали")]
+    [Header("Р”РµРєР°Р»Рё")]
     [SerializeField] private GameObject hitEffectPrefabDust;
     [SerializeField] private GameObject hitEffectPrefabSparks;
     [SerializeField] private float hitEffectLifetime = 100f;
     [SerializeField] private float effectOffset = 0.01f;
 
-    [Header("Прочее")]
+    [Header("РџСЂРѕС‡РµРµ")]
     public string enemyTag = "";
     private float nextFireTime = 0f;
 
@@ -61,15 +61,15 @@ public class VRgunForEnemy : MonoBehaviour
 
     public void Shoot()
     {
-        // Эффекты
+        // Р­С„С„РµРєС‚С‹
         if (muzzleFlash != null) muzzleFlash.Play();
         if (muzzleLight != null) StartCoroutine(MuzzleLightFlash());
         if (audioSource != null && shotSound != null) audioSource.PlayOneShot(shotSound);
         StartCoroutine(MoveRecoil());
 
-        // Направление с разбросом
+        // РќР°РїСЂР°РІР»РµРЅРёРµ СЃ СЂР°Р·Р±СЂРѕСЃРѕРј
         Vector3 directionWithSpread = GetSpreadDirection(firePoint.forward, spreadAngle);
-        lastShotDirection = directionWithSpread; // сохраняем для лазера
+        lastShotDirection = directionWithSpread; // СЃРѕС…СЂР°РЅСЏРµРј РґР»СЏ Р»Р°Р·РµСЂР°
 
         RaycastHit hit;
         if (Physics.Raycast(firePoint.position, directionWithSpread, out hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
@@ -86,7 +86,7 @@ public class VRgunForEnemy : MonoBehaviour
 
             if (hit.collider.CompareTag("Player"))
             {
-                Debug.Log("В игрока стреляют");
+                Debug.Log("Р’ РёРіСЂРѕРєР° СЃС‚СЂРµР»СЏСЋС‚");
                 float finalDamage = damage;
                 PlayerHealth player = hit.collider.GetComponentInParent<PlayerHealth>();
                 if (player != null)

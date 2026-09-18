@@ -1,4 +1,4 @@
-using MikeNspired.XRIStarterKit;
+п»їusing MikeNspired.XRIStarterKit;
 using System.Runtime.CompilerServices;
 using System.Xml;
 using UnityEngine;
@@ -7,49 +7,49 @@ using UnityEngine.AI;
 public class EnemyStateManager : MonoBehaviour
 {
     [Header("Main")]
-    public Animator animator; //аниматор врага
-    public NavMeshAgent agent; // агнет врага
-    public Transform player; //позиция игрока
-    public Transform playerHead; //позиция головы игрока
-    [SerializeField] private LayerMask obstructionMask; //маска препятствий
+    public Animator animator; //Р°РЅРёРјР°С‚РѕСЂ РІСЂР°РіР°
+    public NavMeshAgent agent; // Р°РіРЅРµС‚ РІСЂР°РіР°
+    public Transform player; //РїРѕР·РёС†РёСЏ РёРіСЂРѕРєР°
+    public Transform playerHead; //РїРѕР·РёС†РёСЏ РіРѕР»РѕРІС‹ РёРіСЂРѕРєР°
+    [SerializeField] private LayerMask obstructionMask; //РјР°СЃРєР° РїСЂРµРїСЏС‚СЃС‚РІРёР№
 
-    [Header("Скорость ходьбы")]
-    public float walkSpeed = 2f; //скорость ходьбы
-    public float runSpeed = 3f; //скорость бега
+    [Header("РЎРєРѕСЂРѕСЃС‚СЊ С…РѕРґСЊР±С‹")]
+    public float walkSpeed = 2f; //СЃРєРѕСЂРѕСЃС‚СЊ С…РѕРґСЊР±С‹
+    public float runSpeed = 3f; //СЃРєРѕСЂРѕСЃС‚СЊ Р±РµРіР°
    
-    [Header("Обзор врага")]
+    [Header("РћР±Р·РѕСЂ РІСЂР°РіР°")]
     [SerializeField] public float viewAngle = 120f;//FOV
-    [SerializeField] private float viewDistance = 20f; //дальность зрения
-    [SerializeField] private float radiusInfection = 20f; //радиус заражения
+    [SerializeField] private float viewDistance = 20f; //РґР°Р»СЊРЅРѕСЃС‚СЊ Р·СЂРµРЅРёСЏ
+    [SerializeField] private float radiusInfection = 20f; //СЂР°РґРёСѓСЃ Р·Р°СЂР°Р¶РµРЅРёСЏ
 
-    [Header("Отрисовка")]
-    [SerializeField] private bool drawOverview = true; //отрисовывать FOX врага?
-    [SerializeField] private bool drawRadiusInfection = false; //отрисовывать радиус заражения?
+    [Header("РћС‚СЂРёСЃРѕРІРєР°")]
+    [SerializeField] private bool drawOverview = true; //РѕС‚СЂРёСЃРѕРІС‹РІР°С‚СЊ FOX РІСЂР°РіР°?
+    [SerializeField] private bool drawRadiusInfection = false; //РѕС‚СЂРёСЃРѕРІС‹РІР°С‚СЊ СЂР°РґРёСѓСЃ Р·Р°СЂР°Р¶РµРЅРёСЏ?
 
-    [Header("Атака")]
-    public float attackDistance = 1.6f; // дистанция атаки
-    public bool isWeapon = false; //имеет ли бот оружие?
-    [SerializeField] private bool infection = true; //приминяется ли к боту заражение?
+    [Header("РђС‚Р°РєР°")]
+    public float attackDistance = 1.6f; // РґРёСЃС‚Р°РЅС†РёСЏ Р°С‚Р°РєРё
+    public bool isWeapon = false; //РёРјРµРµС‚ Р»Рё Р±РѕС‚ РѕСЂСѓР¶РёРµ?
+    [SerializeField] private bool infection = true; //РїСЂРёРјРёРЅСЏРµС‚СЃСЏ Р»Рё Рє Р±РѕС‚Сѓ Р·Р°СЂР°Р¶РµРЅРёРµ?
 
-    [Header("Патрулирование")]
-    public float timeIdle = 10f; //время отдыха
-    public bool stopAfterPatrol = false; //останавливаться на месте после того как дошёл до точки
-    public Transform[] patrolPoints; //точки патрулирования
+    [Header("РџР°С‚СЂСѓР»РёСЂРѕРІР°РЅРёРµ")]
+    public float timeIdle = 10f; //РІСЂРµРјСЏ РѕС‚РґС‹С…Р°
+    public bool stopAfterPatrol = false; //РѕСЃС‚Р°РЅР°РІР»РёРІР°С‚СЊСЃСЏ РЅР° РјРµСЃС‚Рµ РїРѕСЃР»Рµ С‚РѕРіРѕ РєР°Рє РґРѕС€С‘Р» РґРѕ С‚РѕС‡РєРё
+    public Transform[] patrolPoints; //С‚РѕС‡РєРё РїР°С‚СЂСѓР»РёСЂРѕРІР°РЅРёСЏ
 
-    [Header("Звуки шагов")]
-    public AudioClip dirtWalkClip; //звук ходьбы по земле
-    public AudioClip metalWalkClip; //звук ходьбы по металлу
-    public AudioSource footstepAudioSource; // проигрыватель звуков
-    public LayerMask groundLayerMask; //маска поверхности+
+    [Header("Р—РІСѓРєРё С€Р°РіРѕРІ")]
+    public AudioClip dirtWalkClip; //Р·РІСѓРє С…РѕРґСЊР±С‹ РїРѕ Р·РµРјР»Рµ
+    public AudioClip metalWalkClip; //Р·РІСѓРє С…РѕРґСЊР±С‹ РїРѕ РјРµС‚Р°Р»Р»Сѓ
+    public AudioSource footstepAudioSource; // РїСЂРѕРёРіСЂС‹РІР°С‚РµР»СЊ Р·РІСѓРєРѕРІ
+    public LayerMask groundLayerMask; //РјР°СЃРєР° РїРѕРІРµСЂС…РЅРѕСЃС‚Рё+
 
-    [HideInInspector] public bool isAgroFromInfection = false; //в состоянии агро после заражения?
-    [HideInInspector] public bool isTakeDamage = false; //получил ли урон?
-    [HideInInspector] public Vector3? lastKnownPosition = null; //последняя позиция где видел игрока
-    private int currentPatrolIndex = 0; //текущая точка патрулирования
-    private Transform target; // цель врага
-    [HideInInspector] public EnemyWeaponController controller; //контроллер оружия
-    [HideInInspector] public float basicAngle; // начальный угол обзора
-    private VRgunForEnemy weapon; // оружие врага
+    [HideInInspector] public bool isAgroFromInfection = false; //РІ СЃРѕСЃС‚РѕСЏРЅРёРё Р°РіСЂРѕ РїРѕСЃР»Рµ Р·Р°СЂР°Р¶РµРЅРёСЏ?
+    [HideInInspector] public bool isTakeDamage = false; //РїРѕР»СѓС‡РёР» Р»Рё СѓСЂРѕРЅ?
+    [HideInInspector] public Vector3? lastKnownPosition = null; //РїРѕСЃР»РµРґРЅСЏСЏ РїРѕР·РёС†РёСЏ РіРґРµ РІРёРґРµР» РёРіСЂРѕРєР°
+    private int currentPatrolIndex = 0; //С‚РµРєСѓС‰Р°СЏ С‚РѕС‡РєР° РїР°С‚СЂСѓР»РёСЂРѕРІР°РЅРёСЏ
+    private Transform target; // С†РµР»СЊ РІСЂР°РіР°
+    [HideInInspector] public EnemyWeaponController controller; //РєРѕРЅС‚СЂРѕР»Р»РµСЂ РѕСЂСѓР¶РёСЏ
+    [HideInInspector] public float basicAngle; // РЅР°С‡Р°Р»СЊРЅС‹Р№ СѓРіРѕР» РѕР±Р·РѕСЂР°
+    private VRgunForEnemy weapon; // РѕСЂСѓР¶РёРµ РІСЂР°РіР°
 
     EnemyBaseState currentState;
     public EnemyIdleState IdleState = new EnemyIdleState();
@@ -140,11 +140,11 @@ public class EnemyStateManager : MonoBehaviour
         Transform playerHead = Camera.main.transform;
         Vector3 playerHeadPos = playerHead.position;
 
-        Vector3 eyeOrigin = transform.position + Vector3.up * 1.7f; // глаза врага
+        Vector3 eyeOrigin = transform.position + Vector3.up * 1.7f; // РіР»Р°Р·Р° РІСЂР°РіР°
         Vector3 directionToHead = (playerHeadPos - eyeOrigin).normalized;
         float distanceToHead = Vector3.Distance(eyeOrigin, playerHeadPos);
 
-        // Проверка угла
+        // РџСЂРѕРІРµСЂРєР° СѓРіР»Р°
         float angleToHead = Vector3.Angle(transform.forward, directionToHead);
         if (angleToHead > viewAngle / 2f || distanceToHead > viewDistance)
             return false;
@@ -173,12 +173,12 @@ public class EnemyStateManager : MonoBehaviour
     {
         if (drawOverview)
         {
-            // Настройки
-            int segments = 60; // Чем больше — тем плавнее сектор
+            // РќР°СЃС‚СЂРѕР№РєРё
+            int segments = 60; // Р§РµРј Р±РѕР»СЊС€Рµ вЂ” С‚РµРј РїР»Р°РІРЅРµРµ СЃРµРєС‚РѕСЂ
             float angleStep = viewAngle / segments;
             Vector3 origin = transform.position + Vector3.up * 1.7f * agent.transform.localScale.y;
 
-            Gizmos.color = new Color(1f, 1f, 0f, 0.25f); // Жёлтый полупрозрачный
+            Gizmos.color = new Color(1f, 1f, 0f, 0.25f); // Р–С‘Р»С‚С‹Р№ РїРѕР»СѓРїСЂРѕР·СЂР°С‡РЅС‹Р№
 
             Vector3 prevPoint = origin + Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward * viewDistance;
 
@@ -191,7 +191,7 @@ public class EnemyStateManager : MonoBehaviour
                 prevPoint = nextPoint;
             }
 
-            // Границы FOV
+            // Р“СЂР°РЅРёС†С‹ FOV
             Vector3 leftBoundary = Quaternion.Euler(0, -viewAngle / 2f, 0) * transform.forward;
             Vector3 rightBoundary = Quaternion.Euler(0, viewAngle / 2f, 0) * transform.forward;
 
@@ -212,16 +212,16 @@ public class EnemyStateManager : MonoBehaviour
 
                 if (Physics.Raycast(origin, directionToPlayer, out hit, distanceToPlayer, obstructionMask, QueryTriggerInteraction.Ignore))
                 {
-                    // Нарисовать линию до точки столкновения
+                    // РќР°СЂРёСЃРѕРІР°С‚СЊ Р»РёРЅРёСЋ РґРѕ С‚РѕС‡РєРё СЃС‚РѕР»РєРЅРѕРІРµРЅРёСЏ
                     Gizmos.color = Color.green;
                     Gizmos.DrawLine(origin, hit.point);
 
-                    // Шарики
+                    // РЁР°СЂРёРєРё
                     Gizmos.color = Color.yellow;
-                    Gizmos.DrawSphere(origin, 0.1f); // начало
+                    Gizmos.DrawSphere(origin, 0.1f); // РЅР°С‡Р°Р»Рѕ
 
                     Gizmos.color = Color.red;
-                    Gizmos.DrawSphere(hit.point, 0.15f); // место столкновения
+                    Gizmos.DrawSphere(hit.point, 0.15f); // РјРµСЃС‚Рѕ СЃС‚РѕР»РєРЅРѕРІРµРЅРёСЏ
                 }
                 else
                 {
@@ -239,7 +239,7 @@ public class EnemyStateManager : MonoBehaviour
         }
         if (drawRadiusInfection)
         {
-            Gizmos.color = new Color(1f, 0f, 1f); // Пурпурный
+            Gizmos.color = new Color(1f, 0f, 1f); // РџСѓСЂРїСѓСЂРЅС‹Р№
             Vector3 center = transform.position;
 
             int segments = 360;
@@ -332,7 +332,6 @@ public class EnemyStateManager : MonoBehaviour
         {
             string groundTag = hit.collider.tag;
             AudioClip clipToPlay = null;
-            Debug.Log(groundTag);
             if (groundTag == "Metal")
             {
                 footstepAudioSource.maxDistance = 3f;
