@@ -14,7 +14,7 @@ public abstract class SceneLoaderBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && CanEnter()) playerInElevator = true;
+        if (other.CompareTag("Player")) playerInElevator = true;
     }
 
     private void OnTriggerExit(Collider other)
@@ -24,7 +24,7 @@ public abstract class SceneLoaderBase : MonoBehaviour
 
     private void Update()
     {
-        if (isLoading || !playerInElevator || !CanDepart()) return;
+        if (isLoading || !playerInElevator || !CanEnter() || !CanDepart()) return;
 
         isLoading = true;
         OnBeforeLoad();
@@ -34,7 +34,7 @@ public abstract class SceneLoaderBase : MonoBehaviour
     /// <summary>Индекс сцены в Build Settings, которую грузит этот лифт.</summary>
     protected abstract int TargetSceneIndex { get; }
 
-    /// <summary>Можно ли вообще зайти в лифт (по умолчанию — да).</summary>
+    /// <summary>Разрешён ли отъезд с точки зрения условий магазина/этажа (проверяется каждый кадр, пока игрок в лифте).</summary>
     protected virtual bool CanEnter() => true;
 
     /// <summary>Можно ли ехать (условия этажа).</summary>
