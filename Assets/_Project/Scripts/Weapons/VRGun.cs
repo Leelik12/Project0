@@ -64,7 +64,23 @@ public class VRGun : MonoBehaviour
     [SerializeField] private float hitEffectLifetime = 2f;
     [SerializeField] private float effectOffset = 0.01f;
 
+    [Header("Отдача в руку")]
+    [Tooltip("Насколько градусов ствол подбрасывает вверх за выстрел")]
+    [SerializeField] private float recoilAngle = 4f;
+    [Tooltip("Насколько метров оружие отходит назад за выстрел")]
+    [SerializeField] private float recoilKickBack = 0.015f;
+    [Tooltip("Скорость возврата в исходное положение (больше — быстрее)")]
+    [SerializeField] private float recoilReturnSpeed = 14f;
+    [Tooltip("Импульс, которым пуля толкает физические объекты (трупы, ящики)")]
+    [SerializeField] private float impactForce = 8f;
+
+    [Header("Счётчик патронов на оружии")]
+    [SerializeField] private bool showAmmoCounter = true;
+    [Tooltip("Где висит счётчик. Пусто — над стволом, в 12 см за дулом")]
+    [SerializeField] private Transform ammoCounterAnchor;
+
     private float nextFireTime;
+    private WeaponRecoil recoil;
     private bool LaserAllowed => laserEnabled && laserLine != null && (!GameState.Difficulty || GameState.LaserSightUnlocked);
 
     private void Awake()
@@ -81,6 +97,9 @@ public class VRGun : MonoBehaviour
         maxAmmo *= GameState.BuffGunMaxAmmo;
 
         if (laserLine != null) laserLine.enabled = LaserAllowed;
+
+        recoil = new WeaponRecoil(recoilAngle, recoilKickBack, recoilReturnSpeed);
+        if (showAmmoCounter) GunAmmoCounter.Create(this, ammoCounterAnchor);
     }
 
     private void Update()
@@ -103,11 +122,14 @@ public class VRGun : MonoBehaviour
 
         if (LaserAllowed) UpdateLaser();
         else if (laserLine != null) laserLine.enabled = false;
+
+        recoil.Update(held ? grabInteractable : null, firePoint);
     }
 
     private void OnDisable()
     {
         if (Held == this) Held = null;
+        recoil?.Reset();
     }
 
     // Стреляет только та рука, в которой лежит оружие (attachTransform содержит "L" или "R")
@@ -131,10 +153,16 @@ public class VRGun : MonoBehaviour
         PlayShotEffects();
         Haptics.Pulse(grabInteractable, 0.6f, 0.08f);
 
-        if (!Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
-            return;
+        // Сильные руки держат оружие крепче
+        recoil.Kick(GameState.StrongArms ? 0.6f : 1f);
+
+        bool hasHit = Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+        Vector3 end = hasHit ? hit.point : firePoint.position + firePoint.forward * range;
+        Tracer.Spawn(firePoint.position, end, enemy: false, laserLine != null ? laserLine.sharedMaterial : null);
+        if (!hasHit) return;
 
         SpawnHitEffects(hit);
+        PushBody(hit);
         ApplyDamage(hit);
     }
 
@@ -151,8 +179,14 @@ public class VRGun : MonoBehaviour
         Vector3 pos = hit.point + hit.normal * effectOffset;
         Quaternion rot = Quaternion.LookRotation(hit.normal);
 
-        if (hitEffectPrefabDust != null) Destroy(Instantiate(hitEffectPrefabDust, pos, rot), hitEffectLifetime);
-        if (hitEffectPrefabSparks != null) Destroy(Instantiate(hitEffectPrefabSparks, pos, rot), hitEffectLifetime);
+        ObjectPool.Spawn(hitEffectPrefabDust, pos, rot, hitEffectLifetime);
+        ObjectPool.Spawn(hitEffectPrefabSparks, pos, rot, hitEffectLifetime);
+    }
+
+    private void PushBody(RaycastHit hit)
+    {
+        Rigidbody body = hit.rigidbody;
+        if (body != null && !body.isKinematic) body.AddForceAtPosition(firePoint.forward * impactForce, hit.point, ForceMode.Impulse);
     }
 
     private void ApplyDamage(RaycastHit hit)
@@ -161,10 +195,11 @@ public class VRGun : MonoBehaviour
         if (!col.CompareTag("Head") && !col.CompareTag("Leg") && !col.CompareTag("Body")) return;
 
         EnemyHealth target = col.GetComponentInParent<EnemyHealth>();
-        if (target == null) return;
+        if (target == null || target.IsDead) return; // по трупу не считаем ни урон, ни точность
 
+        bool headshot = col.CompareTag("Head");
         float finalDamage = damage;
-        if (col.CompareTag("Head"))
+        if (headshot)
         {
             finalDamage *= HeadshotMultiplier;
         }
@@ -182,7 +217,7 @@ public class VRGun : MonoBehaviour
         }
 
         GameState.RegisterHit(finalDamage);
-        target.TakeDamage(finalDamage);
+        target.TakeDamage(finalDamage, hit.point, firePoint.forward, headshot);
     }
 
     // ---------- Магазины ----------
