@@ -10,6 +10,8 @@ public class ItemPickupTrigger : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
+        // В собранном этаже предмет приходит в префабе комнаты, ссылку на сцену ему не проставить заранее
+        if (levelManager == null) levelManager = FindFirstObjectByType<LevelManager>();
         if (levelManager != null) levelManager.OnItemPickedUp();
         gameObject.SetActive(false);
     }
