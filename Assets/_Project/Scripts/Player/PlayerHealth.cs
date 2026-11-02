@@ -35,6 +35,12 @@ public class PlayerHealth : MonoBehaviour
     [Header("Katana")]
     public GameObject katana;
 
+    [Header("Импланты на HUD (необязательно)")]
+    [Tooltip("Иконка «Пропитал готов»: видна, если имплант куплен и ещё не использован на этаже")]
+    public GameObject propitalReadyIcon;
+    [Tooltip("Иконка «Сандевистан готов»")]
+    public GameObject sandevistanReadyIcon;
+
     [Header("Отклик на урон")]
     [SerializeField] private float damageHapticAmplitude = 0.7f;
     [SerializeField] private float damageHapticDuration = 0.15f;
@@ -79,6 +85,7 @@ public class PlayerHealth : MonoBehaviour
         HandleMenu();
         HandleMissionChecks();
         HandleSpeedBoost();
+        HandleImplantIcons();
         GameState.RunTime += Time.unscaledDeltaTime;
     }
 
@@ -183,6 +190,17 @@ public class PlayerHealth : MonoBehaviour
         {
             StartCoroutine(SandevistanRoutine());
         }
+    }
+
+    private void HandleImplantIcons()
+    {
+        SetActiveIfChanged(propitalReadyIcon, GameState.PropitalHeal && !GameState.PropitalHealActive);
+        SetActiveIfChanged(sandevistanReadyIcon, GameState.Sandevistan && !GameState.SandevistanActive);
+    }
+
+    private static void SetActiveIfChanged(GameObject go, bool active)
+    {
+        if (go != null && go.activeSelf != active) go.SetActive(active);
     }
 
     // Ускорение после урона: таймер вместо корутины, чтобы повторные попадания продлевали эффект, а не обрывали его.
