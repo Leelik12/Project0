@@ -20,7 +20,9 @@ public class EliteEnemy : MonoBehaviour
     private const float ArmoredDamageTaken = 0.5f;
     private const float RegenerationPerSecond = 0.03f; // доля максимального здоровья
     private const float ChestHeight = 1.3f;
+    private const float BodyGlowStrength = 0.04f;
     private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+    private static readonly int EmissionMap = Shader.PropertyToID("_EmissionMap");
 
     private EnemyHealth health;
     private Light glow;
@@ -87,7 +89,10 @@ public class EliteEnemy : MonoBehaviour
             {
                 if (!material.HasProperty(EmissionColor)) continue;
                 material.EnableKeyword("_EMISSION");
-                material.SetColor(EmissionColor, color * 0.6f);
+                // Карта свечения у моделей врагов светит лишь точками — без неё светится вся фигура.
+                // Яркость маленькая: постобработка сильно усиливает свечение.
+                if (material.HasProperty(EmissionMap)) material.SetTexture(EmissionMap, null);
+                material.SetColor(EmissionColor, color * BodyGlowStrength);
             }
         }
     }
