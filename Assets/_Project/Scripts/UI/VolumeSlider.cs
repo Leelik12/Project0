@@ -5,8 +5,7 @@ using UnityEngine.UI;
 /// <summary>Слайдер громкости, привязанный к параметру AudioMixer. Наследники задают параметр и поле в GameState.</summary>
 public abstract class VolumeSlider : MonoBehaviour
 {
-    private const float MinDb = -30f;
-    private const float MaxDb = 10f;
+    private const float MuteDb = -80f; // минимум AudioMixer
 
     public Slider volumeSlider;
     public AudioMixer audioMixer;
@@ -27,8 +26,10 @@ public abstract class VolumeSlider : MonoBehaviour
         ApplyVolume(volume);
     }
 
+    // Громкость слышится логарифмически: 0.5 слайдера ≈ -6 dB, 1 — 0 dB (без усиления), 0 — тишина.
     private void ApplyVolume(float volume01)
     {
-        audioMixer.SetFloat(MixerParameter, Mathf.Lerp(MinDb, MaxDb, volume01));
+        float db = volume01 <= 0.0001f ? MuteDb : Mathf.Log10(volume01) * 20f;
+        audioMixer.SetFloat(MixerParameter, db);
     }
 }

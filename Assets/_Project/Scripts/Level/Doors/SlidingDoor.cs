@@ -13,6 +13,7 @@ public abstract class SlidingDoor : MonoBehaviour
     private Vector3 targetPosition;
     private bool isMoving;
     private bool hasOpened;
+    private bool playerNearby;
 
     protected abstract bool CanOpen();
 
@@ -23,6 +24,15 @@ public abstract class SlidingDoor : MonoBehaviour
 
     private void Update()
     {
+        // Условие проверяется каждый кадр, пока игрок рядом: оно может выполниться уже после входа в триггер
+        // (например, апгрейд купили, стоя у двери магазина).
+        if (!hasOpened && playerNearby && CanOpen())
+        {
+            hasOpened = true;
+            isMoving = true;
+            if (openSound != null) openSound.Play();
+        }
+
         if (!isMoving) return;
 
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, openSpeed * Time.deltaTime);
@@ -34,10 +44,11 @@ public abstract class SlidingDoor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (hasOpened || !other.CompareTag("Player") || !CanOpen()) return;
+        if (other.CompareTag("Player")) playerNearby = true;
+    }
 
-        hasOpened = true;
-        isMoving = true;
-        if (openSound != null) openSound.Play();
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player")) playerNearby = false;
     }
 }

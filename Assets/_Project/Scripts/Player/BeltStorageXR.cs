@@ -13,6 +13,8 @@ public class BeltStorageXR : MonoBehaviour
 {
     [SerializeField] private List<Transform> slotPoints;
     [SerializeField] private bool showSlotHints = true;
+    [Tooltip("Материал подсказок слотов. Пусто — создаётся из URP Unlit (Shader.Find в билде может не найти шейдер, поэтому лучше назначить).")]
+    [SerializeField] private Material slotHintMaterial;
     [SerializeField] private float magnetSpeed = 10f;
 
     private BoxCollider triggerBox;
@@ -32,7 +34,13 @@ public class BeltStorageXR : MonoBehaviour
 
     private void CreateSlotHints()
     {
-        Material hintMaterial = new Material(Shader.Find("Unlit/Color")) { color = new Color(0, 1f, 1f, 0.6f) };
+        Material hintMaterial = slotHintMaterial;
+        if (hintMaterial == null)
+        {
+            Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
+            if (shader == null) return; // шейдер вырезан из билда — просто без подсказок
+            hintMaterial = new Material(shader) { color = new Color(0, 1f, 1f, 0.6f) };
+        }
 
         foreach (Transform slot in slotPoints)
         {

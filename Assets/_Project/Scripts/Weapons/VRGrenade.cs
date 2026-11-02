@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
@@ -80,12 +81,17 @@ public class VRGrenade : MonoBehaviour
             }
         }
 
+        // У врага несколько коллайдеров (голова, тело, ноги) — урон каждому врагу наносим один раз
+        var damaged = new HashSet<EnemyHealth>();
         foreach (Collider nearby in Physics.OverlapSphere(transform.position, explosionRadius))
         {
             if (nearby.CompareTag("Enemy") || nearby.CompareTag("Body"))
             {
                 EnemyHealth enemy = nearby.GetComponentInParent<EnemyHealth>();
-                if (enemy != null) enemy.TakeDamage(damage);
+                if (enemy != null && !enemy.IsDead && damaged.Add(enemy))
+                {
+                    enemy.TakeDamage(damage);
+                }
             }
 
             Rigidbody rb = nearby.GetComponent<Rigidbody>();

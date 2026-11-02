@@ -38,10 +38,10 @@ public class EnemyGun : MonoBehaviour
     [Header("Декали")]
     [SerializeField] private GameObject hitEffectPrefabDust;
     [SerializeField] private GameObject hitEffectPrefabSparks;
-    [SerializeField] private float hitEffectLifetime = 100f;
+    [SerializeField] private float hitEffectLifetime = 2f;
     [SerializeField] private float effectOffset = 0.01f;
 
-    private Vector3 lastShotDirection = Vector3.forward;
+    private Vector3 lastShotLocalDirection = Vector3.forward; // в координатах firePoint: лазер поворачивается вместе со стволом
 
     public void Shoot()
     {
@@ -51,7 +51,7 @@ public class EnemyGun : MonoBehaviour
         StartCoroutine(MoveRecoil());
 
         Vector3 direction = GetSpreadDirection(firePoint.forward, spreadAngle);
-        lastShotDirection = direction;
+        lastShotLocalDirection = firePoint.InverseTransformDirection(direction);
 
         if (!Physics.Raycast(firePoint.position, direction, out RaycastHit hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
             return;
@@ -107,7 +107,8 @@ public class EnemyGun : MonoBehaviour
     {
         if (!laserEnabled || laserLine == null || firePoint == null) return;
 
-        Vector3 endPoint = Physics.Raycast(firePoint.position, lastShotDirection, out RaycastHit hit, range)
+        Vector3 lastShotDirection = firePoint.TransformDirection(lastShotLocalDirection);
+        Vector3 endPoint = Physics.Raycast(firePoint.position, lastShotDirection, out RaycastHit hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore)
             ? hit.point
             : firePoint.position + lastShotDirection * range;
 
