@@ -72,6 +72,7 @@ public class PlayerHealth : MonoBehaviour
         HandleMenu();
         HandleMissionChecks();
         HandleSpeedBoost();
+        GameState.RunTime += Time.unscaledDeltaTime;
     }
 
     // ---------- Урон и смерть ----------
@@ -110,9 +111,11 @@ public class PlayerHealth : MonoBehaviour
         SceneManager.LoadSceneAsync(0);
     }
 
-    /// <summary>Выход в главное меню с сохранением прогресса.</summary>
+    /// <summary>Выход в главное меню с сохранением прогресса: в меню забег можно продолжить (SceneManagerMain.Continue).</summary>
     public void ToMain()
     {
+        GameState.RunInProgress = true;
+        GameState.ContinueScene = SceneManager.GetActiveScene().buildIndex;
         GameState.SaveData();
         SceneManager.LoadSceneAsync(0);
     }

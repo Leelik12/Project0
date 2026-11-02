@@ -28,6 +28,7 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             isDead = true;
+            GameState.RegisterKill();
             stateManager?.Die();
         }
     }

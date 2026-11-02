@@ -126,7 +126,7 @@ public class VRGun : MonoBehaviour
     public void Shoot()
     {
         currentAmmo--;
-        GameState.ShotsFired++;
+        GameState.RegisterShot();
 
         PlayShotEffects();
 
@@ -180,8 +180,7 @@ public class VRGun : MonoBehaviour
             }
         }
 
-        GameState.ShotsHit++;
-        GameState.TotalDamage += finalDamage;
+        GameState.RegisterHit(finalDamage);
         target.TakeDamage(finalDamage);
     }
 

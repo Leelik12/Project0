@@ -91,6 +91,7 @@ public class VRGrenade : MonoBehaviour
                 if (enemy != null && !enemy.IsDead && damaged.Add(enemy))
                 {
                     enemy.TakeDamage(damage);
+                    GameState.RegisterDamage(damage);
                 }
             }
 

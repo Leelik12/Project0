@@ -13,10 +13,11 @@ public class MeleeWeaponDamage : MonoBehaviour
         if (Time.time - lastDamageTime < damageCooldown) return;
 
         EnemyHealth enemyHealth = collision.GetComponentInParent<EnemyHealth>();
-        if (enemyHealth == null) return;
+        if (enemyHealth == null || enemyHealth.IsDead) return;
 
         float damage = GameState.StrongArms ? damageAmount * GameState.StrongArmsMultiplier : damageAmount;
         enemyHealth.TakeDamage(damage);
+        GameState.RegisterDamage(damage);
         lastDamageTime = Time.time;
     }
 }

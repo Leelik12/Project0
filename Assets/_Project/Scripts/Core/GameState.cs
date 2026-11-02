@@ -13,18 +13,30 @@ public static class GameState
     public static float EnvVolume = 0.6f;
     public static bool Difficulty = false;          // true — сложный режим (без лазерного прицела)
     public static bool LaserSightUnlocked = false;  // куплен апгрейд «ЛЦУ»: лазер доступен даже на сложном
-    public static int ShotsFired;
+    public static int ShotsFired;                   // за всё время, для достижений
     public static int ShotsHit;
     public static float TotalDamage;
-    public static bool CyborgAchieved;                      // достижение «Стать боргом»
+    public static bool CyborgAchieved;              // достижение «Стать боргом»
     public static bool DiedInCyberpunk;             // достижение «Таков киберпанк»
+
+    // ---------- Статистика текущего забега (для итогового экрана) ----------
+    public static int RunKills;
+    public static int RunShots;
+    public static int RunHits;
+    public static float RunDamage;
+    public static float RunTime;                    // секунды реального времени на этажах
+    public static bool RunInProgress;               // забег сохранён через «выход с сохранением» — можно продолжить
+    public static int ContinueScene = 2;            // сцена, из которой вышли с сохранением
+
+    /// <summary>Снимок забега, сделанный в ResetRun: его показывает экран победы/поражения в меню.</summary>
+    public static RunSummary LastRun;
 
     // ---------- Флаги для главного меню (только в памяти, не сохраняются) ----------
     public static bool GameOver = false;   // победа: показать экран End
     public static bool PlayerLost = false; // поражение: показать экран Defeat
 
     // ---------- Состояние уровня ----------
-    public static bool LevelCleared;     // все враги на этаже уничтожены
+    public static bool LevelCleared;           // все враги на этаже уничтожены
     public static bool ItemPickedUp = false;   // найден опциональный предмет (даёт 5-ю карточку в магазине)
     public static int CurrentLevel = 2;        // индекс текущего этажа в Build Settings
     public static bool UpdateLevelEnd = false; // апгрейд куплен, можно ехать на следующий этаж
@@ -62,10 +74,50 @@ public static class GameState
     public static bool StrongLegs = false;
     public static float StrongLegsMultiplier = 1f;
 
+    public const int UpgradeShopScene = 1;
+    public const int FirstFloorScene = 2;
+    public const int FloorCount = 5;
+
+    /// <summary>Номер этажа (1..FloorCount) по индексу сцены в CurrentLevel.</summary>
+    public static int CurrentFloor => Mathf.Clamp(CurrentLevel - FirstFloorScene + 1, 1, FloorCount);
+
+    // ---------- Статистика ----------
+
+    public static void RegisterShot()
+    {
+        ShotsFired++;
+        RunShots++;
+    }
+
+    /// <summary>Попадание пулей: идёт в точность и урон.</summary>
+    public static void RegisterHit(float damage)
+    {
+        ShotsHit++;
+        RunHits++;
+        RegisterDamage(damage);
+    }
+
+    /// <summary>Урон без выстрела (граната, ближний бой): не влияет на точность.</summary>
+    public static void RegisterDamage(float damage)
+    {
+        TotalDamage += damage;
+        RunDamage += damage;
+    }
+
+    public static void RegisterKill() => RunKills++;
+
     /// <summary>Сброс всего забега (оружие, прокачка, импланты). Вызывается при смерти, победе и выходе в меню.</summary>
     public static void ResetRun()
     {
         if (StrongArms && StrongLegs) CyborgAchieved = true;
+
+        LastRun = new RunSummary(CurrentFloor, RunKills, RunShots, RunHits, RunDamage, RunTime);
+        RunKills = 0;
+        RunShots = 0;
+        RunHits = 0;
+        RunDamage = 0f;
+        RunTime = 0f;
+        RunInProgress = false;
 
         CurrentGun = 0;
         CurrentGrenade = false;
@@ -122,6 +174,14 @@ public static class GameState
         PlayerPrefs.SetInt("CurrentLevel", CurrentLevel);
         SetBool("UpdateLevelEnd", UpdateLevelEnd);
 
+        PlayerPrefs.SetInt("RunKills", RunKills);
+        PlayerPrefs.SetInt("RunShots", RunShots);
+        PlayerPrefs.SetInt("RunHits", RunHits);
+        PlayerPrefs.SetFloat("RunDamage", RunDamage);
+        PlayerPrefs.SetFloat("RunTime", RunTime);
+        SetBool("RunInProgress", RunInProgress);
+        PlayerPrefs.SetInt("ContinueScene", ContinueScene);
+
         PlayerPrefs.SetInt("CurrentGun", CurrentGun);
         SetBool("CurrentGrenade", CurrentGrenade);
         SetBool("BuffGrenade", BuffGrenade);
@@ -171,6 +231,14 @@ public static class GameState
         CurrentLevel = PlayerPrefs.GetInt("CurrentLevel", 2);
         UpdateLevelEnd = GetBool("UpdateLevelEnd");
 
+        RunKills = PlayerPrefs.GetInt("RunKills", 0);
+        RunShots = PlayerPrefs.GetInt("RunShots", 0);
+        RunHits = PlayerPrefs.GetInt("RunHits", 0);
+        RunDamage = PlayerPrefs.GetFloat("RunDamage", 0f);
+        RunTime = PlayerPrefs.GetFloat("RunTime", 0f);
+        RunInProgress = GetBool("RunInProgress");
+        ContinueScene = PlayerPrefs.GetInt("ContinueScene", FirstFloorScene);
+
         CurrentGun = PlayerPrefs.GetInt("CurrentGun", 0);
         CurrentGrenade = GetBool("CurrentGrenade");
         BuffGrenade = GetBool("BuffGrenade");
@@ -203,4 +271,38 @@ public static class GameState
 
     private static void SetBool(string key, bool value) => PlayerPrefs.SetInt(key, value ? 1 : 0);
     private static bool GetBool(string key) => PlayerPrefs.GetInt(key, 0) == 1;
+}
+
+/// <summary>Итог одного забега для экрана победы/поражения.</summary>
+public readonly struct RunSummary
+{
+    public readonly int Floor;
+    public readonly int Kills;
+    public readonly int Shots;
+    public readonly int Hits;
+    public readonly float Damage;
+    public readonly float Time;
+
+    public RunSummary(int floor, int kills, int shots, int hits, float damage, float time)
+    {
+        Floor = floor;
+        Kills = kills;
+        Shots = shots;
+        Hits = hits;
+        Damage = damage;
+        Time = time;
+    }
+
+    public float Accuracy => Shots > 0 ? (float)Hits / Shots : 0f;
+
+    public override string ToString()
+    {
+        int minutes = (int)(Time / 60f);
+        int seconds = (int)(Time % 60f);
+        return $"Этаж: {Floor}/{GameState.FloorCount}\n" +
+               $"Убито врагов: {Kills}\n" +
+               $"Точность: {Accuracy:P0} ({Hits}/{Shots})\n" +
+               $"Нанесено урона: {Damage:0}\n" +
+               $"Время: {minutes:00}:{seconds:00}";
+    }
 }
