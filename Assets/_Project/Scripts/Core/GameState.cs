@@ -30,6 +30,10 @@ public static class GameState
     public static bool RunInProgress;               // забег сохранён через «выход с сохранением» — можно продолжить
     public static int ContinueScene = 2;            // сцена, из которой вышли с сохранением
 
+    // ---------- Ресурсы забега ----------
+    public static int Eddies;                       // валюта: даётся за убийства, тратится в магазине
+    public static float PlayerHealthLeft = -1f;     // здоровье переносится между этажами; -1 — полное
+
     /// <summary>Снимок забега, сделанный в ResetRun: его показывает экран победы/поражения в меню.</summary>
     public static RunSummary LastRun;
 
@@ -59,14 +63,34 @@ public static class GameState
     public static float SpeedAfterDamageValue = 1f;
     public static float SpeedTimeAfterDamage;
 
+    // Активные импланты работают по кулдауну (см. PlayerImplants)
     public static bool PropitalHeal = false;       // куплен «Пропитал» (отхил по кнопке)
-    public static bool PropitalHealActive = false; // уже использован на этом этаже
     public static float PropitalHealValue;
 
     public static bool Sandevistan = false;        // куплен «Сандевистан» (замедление времени)
-    public static bool SandevistanActive = false;  // уже использован на этом этаже
-    public static int SandevistanTime;
+    public static float SandevistanTime;
     public static float SandevistanTimeSlower;
+
+    public static bool OpticalCamo = false;        // оптический камуфляж: невидимость
+    public static float OpticalCamoTime;
+
+    public static bool ShortCircuit = false;       // взлом «Короткое замыкание»: оглушение и урон врагу
+    public static float ShortCircuitDamage;
+    public static float ShortCircuitStunTime;
+
+    // Пассивные импланты
+    public static float KillHeal;                  // HP за убийство
+    public static float Regeneration;              // HP в секунду вне боя
+    public static int HeadshotAmmo;                // патронов в магазин за хедшот
+    public static float Armor;                     // доля поглощаемого урона (0..MaxArmor)
+    public const float MaxArmor = 0.6f;
+
+    // Модификаторы оружия (действуют на любое огнестрельное оружие игрока)
+    public static float ModExplosive;              // доля урона выстрела, которая взрывом бьёт по площади
+    public static bool ModRicochet;                // промах рикошетит от стены в ближайшего врага
+    public static bool ModPiercing;                // пуля проходит врага насквозь
+    public static float ModIncendiary;             // урон поджога в секунду
+    public static float ModLeech;                  // доля урона, которая лечит игрока
 
     public static bool Akimbo = false;    // второй пистолет в руках
     public static bool AkimboWas = false; // акимбо куплен, но текущее оружие не пистолет
@@ -108,6 +132,16 @@ public static class GameState
 
     public static void RegisterKill() => RunKills++;
 
+    public static void AddEddies(int amount) => Eddies = Mathf.Max(0, Eddies + amount);
+
+    /// <summary>Списать эдди, если хватает.</summary>
+    public static bool TrySpendEddies(int amount)
+    {
+        if (Eddies < amount) return false;
+        Eddies -= amount;
+        return true;
+    }
+
     /// <summary>Сброс всего забега (оружие, прокачка, импланты). Вызывается при смерти, победе и выходе в меню.</summary>
     public static void ResetRun()
     {
@@ -120,6 +154,8 @@ public static class GameState
         RunDamage = 0f;
         RunTime = 0f;
         RunInProgress = false;
+        Eddies = 0;
+        PlayerHealthLeft = -1f;
 
         CurrentGun = 0;
         CurrentGrenade = false;
@@ -133,9 +169,18 @@ public static class GameState
         SpeedBuffAfterDamage = false;
         SpeedAfterDamageValue = 1f;
         PropitalHeal = false;
-        PropitalHealActive = false;
         Sandevistan = false;
-        SandevistanActive = false;
+        OpticalCamo = false;
+        ShortCircuit = false;
+        KillHeal = 0f;
+        Regeneration = 0f;
+        HeadshotAmmo = 0;
+        Armor = 0f;
+        ModExplosive = 0f;
+        ModRicochet = false;
+        ModPiercing = false;
+        ModIncendiary = 0f;
+        ModLeech = 0f;
         Akimbo = false;
         AkimboWas = false;
         Katana = false;
@@ -151,12 +196,10 @@ public static class GameState
         SaveData();
     }
 
-    /// <summary>Сброс одноразовых на этаж эффектов при переходе между сценами.</summary>
+    /// <summary>Сброс флагов этажа при переходе между сценами.</summary>
     public static void ResetPerLevelFlags()
     {
         LevelCleared = false;
-        PropitalHealActive = false;
-        SandevistanActive = false;
     }
 
     public static void SaveData()
@@ -185,6 +228,8 @@ public static class GameState
         PlayerPrefs.SetFloat("RunTime", RunTime);
         SetBool("RunInProgress", RunInProgress);
         PlayerPrefs.SetInt("ContinueScene", ContinueScene);
+        PlayerPrefs.SetInt("Eddies", Eddies);
+        PlayerPrefs.SetFloat("PlayerHealthLeft", PlayerHealthLeft);
 
         PlayerPrefs.SetInt("CurrentGun", CurrentGun);
         SetBool("CurrentGrenade", CurrentGrenade);
@@ -204,8 +249,25 @@ public static class GameState
         PlayerPrefs.SetFloat("PropitalHealValue", PropitalHealValue);
 
         SetBool("Sandevistan", Sandevistan);
-        PlayerPrefs.SetInt("SandevistanTime", SandevistanTime);
+        PlayerPrefs.SetFloat("SandevistanDuration", SandevistanTime);
         PlayerPrefs.SetFloat("SandevistanTimeSlower", SandevistanTimeSlower);
+
+        SetBool("OpticalCamo", OpticalCamo);
+        PlayerPrefs.SetFloat("OpticalCamoTime", OpticalCamoTime);
+        SetBool("ShortCircuit", ShortCircuit);
+        PlayerPrefs.SetFloat("ShortCircuitDamage", ShortCircuitDamage);
+        PlayerPrefs.SetFloat("ShortCircuitStunTime", ShortCircuitStunTime);
+
+        PlayerPrefs.SetFloat("KillHeal", KillHeal);
+        PlayerPrefs.SetFloat("Regeneration", Regeneration);
+        PlayerPrefs.SetInt("HeadshotAmmo", HeadshotAmmo);
+        PlayerPrefs.SetFloat("Armor", Armor);
+
+        PlayerPrefs.SetFloat("ModExplosive", ModExplosive);
+        SetBool("ModRicochet", ModRicochet);
+        SetBool("ModPiercing", ModPiercing);
+        PlayerPrefs.SetFloat("ModIncendiary", ModIncendiary);
+        PlayerPrefs.SetFloat("ModLeech", ModLeech);
 
         SetBool("Akimbo", Akimbo);
         SetBool("AkimboWas", AkimboWas);
@@ -244,6 +306,8 @@ public static class GameState
         RunTime = PlayerPrefs.GetFloat("RunTime", 0f);
         RunInProgress = GetBool("RunInProgress");
         ContinueScene = PlayerPrefs.GetInt("ContinueScene", FirstFloorScene);
+        Eddies = PlayerPrefs.GetInt("Eddies", 0);
+        PlayerHealthLeft = PlayerPrefs.GetFloat("PlayerHealthLeft", -1f);
 
         CurrentGun = PlayerPrefs.GetInt("CurrentGun", 0);
         CurrentGrenade = GetBool("CurrentGrenade");
@@ -263,8 +327,25 @@ public static class GameState
         PropitalHealValue = PlayerPrefs.GetFloat("PropitalHealValue", 0f);
 
         Sandevistan = GetBool("Sandevistan");
-        SandevistanTime = PlayerPrefs.GetInt("SandevistanTime", 0);
+        SandevistanTime = PlayerPrefs.GetFloat("SandevistanDuration", 0f);
         SandevistanTimeSlower = PlayerPrefs.GetFloat("SandevistanTimeSlower", 0f);
+
+        OpticalCamo = GetBool("OpticalCamo");
+        OpticalCamoTime = PlayerPrefs.GetFloat("OpticalCamoTime", 0f);
+        ShortCircuit = GetBool("ShortCircuit");
+        ShortCircuitDamage = PlayerPrefs.GetFloat("ShortCircuitDamage", 0f);
+        ShortCircuitStunTime = PlayerPrefs.GetFloat("ShortCircuitStunTime", 0f);
+
+        KillHeal = PlayerPrefs.GetFloat("KillHeal", 0f);
+        Regeneration = PlayerPrefs.GetFloat("Regeneration", 0f);
+        HeadshotAmmo = PlayerPrefs.GetInt("HeadshotAmmo", 0);
+        Armor = PlayerPrefs.GetFloat("Armor", 0f);
+
+        ModExplosive = PlayerPrefs.GetFloat("ModExplosive", 0f);
+        ModRicochet = GetBool("ModRicochet");
+        ModPiercing = GetBool("ModPiercing");
+        ModIncendiary = PlayerPrefs.GetFloat("ModIncendiary", 0f);
+        ModLeech = PlayerPrefs.GetFloat("ModLeech", 0f);
 
         Akimbo = GetBool("Akimbo");
         AkimboWas = GetBool("AkimboWas");

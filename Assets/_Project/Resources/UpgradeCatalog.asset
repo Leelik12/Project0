@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89528f669e32c6e4b896fba2494e5c0b, type: 3}
+  m_Name: UpgradeCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeCatalog
+  cards:
+  - {fileID: 11400000, guid: 8b765af075359c344be5d2bc957386f5, type: 2}
+  - {fileID: 11400000, guid: e40f2d936066acb4ba1c11a3397d4654, type: 2}
+  - {fileID: 11400000, guid: 8a77988aa47a21746a9a840f6abc6cf9, type: 2}
+  - {fileID: 11400000, guid: 36a952bd798f9a24d904bbafcfe4888e, type: 2}
+  - {fileID: 11400000, guid: ed0ba88bdb794ed48af2afede1c432d4, type: 2}
+  - {fileID: 11400000, guid: a8e0f677fbf9cd24fbb0115b112b748e, type: 2}
+  - {fileID: 11400000, guid: 21bccc915835fb6409aa612e4488343a, type: 2}
+  - {fileID: 11400000, guid: 38c69a0ebd5d6e24db949f1f66343af5, type: 2}
+  - {fileID: 11400000, guid: 19225b454913c144d98e970bb93beb8b, type: 2}
+  - {fileID: 11400000, guid: c17a4bebbdde8724695d7c6ceb2fb827, type: 2}
+  - {fileID: 11400000, guid: ea5d573b3e964e24e8a82fd79e4d70ec, type: 2}
+  - {fileID: 11400000, guid: dcc51e698207445438f7a4828826e3cb, type: 2}
+  - {fileID: 11400000, guid: b62e6dbddd0df8f46ae34a23a3fa91ce, type: 2}
+  - {fileID: 11400000, guid: ca5a44c856af40241ba30e4ac1335fb8, type: 2}
+  - {fileID: 11400000, guid: 34822cfe2142b8b498118f51fa5fb772, type: 2}
+  - {fileID: 11400000, guid: 56220a05d8783194bb8139a4c1e9e69f, type: 2}
+  - {fileID: 11400000, guid: 07ba6c1a4feb0964aa752005363bed4f, type: 2}
+  - {fileID: 11400000, guid: b2f884c191e568b43b666d23d6f62928, type: 2}
+  - {fileID: 11400000, guid: c49454fb5db56bb4e93e20be73c8e405, type: 2}
+  - {fileID: 11400000, guid: ed9a5f8daa240c24da96ecbf3cc2b8e6, type: 2}
+  - {fileID: 11400000, guid: 11a0b822b2bc8b04590981987a71ebc0, type: 2}
+  - {fileID: 11400000, guid: e1b2c38abec878f4aa070aac4d32d139, type: 2}
+  - {fileID: 11400000, guid: 8c540e678b09f08468419ebc04ec55a1, type: 2}
+  - {fileID: 11400000, guid: d8ac4e1ce47247a42987bb024389b444, type: 2}
+  - {fileID: 11400000, guid: dbe3c963aa6f6ba4aba710950ff6f6fa, type: 2}
+  - {fileID: 11400000, guid: 12f2790dd9684d4428792c36b4527e90, type: 2}
+  - {fileID: 11400000, guid: bbdd8d09158f7ab488740dfc28aff041, type: 2}
+  - {fileID: 11400000, guid: 3305a970ba9c0a348815a8644daa4740, type: 2}
+  - {fileID: 11400000, guid: 32da9734dd914594bb9682310210949a, type: 2}
+  - {fileID: 11400000, guid: ff5ac61ad5c037c4c971557e76b582e7, type: 2}
+  - {fileID: 11400000, guid: d9cfe68558b8cef409ad9c0962becca1, type: 2}
+  - {fileID: 11400000, guid: ccdf5fb9975dc0545a649c8146c3a041, type: 2}
+  rarities:
+  - name: "\u041E\u0431\u044B\u0447\u043D\u0430\u044F"
+    weight: 72
+    power: 1
+    priceMultiplier: 1
+    color: {r: 0.8, g: 0.85, b: 0.9, a: 1}
+  - name: "\u0420\u0435\u0434\u043A\u0430\u044F"
+    weight: 22
+    power: 1.5
+    priceMultiplier: 1.5
+    color: {r: 0.3, g: 0.65, b: 1, a: 1}
+  - name: "\u041B\u0435\u0433\u0435\u043D\u0434\u0430\u0440\u043D\u0430\u044F"
+    weight: 6
+    power: 2
+    priceMultiplier: 2.2
+    color: {r: 1, g: 0.6, b: 0.1, a: 1}
+  rerollPrice: 20
+  rerollPriceStep: 10
+  healPrice: 30
+  healAmount: 50
+  killReward: 10
+  headshotKillBonus: 5
+  eliteKillBonus: 40
+  floorClearReward: 30
+  itemPickupReward: 40
