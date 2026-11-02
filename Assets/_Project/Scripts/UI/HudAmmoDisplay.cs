@@ -17,7 +17,7 @@ public class HudAmmoDisplay : MonoBehaviour
         if (ammoText == null) return;
 
         VRGun gun = VRGun.Held;
-        string text = gun == null ? emptyHandsText : $"{Mathf.Max(0, (int)gun.currentAmmo)} / {(int)gun.maxAmmo}";
+        string text = gun == null ? emptyHandsText : UiText.Widen($"{Mathf.Max(0, (int)gun.currentAmmo)} / {(int)gun.maxAmmo}");
         if (ammoText.text != text) ammoText.text = text;
     }
 }

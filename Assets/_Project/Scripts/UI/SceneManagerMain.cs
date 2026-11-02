@@ -100,7 +100,7 @@ public class SceneManagerMain : MonoBehaviour
         ShowPanel(lost && Defeat != null ? Defeat : End);
 
         if (runSummaryTexts == null) return;
-        string summary = GameState.LastRun.ToString();
+        string summary = UiText.Widen(GameState.LastRun.ToString());
         foreach (TMP_Text text in runSummaryTexts)
         {
             if (text != null) text.text = summary;

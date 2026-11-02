@@ -326,9 +326,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u042D\u0442\u0430\u0436: 1/5\n\u0423\u0431\u0438\u0442\u043E \u0432\u0440\u0430\u0433\u043E\u0432:
-    0\n\u0422\u043E\u0447\u043D\u043E\u0441\u0442\u044C: 0%\n\u041D\u0430\u043D\u0435\u0441\u0435\u043D\u043E
-    \u0443\u0440\u043E\u043D\u0430: 0\n\u0412\u0440\u0435\u043C\u044F: 00:00"
+  m_text: "\u042D\u0442\u0430\u0436:  1/5\n\u0423\u0431\u0438\u0442\u043E  \u0432\u0440\u0430\u0433\u043E\u0432: 
+    0\n\u0422\u043E\u0447\u043D\u043E\u0441\u0442\u044C:  0%\n\u041D\u0430\u043D\u0435\u0441\u0435\u043D\u043E 
+    \u0443\u0440\u043E\u043D\u0430:  0\n\u0412\u0440\u0435\u043C\u044F:  00:00"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f9f93a1497c50c34a8ede47696015182, type: 2}
   m_sharedMaterial: {fileID: -2116988352231978352, guid: f9f93a1497c50c34a8ede47696015182, type: 2}
@@ -5109,6 +5109,8 @@ MonoBehaviour:
   katana: {fileID: 869212348}
   propitalReadyIcon: {fileID: 0}
   sandevistanReadyIcon: {fileID: 0}
+  opticalCamoReadyIcon: {fileID: 0}
+  shortCircuitReadyIcon: {fileID: 0}
   damageHapticAmplitude: 0.7
   damageHapticDuration: 0.15
 --- !u!1001 &494593476
@@ -11103,9 +11105,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u042D\u0442\u0430\u0436: 1/5\n\u0423\u0431\u0438\u0442\u043E \u0432\u0440\u0430\u0433\u043E\u0432:
-    0\n\u0422\u043E\u0447\u043D\u043E\u0441\u0442\u044C: 0%\n\u041D\u0430\u043D\u0435\u0441\u0435\u043D\u043E
-    \u0443\u0440\u043E\u043D\u0430: 0\n\u0412\u0440\u0435\u043C\u044F: 00:00"
+  m_text: "\u042D\u0442\u0430\u0436:  1/5\n\u0423\u0431\u0438\u0442\u043E  \u0432\u0440\u0430\u0433\u043E\u0432: 
+    0\n\u0422\u043E\u0447\u043D\u043E\u0441\u0442\u044C:  0%\n\u041D\u0430\u043D\u0435\u0441\u0435\u043D\u043E 
+    \u0443\u0440\u043E\u043D\u0430:  0\n\u0412\u0440\u0435\u043C\u044F:  00:00"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f9f93a1497c50c34a8ede47696015182, type: 2}
   m_sharedMaterial: {fileID: -2116988352231978352, guid: f9f93a1497c50c34a8ede47696015182, type: 2}
