@@ -129,6 +129,7 @@ public class VRGun : MonoBehaviour
         GameState.RegisterShot();
 
         PlayShotEffects();
+        Haptics.Pulse(grabInteractable, 0.6f, 0.08f);
 
         if (!Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
             return;
@@ -195,6 +196,7 @@ public class VRGun : MonoBehaviour
 
         magazine.gameObject.SetActive(false);
         if (internalMagazineModel != null) internalMagazineModel.SetActive(true);
+        Haptics.Pulse(grabInteractable, 0.3f, 0.05f);
     }
 
     public void EjectMagazine()

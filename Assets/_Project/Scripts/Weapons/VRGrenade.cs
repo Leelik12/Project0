@@ -42,7 +42,11 @@ public class VRGrenade : MonoBehaviour
 
         bool left = IsPressed(LeftGrip) && IsPressed(LeftTrigger);
         bool right = IsPressed(RightGrip) && IsPressed(RightTrigger);
-        if (left || right) isArmed = true;
+        if (left || right)
+        {
+            isArmed = true;
+            Haptics.Pulse(grabInteractable, 0.5f, 0.15f); // чека выдернута
+        }
     }
 
     private static bool IsPressed(InputActionProperty action) => action.action.ReadValue<float>() > PressThreshold;

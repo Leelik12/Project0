@@ -35,6 +35,10 @@ public class PlayerHealth : MonoBehaviour
     [Header("Katana")]
     public GameObject katana;
 
+    [Header("Отклик на урон")]
+    [SerializeField] private float damageHapticAmplitude = 0.7f;
+    [SerializeField] private float damageHapticDuration = 0.15f;
+
     private DynamicMoveProvider moveProvider;
     private float baseMoveSpeed;      // скорость с учётом «сильных ног»
     private float speedBoostEndTime;  // до какого момента действует ускорение после урона
@@ -88,6 +92,7 @@ public class PlayerHealth : MonoBehaviour
 
         currentHealth -= damage;
         UpdateHealthUI();
+        Haptics.PulseBoth(damageHapticAmplitude, damageHapticDuration);
 
         if (currentHealth <= 0)
         {
