@@ -48,15 +48,26 @@ public class EnemyGun : MonoBehaviour
     [SerializeField] private Color telegraphColor = new(1f, 0.15f, 0.1f, 1f);
     [SerializeField] private float telegraphWidthMultiplier = 2.5f;
 
+    [Header("Трофей")]
+    [Tooltip("Версия этого оружия для игрока: выпадает из убитого врага. Пусто — ничего не выпадает")]
+    [SerializeField] private GameObject pickupPrefab;
+    [Tooltip("Какая доля магазина остаётся в выпавшем оружии (случайно в пределах)")]
+    [SerializeField] private Vector2 dropAmmoFraction = new(0.3f, 0.8f);
+    [Tooltip("Сколько выстрелов остаётся в выпавшем лазерном оружии")]
+    [SerializeField] private int laserDropShots = 20;
+
+    private bool dropped;
     private Vector3 lastShotLocalDirection = Vector3.forward; // в координатах firePoint: лазер поворачивается вместе со стволом
     private bool isTelegraphing;
     private EnemyHealth owner;
+    private EnemyStateManager ownerState;
     private Color laserStartColor, laserEndColor;
     private float laserWidth = 1f;
 
     private void Awake()
     {
         owner = GetComponentInParent<EnemyHealth>();
+        ownerState = GetComponentInParent<EnemyStateManager>();
         if (laserLine != null)
         {
             laserStartColor = laserLine.startColor;
@@ -87,6 +98,7 @@ public class EnemyGun : MonoBehaviour
         SetLaserTelegraph(false);
         isTelegraphing = false;
         if (owner != null && owner.IsDead) yield break; // убили, пока целился
+        if (ownerState != null && ownerState.IsStunned) yield break; // оглушили, пока целился
         Fire(localDirection);
     }
 
@@ -126,6 +138,34 @@ public class EnemyGun : MonoBehaviour
             PlayerHealth player = hit.collider.GetComponentInParent<PlayerHealth>();
             if (player != null) player.PlayerTakeDamage(damage);
         }
+    }
+
+    /// <summary>
+    /// Враг убит: на месте его оружия появляется версия для игрока с остатком патронов (магазинов к нему нет,
+    /// так что пользоваться можно до конца этажа), а оружие в руке врага прячется.
+    /// </summary>
+    public void DropForPlayer()
+    {
+        if (dropped || pickupPrefab == null) return;
+        dropped = true;
+        StopAllCoroutines();
+
+        GameObject drop = Instantiate(pickupPrefab, transform.position, transform.rotation);
+        if (drop.TryGetComponent(out VRGun gun))
+        {
+            float ammo = gun.maxAmmo >= VRGun.InfiniteAmmoThreshold
+                ? laserDropShots
+                : Mathf.Max(1f, Mathf.Round(gun.maxAmmo * Random.Range(dropAmmoFraction.x, dropAmmoFraction.y)));
+            gun.SetupAsDrop(ammo);
+        }
+        if (drop.TryGetComponent(out Rigidbody body) && !body.isKinematic)
+        {
+            body.AddForce((Random.insideUnitSphere + Vector3.up) * 1.5f, ForceMode.Impulse);
+        }
+
+        foreach (Renderer part in GetComponentsInChildren<Renderer>()) part.enabled = false;
+        if (muzzleLight != null) muzzleLight.enabled = false;
+        enabled = false; // лазер больше не обновляем
     }
 
     private static Vector3 GetSpreadDirection(Vector3 forward, float angle)

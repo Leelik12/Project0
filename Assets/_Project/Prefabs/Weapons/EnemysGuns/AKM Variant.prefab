@@ -42,7 +42,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -1746091430128400195, guid: 5f10ca5facfeea64a86ed3e17cdcc886, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 6cc999b4e2aaf7a4285dad004ace0798, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 6cc999b4e2aaf7a4285dad004ace0798, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.7
@@ -182,6 +182,8 @@ LineRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -203,6 +205,7 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -378,17 +381,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 3
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_RenderingLayers: 1
   m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_ShadowRenderingLayers: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &7625016415845081123
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,6 +954,7 @@ MonoBehaviour:
   m_ReinitializeDynamicAttachEverySingleGrab: 1
   m_AttachEaseInTime: 0.15
   m_MovementType: 0
+  m_PredictedVisualsTransform: {fileID: 0}
   m_VelocityDamping: 1
   m_VelocityScale: 1
   m_AngularVelocityDamping: 1
@@ -986,6 +996,10 @@ MonoBehaviour:
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
   m_FarAttachMode: 1
+  m_LimitLinearVelocity: 0
+  m_LimitAngularVelocity: 0
+  m_MaxLinearVelocityDelta: 10
+  m_MaxAngularVelocityDelta: 20
   rightHandAttachTransform: {fileID: 251922494957388260}
   leftHandAttachTransform: {fileID: 7109128098145812405}
 --- !u!65 &7639437081631437506
@@ -1021,13 +1035,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15184016adf483f4eb737b57815ad368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmo: 9999999
-  currentAmmo: 9999999
-  IsCharged: 1
   movablePart: {fileID: 612298067822163127}
   recoilDistance: 0.2
   recoilDuration: 0.1
-  fireRate: 0.3
   damage: 50
   range: 100
   spreadAngle: 9
@@ -1043,7 +1053,12 @@ MonoBehaviour:
   hitEffectPrefabSparks: {fileID: 6681638757615295765, guid: 5f67d02cf195e044ba2556797dd27353, type: 3}
   hitEffectLifetime: 2
   effectOffset: 0.01
-  enemyTag: 
+  telegraphTime: 0.35
+  telegraphColor: {r: 1, g: 0.15, b: 0.1, a: 1}
+  telegraphWidthMultiplier: 2.5
+  pickupPrefab: {fileID: 2885026839938341203, guid: 5b0c9aedef02b9144a4fcad2700ac191, type: 3}
+  dropAmmoFraction: {x: 0.3, y: 0.8}
+  laserDropShots: 20
 --- !u!4 &7109128098145812405 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3057081315566286178, guid: 67f716418f7ba2146a845739c7782755, type: 3}

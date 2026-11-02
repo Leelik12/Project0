@@ -8,9 +8,11 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] public float maxHealth = 100f;
     public float currentHealth;
+    [HideInInspector] public float damageTakenMultiplier = 1f; // броня элиты
 
     private EnemyStateManager stateManager;
     private EnemyHitReaction hitReaction;
+    private EnemyGun weapon;
     private bool isDead;
 
     /// <summary>Последнее попадание — куда и в каком направлении (для рэгдолла и реакции).</summary>
@@ -20,6 +22,7 @@ public class EnemyHealth : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+        weapon = GetComponentInChildren<EnemyGun>();
         stateManager = GetComponent<EnemyStateManager>();
 
         Animator animator = stateManager != null ? stateManager.animator : null;
@@ -33,6 +36,11 @@ public class EnemyHealth : MonoBehaviour
     public float GetCurrentHp() => currentHealth;
     public bool IsDead => isDead;
 
+    public void Heal(float amount)
+    {
+        if (!isDead) currentHealth = Mathf.Min(maxHealth, currentHealth + amount);
+    }
+
     /// <summary>Урон без точки попадания (например, от скриптов).</summary>
     public void TakeDamage(float damage) => TakeDamage(damage, transform.position + Vector3.up, Vector3.zero, false);
 
@@ -43,6 +51,7 @@ public class EnemyHealth : MonoBehaviour
 
         LastHitPoint = point;
         LastHitDirection = direction;
+        damage *= damageTakenMultiplier;
         currentHealth -= damage;
         bool killed = currentHealth <= 0;
 
@@ -59,6 +68,7 @@ public class EnemyHealth : MonoBehaviour
             isDead = true;
             GameState.RegisterKill();
             GameEvents.RaiseEnemyKilled(this);
+            if (weapon != null) weapon.DropForPlayer(); // до рэгдолла: оружие ещё в руке
             stateManager?.Die();
         }
     }
