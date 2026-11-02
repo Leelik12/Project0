@@ -51,6 +51,10 @@ public class PlayerHealth : MonoBehaviour
     private bool isDead;
     private float defaultFixedDeltaTime;
     private DamageVignette damageVignette;
+    private SandevistanEffect sandevistanEffect;
+    private bool isPaused;
+    private bool menuButtonWasPressed;
+    private bool sandevistanRunning;
 
     private void Awake()
     {
@@ -71,6 +75,7 @@ public class PlayerHealth : MonoBehaviour
         if (katana != null) katana.SetActive(GameState.Katana);
 
         damageVignette = DamageVignette.Create(transform);
+        sandevistanEffect = SandevistanEffect.Create(transform);
     }
 
     private void Start()
@@ -81,11 +86,13 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
-        HandleImplants();
         HandleMenu();
         HandleMissionChecks();
-        HandleSpeedBoost();
         HandleImplantIcons();
+        if (isPaused) return;
+
+        HandleImplants();
+        HandleSpeedBoost();
         GameState.RunTime += Time.unscaledDeltaTime;
     }
 
@@ -104,6 +111,7 @@ public class PlayerHealth : MonoBehaviour
         UpdateHealthUI();
         Haptics.PulseBoth(damageHapticAmplitude, damageHapticDuration);
         if (damageVignette != null) damageVignette.Flash(damage / maxHealth);
+        GameEvents.RaisePlayerDamaged(damage);
 
         if (currentHealth <= 0)
         {
@@ -153,13 +161,35 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    // ---------- Пауза ----------
+
+    // Кнопка меню переключает паузу: время стоит, звук мира на паузе, импланты не тикают
     private void HandleMenu()
     {
-        bool menuPressed = MenuButton.action.ReadValue<float>() >= 0.7f;
-        if (MenuCanvas != null && MenuCanvas.activeSelf != menuPressed)
-        {
-            MenuCanvas.SetActive(menuPressed);
-        }
+        bool pressed = MenuButton.action.ReadValue<float>() >= 0.7f;
+        if (pressed && !menuButtonWasPressed) SetPaused(!isPaused);
+        menuButtonWasPressed = pressed;
+    }
+
+    /// <summary>Продолжить игру (для кнопки «Продолжить» в меню паузы).</summary>
+    public void Resume() => SetPaused(false);
+
+    private void SetPaused(bool paused)
+    {
+        if (isPaused == paused) return;
+        isPaused = paused;
+        if (MenuCanvas != null) MenuCanvas.SetActive(paused);
+        AudioListener.pause = paused;
+        ApplyTimeScale();
+        GameEvents.RaisePauseChanged(paused);
+    }
+
+    // Итоговая скорость времени: пауза важнее Сандевистана
+    private void ApplyTimeScale()
+    {
+        float gameScale = sandevistanRunning ? GameState.SandevistanTimeSlower : 1f;
+        Time.timeScale = isPaused ? 0f : gameScale;
+        Time.fixedDeltaTime = defaultFixedDeltaTime * gameScale; // физика замедляется вместе со временем
     }
 
     private void HandleMissionChecks()
@@ -223,13 +253,19 @@ public class PlayerHealth : MonoBehaviour
     private IEnumerator PropitalRoutine()
     {
         GameState.PropitalHealActive = true;
-        float elapsed = 0f;
-        while (elapsed < GameState.PropitalHealValue)
+        float ticks = 0f;
+        float tickTimer = 0f;
+        while (ticks < GameState.PropitalHealValue)
         {
-            if (currentHealth < maxHealth) currentHealth++;
-            UpdateHealthUI();
-            elapsed += 1f;
-            yield return new WaitForSecondsRealtime(1f);
+            if (tickTimer <= 0f)
+            {
+                if (currentHealth < maxHealth) currentHealth++;
+                UpdateHealthUI();
+                ticks += 1f;
+                tickTimer = 1f;
+            }
+            yield return null;
+            if (!isPaused) tickTimer -= Time.unscaledDeltaTime; // реальное время, но на паузе не лечит
         }
     }
 
@@ -237,18 +273,29 @@ public class PlayerHealth : MonoBehaviour
     private IEnumerator SandevistanRoutine()
     {
         GameState.SandevistanActive = true;
-        Time.timeScale = GameState.SandevistanTimeSlower;
-        Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale; // физика должна замедлиться вместе со временем
+        sandevistanRunning = true;
+        ApplyTimeScale();
+        if (sandevistanEffect != null) sandevistanEffect.SetActive(true);
+        GameEvents.RaiseSandevistanChanged(true);
 
-        yield return new WaitForSecondsRealtime(GameState.SandevistanTime);
+        // Реальное время, но на паузе действие импланта не тратится
+        float remaining = GameState.SandevistanTime;
+        while (remaining > 0f)
+        {
+            yield return null;
+            if (!isPaused) remaining -= Time.unscaledDeltaTime;
+        }
 
-        Time.timeScale = 1f;
-        Time.fixedDeltaTime = defaultFixedDeltaTime;
+        sandevistanRunning = false;
+        ApplyTimeScale();
+        if (sandevistanEffect != null) sandevistanEffect.SetActive(false);
+        GameEvents.RaiseSandevistanChanged(false);
     }
 
     private void OnDestroy()
     {
-        // Если сцена выгрузилась во время Сандевистана — не оставляем замедленное время.
+        // Если сцена выгрузилась на паузе или во время Сандевистана — не оставляем остановленное время и звук.
+        AudioListener.pause = false;
         Time.timeScale = 1f;
         Time.fixedDeltaTime = defaultFixedDeltaTime;
     }
