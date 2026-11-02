@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 public abstract class SceneLoaderBase : MonoBehaviour
 {
     public GameObject loadingUI; // экран загрузки (может быть null)
-    public Slider progres;       // прогресс-бар (может быть null)
+    [FormerlySerializedAs("progres")] public Slider progressBar; // прогресс-бар (может быть null)
 
     protected bool playerInElevator;
     private bool isLoading;
@@ -50,7 +51,7 @@ public abstract class SceneLoaderBase : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
         while (!operation.isDone)
         {
-            if (progres != null) progres.value = Mathf.Clamp01(operation.progress / 0.9f);
+            if (progressBar != null) progressBar.value = Mathf.Clamp01(operation.progress / 0.9f);
             yield return null;
         }
     }

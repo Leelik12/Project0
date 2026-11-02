@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Главное меню: переключение панелей, старт игры, выход, экраны победы/поражения.
@@ -11,7 +12,8 @@ public class SceneManagerMain : MonoBehaviour
 
     [SerializeField] public GameObject Main;
     [SerializeField] public GameObject Setting;
-    [SerializeField] public GameObject Achievm;
+    [FormerlySerializedAs("Achievm")]
+    [SerializeField] public GameObject Achievements;
     [SerializeField] public GameObject End;
     [Tooltip("Экран поражения. Если не назначен, при смерти показывается End.")]
     [SerializeField] public GameObject Defeat;
@@ -48,7 +50,7 @@ public class SceneManagerMain : MonoBehaviour
     }
 
     public void Setti() => ShowPanel(Setting);
-    public void Achie() => ShowPanel(Achievm);
+    public void Achie() => ShowPanel(Achievements);
     public void Bach2Main() => ShowPanel(Main);
 
     public void Exi()
@@ -66,7 +68,7 @@ public class SceneManagerMain : MonoBehaviour
 
     private void ShowPanel(GameObject panel)
     {
-        foreach (GameObject p in new[] { Main, Setting, Achievm, End, Defeat })
+        foreach (GameObject p in new[] { Main, Setting, Achievements, End, Defeat })
         {
             if (p != null) p.SetActive(p == panel);
         }

@@ -61,7 +61,7 @@ public class VRGun : MonoBehaviour
     [Header("Декали")]
     [SerializeField] private GameObject hitEffectPrefabDust;
     [SerializeField] private GameObject hitEffectPrefabSparks;
-    [SerializeField] private float hitEffectLifetime = 100f;
+    [SerializeField] private float hitEffectLifetime = 2f;
     [SerializeField] private float effectOffset = 0.01f;
 
     private float nextFireTime;
@@ -126,7 +126,7 @@ public class VRGun : MonoBehaviour
     public void Shoot()
     {
         currentAmmo--;
-        GameState.countShots++;
+        GameState.ShotsFired++;
 
         PlayShotEffects();
 
@@ -180,8 +180,8 @@ public class VRGun : MonoBehaviour
             }
         }
 
-        GameState.countHits++;
-        GameState.Damage += finalDamage;
+        GameState.ShotsHit++;
+        GameState.TotalDamage += finalDamage;
         target.TakeDamage(finalDamage);
     }
 

@@ -26,8 +26,7 @@ public class LevelManager : MonoBehaviour
         if (AreAllEnemiesDefeated())
         {
             levelCompleted = true;
-            GameState.levelCheksComplete = true;
-            Debug.Log("Уровень пройден");
+            GameState.LevelCleared = true;
             UpdateProgressUI();
         }
     }

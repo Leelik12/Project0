@@ -24,14 +24,14 @@ public class AchievementController : MonoBehaviour
 
     private void Refresh()
     {
-        Show(s100, GameState.countShots >= 100);
-        Show(s500, GameState.countShots >= 500);
-        Show(h100, GameState.countHits >= 100);
-        Show(h500, GameState.countHits >= 500);
-        Show(d1000, GameState.Damage >= 1000);
-        Show(d5000, GameState.Damage >= 5000);
-        Show(Cyborg, GameState.Ciborg);
-        Show(FirstDeath, GameState.DiedinCyberpunk);
+        Show(s100, GameState.ShotsFired >= 100);
+        Show(s500, GameState.ShotsFired >= 500);
+        Show(h100, GameState.ShotsHit >= 100);
+        Show(h500, GameState.ShotsHit >= 500);
+        Show(d1000, GameState.TotalDamage >= 1000);
+        Show(d5000, GameState.TotalDamage >= 5000);
+        Show(Cyborg, GameState.CyborgAchieved);
+        Show(FirstDeath, GameState.DiedInCyberpunk);
     }
 
     private static void Show(GameObject icon, bool achieved)

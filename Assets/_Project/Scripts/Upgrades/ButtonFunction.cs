@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Обработчики кнопок карточек в магазине апгрейдов. Все значения прокачки настраиваются в инспекторе.
@@ -21,8 +22,8 @@ public class ButtonFunction : MonoBehaviour
     [Header("Кнопка отхила")]
     public int HealHPPoints;
     [Header("Сандевистан")]
-    public int SandewistanTimeWorkable;
-    public float SandewistanTimeSlower; // множитель Time.timeScale (стандарт 1)
+    [FormerlySerializedAs("SandewistanTimeWorkable")] public int SandevistanDuration; // секунды
+    [FormerlySerializedAs("SandewistanTimeSlower")] public float SandevistanTimeScale; // множитель Time.timeScale (стандарт 1)
     [Header("Урон в ближке бафф")]
     public int MeleeDamageBuffPercent;
     [Header("Быстрые ноги")]
@@ -94,8 +95,8 @@ public class ButtonFunction : MonoBehaviour
     public void UpdateSandevistan()
     {
         GameState.Sandevistan = true;
-        GameState.SandevistanTime = SandewistanTimeWorkable;
-        GameState.SandevistanTimeSlower = SandewistanTimeSlower;
+        GameState.SandevistanTime = SandevistanDuration;
+        GameState.SandevistanTimeSlower = SandevistanTimeScale;
     }
 
     public void UpdateKatana() => GameState.Katana = true;
@@ -103,12 +104,12 @@ public class ButtonFunction : MonoBehaviour
     public void UpdateStrongArm()
     {
         GameState.StrongArms = true;
-        GameState.StrongArmsKoef += MeleeDamageBuffPercent / 100f;
+        GameState.StrongArmsMultiplier += MeleeDamageBuffPercent / 100f;
     }
 
     public void UpdateStrongLeg()
     {
         GameState.StrongLegs = true;
-        GameState.StrongLegsKoef += SpeedBuffAllTimePercent / 100f;
+        GameState.StrongLegsMultiplier += SpeedBuffAllTimePercent / 100f;
     }
 }

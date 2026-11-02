@@ -7,7 +7,7 @@ public class ElevatorController : SceneLoaderBase
 
     protected override int TargetSceneIndex => UpgradeShopSceneIndex;
 
-    protected override bool CanDepart() => GameState.levelCheksComplete;
+    protected override bool CanDepart() => GameState.LevelCleared;
 
     protected override void OnBeforeLoad()
     {

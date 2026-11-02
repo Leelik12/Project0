@@ -13,18 +13,18 @@ public static class GameState
     public static float EnvVolume = 0.6f;
     public static bool Difficulty = false;          // true — сложный режим (без лазерного прицела)
     public static bool LaserSightUnlocked = false;  // куплен апгрейд «ЛЦУ»: лазер доступен даже на сложном
-    public static int countShots;
-    public static int countHits;
-    public static float Damage;
-    public static bool Ciborg;                      // достижение «Стать боргом»
-    public static bool DiedinCyberpunk;             // достижение «Таков киберпанк»
+    public static int ShotsFired;
+    public static int ShotsHit;
+    public static float TotalDamage;
+    public static bool CyborgAchieved;                      // достижение «Стать боргом»
+    public static bool DiedInCyberpunk;             // достижение «Таков киберпанк»
 
     // ---------- Флаги для главного меню (только в памяти, не сохраняются) ----------
     public static bool GameOver = false;   // победа: показать экран End
     public static bool PlayerLost = false; // поражение: показать экран Defeat
 
     // ---------- Состояние уровня ----------
-    public static bool levelCheksComplete;     // все враги на этаже уничтожены
+    public static bool LevelCleared;     // все враги на этаже уничтожены
     public static bool ItemPickedUp = false;   // найден опциональный предмет (даёт 5-ю карточку в магазине)
     public static int CurrentLevel = 2;        // индекс текущего этажа в Build Settings
     public static bool UpdateLevelEnd = false; // апгрейд куплен, можно ехать на следующий этаж
@@ -58,14 +58,14 @@ public static class GameState
     public static bool AkimboWas = false; // акимбо куплен, но текущее оружие не пистолет
     public static bool Katana = false;
     public static bool StrongArms = false;
-    public static float StrongArmsKoef = 1f;
+    public static float StrongArmsMultiplier = 1f;
     public static bool StrongLegs = false;
-    public static float StrongLegsKoef = 1f;
+    public static float StrongLegsMultiplier = 1f;
 
     /// <summary>Сброс всего забега (оружие, прокачка, импланты). Вызывается при смерти, победе и выходе в меню.</summary>
     public static void ResetRun()
     {
-        if (StrongArms && StrongLegs) Ciborg = true;
+        if (StrongArms && StrongLegs) CyborgAchieved = true;
 
         CurrentGun = 0;
         CurrentGrenade = false;
@@ -86,11 +86,11 @@ public static class GameState
         AkimboWas = false;
         Katana = false;
         StrongArms = false;
-        StrongArmsKoef = 1f;
+        StrongArmsMultiplier = 1f;
         StrongLegs = false;
-        StrongLegsKoef = 1f;
+        StrongLegsMultiplier = 1f;
 
-        levelCheksComplete = false;
+        LevelCleared = false;
         ItemPickedUp = false;
         UpdateLevelEnd = false;
 
@@ -100,7 +100,7 @@ public static class GameState
     /// <summary>Сброс одноразовых на этаж эффектов при переходе между сценами.</summary>
     public static void ResetPerLevelFlags()
     {
-        levelCheksComplete = false;
+        LevelCleared = false;
         PropitalHealActive = false;
         SandevistanActive = false;
     }
@@ -111,13 +111,13 @@ public static class GameState
         PlayerPrefs.SetFloat("EnvVolume", EnvVolume);
         SetBool("Difficulty", Difficulty);
         SetBool("LaserSightUnlocked", LaserSightUnlocked);
-        PlayerPrefs.SetInt("countShots", countShots);
-        PlayerPrefs.SetInt("countHits", countHits);
-        PlayerPrefs.SetFloat("Damage", Damage);
-        SetBool("Ciborg", Ciborg);
-        SetBool("DiedinCyberpunk", DiedinCyberpunk);
+        PlayerPrefs.SetInt("countShots", ShotsFired);
+        PlayerPrefs.SetInt("countHits", ShotsHit);
+        PlayerPrefs.SetFloat("Damage", TotalDamage);
+        SetBool("Ciborg", CyborgAchieved);
+        SetBool("DiedinCyberpunk", DiedInCyberpunk);
 
-        SetBool("levelCheksComplete", levelCheksComplete);
+        SetBool("levelCheksComplete", LevelCleared);
         SetBool("ItemPickedUp", ItemPickedUp);
         PlayerPrefs.SetInt("CurrentLevel", CurrentLevel);
         SetBool("UpdateLevelEnd", UpdateLevelEnd);
@@ -147,9 +147,9 @@ public static class GameState
         SetBool("AkimboWas", AkimboWas);
         SetBool("Katana", Katana);
         SetBool("StrongArms", StrongArms);
-        PlayerPrefs.SetFloat("StrongArmsKoef", StrongArmsKoef);
+        PlayerPrefs.SetFloat("StrongArmsKoef", StrongArmsMultiplier);
         SetBool("StrongLegs", StrongLegs);
-        PlayerPrefs.SetFloat("StrongLegsKoef", StrongLegsKoef);
+        PlayerPrefs.SetFloat("StrongLegsKoef", StrongLegsMultiplier);
 
         PlayerPrefs.Save();
     }
@@ -160,13 +160,13 @@ public static class GameState
         EnvVolume = PlayerPrefs.GetFloat("EnvVolume", 0.6f);
         Difficulty = GetBool("Difficulty");
         LaserSightUnlocked = GetBool("LaserSightUnlocked");
-        countShots = PlayerPrefs.GetInt("countShots", 0);
-        countHits = PlayerPrefs.GetInt("countHits", 0);
-        Damage = PlayerPrefs.GetFloat("Damage", 0f);
-        Ciborg = GetBool("Ciborg");
-        DiedinCyberpunk = GetBool("DiedinCyberpunk");
+        ShotsFired = PlayerPrefs.GetInt("countShots", 0);
+        ShotsHit = PlayerPrefs.GetInt("countHits", 0);
+        TotalDamage = PlayerPrefs.GetFloat("Damage", 0f);
+        CyborgAchieved = GetBool("Ciborg");
+        DiedInCyberpunk = GetBool("DiedinCyberpunk");
 
-        levelCheksComplete = GetBool("levelCheksComplete");
+        LevelCleared = GetBool("levelCheksComplete");
         ItemPickedUp = GetBool("ItemPickedUp");
         CurrentLevel = PlayerPrefs.GetInt("CurrentLevel", 2);
         UpdateLevelEnd = GetBool("UpdateLevelEnd");
@@ -196,9 +196,9 @@ public static class GameState
         AkimboWas = GetBool("AkimboWas");
         Katana = GetBool("Katana");
         StrongArms = GetBool("StrongArms");
-        StrongArmsKoef = PlayerPrefs.GetFloat("StrongArmsKoef", 1f);
+        StrongArmsMultiplier = PlayerPrefs.GetFloat("StrongArmsKoef", 1f);
         StrongLegs = GetBool("StrongLegs");
-        StrongLegsKoef = PlayerPrefs.GetFloat("StrongLegsKoef", 1f);
+        StrongLegsMultiplier = PlayerPrefs.GetFloat("StrongLegsKoef", 1f);
     }
 
     private static void SetBool(string key, bool value) => PlayerPrefs.SetInt(key, value ? 1 : 0);

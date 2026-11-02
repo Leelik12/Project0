@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Спавнит в начале уровня выбранное оружие (GameState.CurrentGun), второй экземпляр при акимбо,
@@ -18,7 +19,7 @@ public class WeaponSpawnManager : MonoBehaviour
     public Transform ammoSpawnPoint7;
     public Transform ammoSpawnPoint8;
     public Transform ammoSpawnPoint9;
-    public Transform Grenade;
+    [FormerlySerializedAs("Grenade")] public Transform grenadeSpawnPoint;
 
     [Header("Префабы оружия")]
     public GameObject AKM;
@@ -28,8 +29,8 @@ public class WeaponSpawnManager : MonoBehaviour
     public GameObject P40;
     public GameObject Shotgun;
     public GameObject CopBaton;
-    public GameObject Beat;
-    public GameObject Grenad;
+    [FormerlySerializedAs("Beat")] public GameObject BaseballBat;
+    [FormerlySerializedAs("Grenad")] public GameObject GrenadePrefab;
 
     [Header("Префабы боеприпасов")]
     public GameObject pistolAmmoPrefab;
@@ -62,7 +63,7 @@ public class WeaponSpawnManager : MonoBehaviour
             }
         }
 
-        if (GameState.CurrentGrenade) SpawnAt(Grenad, Grenade);
+        if (GameState.CurrentGrenade) SpawnAt(GrenadePrefab, grenadeSpawnPoint);
     }
 
     // Коды оружия см. в GameState. 4 (граната) — не основное оружие, спавнится отдельно.
@@ -78,7 +79,7 @@ public class WeaponSpawnManager : MonoBehaviour
             case 5: weapon = P40;         ammo = P40AmmoPrefab;     return true;
             case 6: weapon = Shotgun;     ammo = shotgunAmmoPrefab; return true;
             case 7: weapon = CopBaton;                              return true;
-            case 8: weapon = Beat;                                  return true;
+            case 8: weapon = BaseballBat;                            return true;
             default: weapon = null;                                 return false;
         }
     }

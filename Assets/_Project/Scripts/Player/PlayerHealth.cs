@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ public class PlayerHealth : MonoBehaviour
 
     [Header("Настройки баффов")]
     public InputActionProperty HealButton;
-    public InputActionProperty SandewistanButton;
+    [FormerlySerializedAs("SandewistanButton")] public InputActionProperty SandevistanButton;
 
     [Header("Настройки меню")]
     public InputActionProperty MenuButton;
@@ -44,14 +45,14 @@ public class PlayerHealth : MonoBehaviour
     {
         defaultFixedDeltaTime = Time.fixedDeltaTime;
         HealButton.action.Enable();
-        SandewistanButton.action.Enable();
+        SandevistanButton.action.Enable();
         MenuButton.action.Enable();
 
         moveProvider = controller.GetComponent<DynamicMoveProvider>();
         baseMoveSpeed = GameState.PlayerBasicSpeed;
         if (GameState.StrongLegs)
         {
-            baseMoveSpeed *= GameState.StrongLegsKoef;
+            baseMoveSpeed *= GameState.StrongLegsMultiplier;
         }
         moveProvider.moveSpeed = baseMoveSpeed;
 
@@ -96,8 +97,7 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         isDead = true;
-        Debug.Log("Игрок погиб");
-        GameState.DiedinCyberpunk = true;
+        GameState.DiedInCyberpunk = true;
         GameState.PlayerLost = true; // в меню покажется экран поражения
         GameState.ResetRun();
         SceneManager.LoadSceneAsync(0);
@@ -145,7 +145,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void HandleMissionChecks()
     {
-        if (MainCheck != null && GameState.levelCheksComplete && !MainCheck.activeSelf)
+        if (MainCheck != null && GameState.LevelCleared && !MainCheck.activeSelf)
         {
             MainCheck.SetActive(true);
         }
@@ -163,13 +163,13 @@ public class PlayerHealth : MonoBehaviour
             && GameState.PropitalHeal && !GameState.PropitalHealActive
             && currentHealth < maxHealth)
         {
-            StartCoroutine(Propital());
+            StartCoroutine(PropitalRoutine());
         }
 
-        if (SandewistanButton.action.ReadValue<float>() >= 0.7f
+        if (SandevistanButton.action.ReadValue<float>() >= 0.7f
             && GameState.Sandevistan && !GameState.SandevistanActive)
         {
-            StartCoroutine(Sandewistan());
+            StartCoroutine(SandevistanRoutine());
         }
     }
 
@@ -190,7 +190,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     // «Пропитал»: восстанавливает по 1 HP в секунду в течение PropitalHealValue секунд. Один раз за этаж.
-    private IEnumerator Propital()
+    private IEnumerator PropitalRoutine()
     {
         GameState.PropitalHealActive = true;
         float elapsed = 0f;
@@ -204,7 +204,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     // «Сандевистан»: замедление времени на SandevistanTime секунд. Один раз за этаж.
-    private IEnumerator Sandewistan()
+    private IEnumerator SandevistanRoutine()
     {
         GameState.SandevistanActive = true;
         Time.timeScale = GameState.SandevistanTimeSlower;

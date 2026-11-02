@@ -15,9 +15,6 @@ public class UpgradeCanvasSpawner : MonoBehaviour
     public GameObject[] allMixedCanvasesPlace4;
     public GameObject[] allMixedCanvasesPlace5;
 
-    [Header("Условие для 5 места")]
-    public bool podbor = false; // только для отображения в инспекторе
-
     private void Start()
     {
         ActivateRandomCanvas(weaponCanvasesPlace1);
@@ -25,8 +22,8 @@ public class UpgradeCanvasSpawner : MonoBehaviour
         ActivateRandomCanvas(weaponUpgradeCanvasesPlace3);
         ActivateRandomCanvas(allMixedCanvasesPlace4);
 
-        podbor = GameState.ItemPickedUp;
-        if (podbor) ActivateRandomCanvas(allMixedCanvasesPlace5);
+        // Пятое место — награда за найденный на этаже предмет
+        if (GameState.ItemPickedUp) ActivateRandomCanvas(allMixedCanvasesPlace5);
     }
 
     private static void ActivateRandomCanvas(GameObject[] canvases)

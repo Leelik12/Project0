@@ -15,7 +15,7 @@ public class MeleeWeaponDamage : MonoBehaviour
         EnemyHealth enemyHealth = collision.GetComponentInParent<EnemyHealth>();
         if (enemyHealth == null) return;
 
-        float damage = GameState.StrongArms ? damageAmount * GameState.StrongArmsKoef : damageAmount;
+        float damage = GameState.StrongArms ? damageAmount * GameState.StrongArmsMultiplier : damageAmount;
         enemyHealth.TakeDamage(damage);
         lastDamageTime = Time.time;
     }
