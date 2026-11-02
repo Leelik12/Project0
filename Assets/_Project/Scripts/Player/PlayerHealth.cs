@@ -44,6 +44,7 @@ public class PlayerHealth : MonoBehaviour
     private float speedBoostEndTime;  // до какого момента действует ускорение после урона
     private bool isDead;
     private float defaultFixedDeltaTime;
+    private DamageVignette damageVignette;
 
     private void Awake()
     {
@@ -62,6 +63,8 @@ public class PlayerHealth : MonoBehaviour
 
         maxHealth += GameState.PlayerHPBuff;
         if (katana != null) katana.SetActive(GameState.Katana);
+
+        damageVignette = DamageVignette.Create(transform);
     }
 
     private void Start()
@@ -93,6 +96,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         UpdateHealthUI();
         Haptics.PulseBoth(damageHapticAmplitude, damageHapticDuration);
+        if (damageVignette != null) damageVignette.Flash(damage / maxHealth);
 
         if (currentHealth <= 0)
         {
