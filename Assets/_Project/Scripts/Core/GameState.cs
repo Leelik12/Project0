@@ -13,6 +13,7 @@ public static class GameState
     public static float EnvVolume = 0.6f;
     public static bool Difficulty = false;          // true — сложный режим (без лазерного прицела)
     public static bool LaserSightUnlocked = false;  // куплен апгрейд «ЛЦУ»: лазер доступен даже на сложном
+    public static bool SmoothTurn = true;           // плавный поворот стиком; false — пошаговый (snap)
     public static int ShotsFired;                   // за всё время, для достижений
     public static int ShotsHit;
     public static float TotalDamage;
@@ -160,6 +161,7 @@ public static class GameState
     public static void SaveData()
     {
         PlayerPrefs.SetFloat("GunVolume", GunVolume);
+        SetBool("SmoothTurn", SmoothTurn);
         PlayerPrefs.SetFloat("EnvVolume", EnvVolume);
         SetBool("Difficulty", Difficulty);
         SetBool("LaserSightUnlocked", LaserSightUnlocked);
@@ -217,6 +219,7 @@ public static class GameState
     public static void LoadData()
     {
         GunVolume = PlayerPrefs.GetFloat("GunVolume", 0.6f);
+        SmoothTurn = PlayerPrefs.GetInt("SmoothTurn", 1) == 1;
         EnvVolume = PlayerPrefs.GetFloat("EnvVolume", 0.6f);
         Difficulty = GetBool("Difficulty");
         LaserSightUnlocked = GetBool("LaserSightUnlocked");
