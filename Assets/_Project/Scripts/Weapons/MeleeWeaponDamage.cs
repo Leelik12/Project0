@@ -23,7 +23,9 @@ public class MeleeWeaponDamage : MonoBehaviour
         if (enemyHealth == null || enemyHealth.IsDead) return;
 
         float damage = GameState.StrongArms ? damageAmount * GameState.StrongArmsMultiplier : damageAmount;
-        enemyHealth.TakeDamage(damage);
+        Vector3 point = collision.ClosestPoint(transform.position);
+        Vector3 direction = (point - transform.position).normalized;
+        enemyHealth.TakeDamage(damage, point, direction, collision.CompareTag("Head"));
         GameState.RegisterDamage(damage);
         Haptics.Pulse(grabInteractable, 0.8f, 0.12f);
         lastDamageTime = Time.time;

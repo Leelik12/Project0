@@ -94,13 +94,25 @@ public class VRGrenade : MonoBehaviour
                 EnemyHealth enemy = nearby.GetComponentInParent<EnemyHealth>();
                 if (enemy != null && !enemy.IsDead && damaged.Add(enemy))
                 {
-                    enemy.TakeDamage(damage);
+                    Vector3 toEnemy = enemy.transform.position + Vector3.up - transform.position;
+                    enemy.TakeDamage(damage, transform.position, toEnemy.normalized, false);
                     GameState.RegisterDamage(damage);
                 }
             }
 
+            // Тела задетых врагов толкаем ниже целиком, после того как они стали рэгдоллами
             Rigidbody rb = nearby.GetComponent<Rigidbody>();
-            if (rb != null) rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+            if (rb != null && !damaged.Contains(nearby.GetComponentInParent<EnemyHealth>()))
+                rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
+        }
+
+        foreach (EnemyHealth enemy in damaged)
+        {
+            if (!enemy.IsDead) continue;
+            foreach (Rigidbody body in enemy.GetComponentsInChildren<Rigidbody>())
+            {
+                if (!body.isKinematic) body.AddExplosionForce(explosionForce, transform.position, explosionRadius, 0.5f);
+            }
         }
 
         Destroy(gameObject);
