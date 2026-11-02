@@ -1,9 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>Цели этажа: уничтожить всех врагов (обязательно) и найти предмет (опционально).</summary>
+/// <summary>
+/// Цели этажа: уничтожить всех врагов (обязательно) и найти предмет (опционально).
+/// При старте делает случайного врага элитным, за зачистку и предмет начисляет эдди.
+/// </summary>
 public class LevelManager : MonoBehaviour
 {
+    private const int MinEnemiesForElite = 3;
+
     /// <summary>Сколько врагов на этаже ещё живы (для HUD). 0 — этаж зачищен или менеджера нет.</summary>
     public static int EnemiesRemaining { get; private set; }
 
@@ -28,6 +34,26 @@ public class LevelManager : MonoBehaviour
         }
         EnemiesRemaining = CountAlive();
         UpdateProgressUI();
+        MakeElites();
+    }
+
+    // Элита: один случайный враг этажа, на сложном — два. На маленьких этажах элиты нет.
+    private void MakeElites()
+    {
+        var candidates = new List<EnemyHealth>();
+        foreach (EnemyHealth health in healths)
+        {
+            if (health != null && !health.IsDead && health.TryGetComponent(out EnemyStateManager _)) candidates.Add(health);
+        }
+        if (candidates.Count < MinEnemiesForElite) return;
+
+        int count = GameState.Difficulty ? 2 : 1;
+        for (int i = 0; i < count && candidates.Count > 0; i++)
+        {
+            int index = Random.Range(0, candidates.Count);
+            EliteEnemy.Make(candidates[index]);
+            candidates.RemoveAt(index);
+        }
     }
 
     private void OnDestroy()
@@ -46,6 +72,7 @@ public class LevelManager : MonoBehaviour
         {
             levelCompleted = true;
             GameState.LevelCleared = true;
+            GameState.AddEddies(UpgradeCatalog.Instance.floorClearReward);
             UpdateProgressUI();
         }
     }
@@ -64,6 +91,7 @@ public class LevelManager : MonoBehaviour
 
     public void OnItemPickedUp()
     {
+        if (!itemPickedUp) GameState.AddEddies(UpgradeCatalog.Instance.itemPickupReward);
         itemPickedUp = true;
         GameState.ItemPickedUp = true;
         UpdateProgressUI();
