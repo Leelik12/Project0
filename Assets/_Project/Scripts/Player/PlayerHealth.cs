@@ -82,6 +82,7 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         UpdateHealthUI();
+        if (MenuCanvas != null) MenuCanvas.SetActive(false); // в сценах меню сохранено включённым, а показывается только на паузе
     }
 
     private void Update()
