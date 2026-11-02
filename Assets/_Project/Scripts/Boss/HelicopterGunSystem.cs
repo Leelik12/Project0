@@ -84,13 +84,14 @@ public class HelicopterGunSystem : MonoBehaviour
             audioSource.PlayOneShot(shotSound);
 
         Vector3 direction = GetSpreadDirection(firePoint.forward, spreadAngle);
-        if (!Physics.Raycast(firePoint.position, direction, out RaycastHit hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
-            return;
+        bool hasHit = Physics.Raycast(firePoint.position, direction, out RaycastHit hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+        Tracer.Spawn(firePoint.position, hasHit ? hit.point : firePoint.position + direction * range, enemy: true);
+        if (!hasHit) return;
 
         Vector3 pos = hit.point + hit.normal * effectOffset;
         Quaternion rot = Quaternion.LookRotation(hit.normal);
-        if (hitEffectDust != null) Destroy(Instantiate(hitEffectDust, pos, rot), hitEffectLifetime);
-        if (hitEffectSparks != null) Destroy(Instantiate(hitEffectSparks, pos, rot), hitEffectLifetime);
+        ObjectPool.Spawn(hitEffectDust, pos, rot, hitEffectLifetime);
+        ObjectPool.Spawn(hitEffectSparks, pos, rot, hitEffectLifetime);
 
         if (hit.collider.CompareTag(targetTag))
         {
