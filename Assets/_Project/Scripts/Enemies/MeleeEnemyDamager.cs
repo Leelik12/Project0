@@ -18,7 +18,7 @@ public class MeleeEnemyDamager : MonoBehaviour
 
         // Оружие — вложенный префаб в руке врага; без владельца (оружие валяется отдельно) бьёт как раньше
         if (owner == null) owner = GetComponentInParent<EnemyStateManager>();
-        if (owner != null && owner.CurrentState != owner.AttackState) return;
+        if (owner != null && (owner.CurrentState != owner.AttackState || owner.IsStunned)) return;
 
         PlayerHealth player = collision.GetComponent<PlayerHealth>();
         if (player == null) return;

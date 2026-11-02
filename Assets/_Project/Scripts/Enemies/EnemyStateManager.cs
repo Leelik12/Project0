@@ -55,6 +55,12 @@ public class EnemyStateManager : MonoBehaviour
     private int currentPatrolIndex;
     private Transform target;
     private EnemyGun weapon;
+    private float stunnedUntil;
+    private bool stunApplied;
+    private float animatorSpeedBeforeStun = 1f;
+
+    /// <summary>Оглушён (взлом «Короткое замыкание»): стоит, не видит и не атакует.</summary>
+    public bool IsStunned => Time.time < stunnedUntil;
 
     public EnemyBaseState CurrentState { get; private set; }
     public readonly EnemyIdleState IdleState = new();
@@ -96,6 +102,12 @@ public class EnemyStateManager : MonoBehaviour
 
     private void Update()
     {
+        if (stunApplied)
+        {
+            if (IsStunned) return;
+            EndStun(angry: true);
+        }
+
         if (agent.isActiveAndEnabled && agent.isOnNavMesh && target != null)
         {
             agent.destination = target.position;
@@ -139,7 +151,34 @@ public class EnemyStateManager : MonoBehaviour
 
     // ---------- Здоровье ----------
 
-    public void Die() => SwitchState(DeathState);
+    public void Die()
+    {
+        if (stunApplied) EndStun(angry: false);
+        SwitchState(DeathState);
+    }
+
+    /// <summary>Оглушить на duration секунд: анимация замирает, агент стоит. Повторное оглушение продлевает.</summary>
+    public void Stun(float duration)
+    {
+        if (CurrentState == DeathState || duration <= 0f) return;
+
+        stunnedUntil = Mathf.Max(stunnedUntil, Time.time + duration);
+        if (stunApplied) return;
+
+        stunApplied = true;
+        animatorSpeedBeforeStun = animator.speed;
+        animator.speed = 0f;
+        if (agent.isActiveAndEnabled && agent.isOnNavMesh) agent.isStopped = true;
+    }
+
+    private void EndStun(bool angry)
+    {
+        stunApplied = false;
+        stunnedUntil = 0f;
+        animator.speed = animatorSpeedBeforeStun;
+        if (agent.isActiveAndEnabled && agent.isOnNavMesh) agent.isStopped = false;
+        if (angry) OnDamageTaken(); // очнулся злым
+    }
 
     public void OnDamageTaken()
     {
@@ -154,7 +193,7 @@ public class EnemyStateManager : MonoBehaviour
 
     public bool CanSeePlayer()
     {
-        if (playerHead == null) return false;
+        if (playerHead == null || PlayerStealth.IsInvisible || IsStunned) return false;
 
         Vector3 eyeOrigin = transform.position + Vector3.up * EyeHeight;
         Vector3 headPos = playerHead.position;

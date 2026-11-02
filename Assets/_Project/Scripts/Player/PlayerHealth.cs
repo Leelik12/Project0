@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.InputSystem;
@@ -8,16 +7,22 @@ using UnityEngine.UI;
 using XR.Interaction.Toolkit.Samples;
 
 /// <summary>
-/// Здоровье игрока, активируемые импланты (Пропитал, Сандевистан), меню паузы и HUD.
+/// Здоровье игрока, пассивные импланты, меню паузы и HUD. Активные импланты — в PlayerImplants (создаётся отсюда).
+/// Здоровье переносится между этажами через GameState.PlayerHealthLeft.
 /// Висит на XR Origin. Имя класса и методы back2Main/ToMain привязаны к кнопкам в сценах — не переименовывать.
 /// </summary>
 public class PlayerHealth : MonoBehaviour
 {
+    private const float RegenerationDelay = 5f; // сколько секунд без урона до начала регенерации
+
+    /// <summary>Игрок на текущей сцене (null в меню без рига).</summary>
+    public static PlayerHealth Current { get; private set; }
+
     [Header("Настройки здоровья")]
     public float maxHealth;
     public float currentHealth;
 
-    [Header("Настройки баффов")]
+    [Header("Кнопки активных имплантов")]
     public InputActionProperty HealButton;
     [FormerlySerializedAs("SandewistanButton")] public InputActionProperty SandevistanButton;
 
@@ -36,10 +41,11 @@ public class PlayerHealth : MonoBehaviour
     public GameObject katana;
 
     [Header("Импланты на HUD (необязательно)")]
-    [Tooltip("Иконка «Пропитал готов»: видна, если имплант куплен и ещё не использован на этаже")]
+    [Tooltip("Индикатор «Пропитала»: если на объекте есть текст, в нём показывается перезарядка; иначе объект виден, пока имплант готов")]
     public GameObject propitalReadyIcon;
-    [Tooltip("Иконка «Сандевистан готов»")]
     public GameObject sandevistanReadyIcon;
+    public GameObject opticalCamoReadyIcon;
+    public GameObject shortCircuitReadyIcon;
 
     [Header("Отклик на урон")]
     [SerializeField] private float damageHapticAmplitude = 0.7f;
@@ -51,13 +57,15 @@ public class PlayerHealth : MonoBehaviour
     private bool isDead;
     private float defaultFixedDeltaTime;
     private DamageVignette damageVignette;
-    private SandevistanEffect sandevistanEffect;
-    private bool isPaused;
     private bool menuButtonWasPressed;
     private bool sandevistanRunning;
+    private float lastDamageTime = -100f;
+
+    public bool IsPaused { get; private set; }
 
     private void Awake()
     {
+        Current = this;
         defaultFixedDeltaTime = Time.fixedDeltaTime;
         HealButton.action.Enable();
         SandevistanButton.action.Enable();
@@ -75,12 +83,14 @@ public class PlayerHealth : MonoBehaviour
         if (katana != null) katana.SetActive(GameState.Katana);
 
         damageVignette = DamageVignette.Create(transform);
-        sandevistanEffect = SandevistanEffect.Create(transform);
+        gameObject.AddComponent<PlayerImplants>().Init(this);
+        GameEvents.EnemyHit += OnEnemyHit;
     }
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        // Здоровье переносится с прошлого этажа; в начале забега — полное
+        currentHealth = GameState.PlayerHealthLeft > 0f ? Mathf.Min(GameState.PlayerHealthLeft, maxHealth) : maxHealth;
         UpdateHealthUI();
         if (MenuCanvas != null) MenuCanvas.SetActive(false); // в сценах меню сохранено включённым, а показывается только на паузе
     }
@@ -89,15 +99,14 @@ public class PlayerHealth : MonoBehaviour
     {
         HandleMenu();
         HandleMissionChecks();
-        HandleImplantIcons();
-        if (isPaused) return;
+        if (IsPaused) return;
 
-        HandleImplants();
         HandleSpeedBoost();
+        HandleRegeneration();
         GameState.RunTime += Time.unscaledDeltaTime;
     }
 
-    // ---------- Урон и смерть ----------
+    // ---------- Урон, лечение и смерть ----------
 
     public void PlayerTakeDamage(float damage)
     {
@@ -108,8 +117,9 @@ public class PlayerHealth : MonoBehaviour
             ApplySpeedBoost();
         }
 
-        currentHealth -= damage;
-        UpdateHealthUI();
+        damage *= 1f - GameState.Armor; // подкожная броня
+        lastDamageTime = Time.time;
+        SetHealth(currentHealth - damage);
         Haptics.PulseBoth(damageHapticAmplitude, damageHapticDuration);
         if (damageVignette != null) damageVignette.Flash(damage / maxHealth);
         GameEvents.RaisePlayerDamaged(damage);
@@ -118,6 +128,20 @@ public class PlayerHealth : MonoBehaviour
         {
             Die();
         }
+    }
+
+    /// <summary>Восстановить здоровье (импланты, вампиризм, лечение в магазине).</summary>
+    public void Heal(float amount)
+    {
+        if (isDead || amount <= 0f) return;
+        SetHealth(Mathf.Min(maxHealth, currentHealth + amount));
+    }
+
+    private void SetHealth(float value)
+    {
+        currentHealth = value;
+        GameState.PlayerHealthLeft = Mathf.Max(1f, currentHealth);
+        UpdateHealthUI();
     }
 
     private void Die()
@@ -148,6 +172,21 @@ public class PlayerHealth : MonoBehaviour
     public float GetCurrentHealth() => currentHealth;
     public float GetHealthPercent() => currentHealth / maxHealth;
 
+    // ---------- Пассивные импланты ----------
+
+    // Вампиризм за убийство; модификатор оружия «Вампиризм» лечит в VRGun
+    private void OnEnemyHit(EnemyHitInfo hit)
+    {
+        if (hit.Killed && GameState.KillHeal > 0f) Heal(GameState.KillHeal);
+    }
+
+    private void HandleRegeneration()
+    {
+        if (GameState.Regeneration <= 0f || currentHealth >= maxHealth) return;
+        if (Time.time - lastDamageTime < RegenerationDelay) return;
+        Heal(GameState.Regeneration * Time.deltaTime);
+    }
+
     // ---------- HUD ----------
 
     private void UpdateHealthUI()
@@ -162,13 +201,13 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // ---------- Пауза ----------
+    // ---------- Пауза и скорость времени ----------
 
     // Кнопка меню переключает паузу: время стоит, звук мира на паузе, импланты не тикают
     private void HandleMenu()
     {
         bool pressed = MenuButton.action.ReadValue<float>() >= 0.7f;
-        if (pressed && !menuButtonWasPressed) SetPaused(!isPaused);
+        if (pressed && !menuButtonWasPressed) SetPaused(!IsPaused);
         menuButtonWasPressed = pressed;
     }
 
@@ -177,19 +216,28 @@ public class PlayerHealth : MonoBehaviour
 
     private void SetPaused(bool paused)
     {
-        if (isPaused == paused) return;
-        isPaused = paused;
+        if (IsPaused == paused) return;
+        IsPaused = paused;
         if (MenuCanvas != null) MenuCanvas.SetActive(paused);
         AudioListener.pause = paused;
         ApplyTimeScale();
         GameEvents.RaisePauseChanged(paused);
     }
 
+    /// <summary>Сандевистан замедляет время (включает и выключает PlayerImplants).</summary>
+    public void SetSandevistan(bool active)
+    {
+        if (sandevistanRunning == active) return;
+        sandevistanRunning = active;
+        ApplyTimeScale();
+        GameEvents.RaiseSandevistanChanged(active);
+    }
+
     // Итоговая скорость времени: пауза важнее Сандевистана
     private void ApplyTimeScale()
     {
         float gameScale = sandevistanRunning ? GameState.SandevistanTimeSlower : 1f;
-        Time.timeScale = isPaused ? 0f : gameScale;
+        Time.timeScale = IsPaused ? 0f : gameScale;
         Time.fixedDeltaTime = defaultFixedDeltaTime * gameScale; // физика замедляется вместе со временем
     }
 
@@ -205,36 +253,9 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // ---------- Импланты ----------
+    // ---------- Ускорение после урона ----------
 
-    private void HandleImplants()
-    {
-        if (HealButton.action.ReadValue<float>() >= 0.7f
-            && GameState.PropitalHeal && !GameState.PropitalHealActive
-            && currentHealth < maxHealth)
-        {
-            StartCoroutine(PropitalRoutine());
-        }
-
-        if (SandevistanButton.action.ReadValue<float>() >= 0.7f
-            && GameState.Sandevistan && !GameState.SandevistanActive)
-        {
-            StartCoroutine(SandevistanRoutine());
-        }
-    }
-
-    private void HandleImplantIcons()
-    {
-        SetActiveIfChanged(propitalReadyIcon, GameState.PropitalHeal && !GameState.PropitalHealActive);
-        SetActiveIfChanged(sandevistanReadyIcon, GameState.Sandevistan && !GameState.SandevistanActive);
-    }
-
-    private static void SetActiveIfChanged(GameObject go, bool active)
-    {
-        if (go != null && go.activeSelf != active) go.SetActive(active);
-    }
-
-    // Ускорение после урона: таймер вместо корутины, чтобы повторные попадания продлевали эффект, а не обрывали его.
+    // Таймер вместо корутины, чтобы повторные попадания продлевали эффект, а не обрывали его.
     private void ApplySpeedBoost()
     {
         speedBoostEndTime = Time.time + GameState.SpeedTimeAfterDamage;
@@ -250,51 +271,11 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // «Пропитал»: восстанавливает по 1 HP в секунду в течение PropitalHealValue секунд. Один раз за этаж.
-    private IEnumerator PropitalRoutine()
-    {
-        GameState.PropitalHealActive = true;
-        float ticks = 0f;
-        float tickTimer = 0f;
-        while (ticks < GameState.PropitalHealValue)
-        {
-            if (tickTimer <= 0f)
-            {
-                if (currentHealth < maxHealth) currentHealth++;
-                UpdateHealthUI();
-                ticks += 1f;
-                tickTimer = 1f;
-            }
-            yield return null;
-            if (!isPaused) tickTimer -= Time.unscaledDeltaTime; // реальное время, но на паузе не лечит
-        }
-    }
-
-    // «Сандевистан»: замедление времени на SandevistanTime секунд. Один раз за этаж.
-    private IEnumerator SandevistanRoutine()
-    {
-        GameState.SandevistanActive = true;
-        sandevistanRunning = true;
-        ApplyTimeScale();
-        if (sandevistanEffect != null) sandevistanEffect.SetActive(true);
-        GameEvents.RaiseSandevistanChanged(true);
-
-        // Реальное время, но на паузе действие импланта не тратится
-        float remaining = GameState.SandevistanTime;
-        while (remaining > 0f)
-        {
-            yield return null;
-            if (!isPaused) remaining -= Time.unscaledDeltaTime;
-        }
-
-        sandevistanRunning = false;
-        ApplyTimeScale();
-        if (sandevistanEffect != null) sandevistanEffect.SetActive(false);
-        GameEvents.RaiseSandevistanChanged(false);
-    }
-
     private void OnDestroy()
     {
+        if (Current == this) Current = null;
+        GameEvents.EnemyHit -= OnEnemyHit;
+
         // Если сцена выгрузилась на паузе или во время Сандевистана — не оставляем остановленное время и звук.
         AudioListener.pause = false;
         Time.timeScale = 1f;

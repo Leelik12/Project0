@@ -3,12 +3,20 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 /// <summary>
-/// Визуал Сандевистана: зеленоватый тон, хроматическая аберрация, лёгкое искажение линзы и виньетка.
-/// Глобальный Volume с профилем создаётся из кода (PlayerHealth), плавно включается и выключается по реальному времени.
+/// Экранный эффект активного импланта через постобработку:
+/// Сандевистан — зеленоватый тон, хроматическая аберрация, лёгкое искажение линзы и виньетка;
+/// оптический камуфляж — холодный обесцвеченный тон и голубая виньетка.
+/// Глобальный Volume с профилем создаётся из кода (PlayerImplants), плавно включается и выключается по реальному времени.
 /// Пока эффект виден, на камере принудительно включена постобработка, потом прежняя настройка возвращается.
 /// </summary>
-public class SandevistanEffect : MonoBehaviour
+public class ImplantScreenEffect : MonoBehaviour
 {
+    public enum Style
+    {
+        Sandevistan,
+        OpticalCamo,
+    }
+
     private const float FadeTime = 0.25f;
 
     private Volume volume;
@@ -16,17 +24,31 @@ public class SandevistanEffect : MonoBehaviour
     private UniversalAdditionalCameraData cameraData;
     private bool cameraHadPostProcessing;
 
-    public static SandevistanEffect Create(Transform owner)
+    public static ImplantScreenEffect Create(Transform owner, Style style)
     {
-        var go = new GameObject("SandevistanEffect");
+        var go = new GameObject(style + "Effect");
         go.transform.SetParent(owner, false);
-        return go.AddComponent<SandevistanEffect>();
+        var effect = go.AddComponent<ImplantScreenEffect>();
+        effect.Build(style);
+        return effect;
     }
 
-    private void Awake()
+    private void Build(Style style)
     {
         VolumeProfile profile = ScriptableObject.CreateInstance<VolumeProfile>();
+        if (style == Style.Sandevistan) BuildSandevistan(profile);
+        else BuildOpticalCamo(profile);
 
+        volume = gameObject.AddComponent<Volume>();
+        volume.isGlobal = true;
+        volume.priority = 100f;
+        volume.sharedProfile = profile;
+        volume.weight = 0f;
+        volume.enabled = false;
+    }
+
+    private static void BuildSandevistan(VolumeProfile profile)
+    {
         ColorAdjustments color = profile.Add<ColorAdjustments>(true);
         color.colorFilter.Override(new Color(0.75f, 1f, 0.82f));
         color.saturation.Override(-25f);
@@ -42,13 +64,21 @@ public class SandevistanEffect : MonoBehaviour
         vignette.color.Override(new Color(0.1f, 0.6f, 0.3f));
         vignette.intensity.Override(0.35f);
         vignette.smoothness.Override(0.6f);
+    }
 
-        volume = gameObject.AddComponent<Volume>();
-        volume.isGlobal = true;
-        volume.priority = 100f;
-        volume.sharedProfile = profile;
-        volume.weight = 0f;
-        volume.enabled = false;
+    private static void BuildOpticalCamo(VolumeProfile profile)
+    {
+        ColorAdjustments color = profile.Add<ColorAdjustments>(true);
+        color.colorFilter.Override(new Color(0.75f, 0.9f, 1f));
+        color.saturation.Override(-60f);
+
+        ChromaticAberration aberration = profile.Add<ChromaticAberration>(true);
+        aberration.intensity.Override(0.35f);
+
+        Vignette vignette = profile.Add<Vignette>(true);
+        vignette.color.Override(new Color(0.2f, 0.55f, 0.9f));
+        vignette.intensity.Override(0.4f);
+        vignette.smoothness.Override(0.8f);
     }
 
     /// <summary>Плавно показать или убрать эффект.</summary>
