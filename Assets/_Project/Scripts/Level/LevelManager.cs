@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>Цели этажа: уничтожить всех врагов (обязательно) и найти предмет (опционально).</summary>
 public class LevelManager : MonoBehaviour
 {
     [Header("Настройки уровня")]
-    public List<GameObject> enemies = new(); // все враги на уровне; сборщик этажа дописывает сюда заспавненных
+    public GameObject[] enemies;      // все враги на уровне
     public GameObject optionalItem;   // опциональный предмет (может быть null)
 
     [Header("UI элементы")]
@@ -40,12 +39,6 @@ public class LevelManager : MonoBehaviour
             if (enemy != null) return false; // уничтоженные враги становятся null
         }
         return true;
-    }
-
-    /// <summary>Добавляет врага, появившегося в рантайме (собранные этажи).</summary>
-    public void RegisterEnemy(GameObject enemy)
-    {
-        if (enemy != null && !enemies.Contains(enemy)) enemies.Add(enemy);
     }
 
     public void OnItemPickedUp()
