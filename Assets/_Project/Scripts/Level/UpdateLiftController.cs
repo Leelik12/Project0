@@ -1,11 +1,10 @@
-﻿/// <summary>Лифт в магазине апгрейдов: после покупки везёт на следующий этаж (CurrentLevel + 1).</summary>
+﻿/// <summary>Лифт в магазине апгрейдов: когда магазин открыт (UpgradeShop), везёт на следующий этаж (CurrentLevel + 1).</summary>
 public class UpdateLiftController : SceneLoaderBase
 {
     private int nextLevelIndex;
 
     private void Start()
     {
-        GameState.UpdateLevelEnd = false;
         nextLevelIndex = GameState.CurrentLevel + 1;
     }
 
