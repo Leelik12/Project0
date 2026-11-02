@@ -16,6 +16,7 @@ public class VRGun : MonoBehaviour
     private const float HeadshotMultiplier = 2f;
     private const float LegshotMultiplier = 0.5f;
     private const float LegshotSlowFactor = 0.9f;
+    public const float InfiniteAmmoThreshold = 9999f; // у лазерного оружия запас патронов условно бесконечный
 
     [SerializeField] private XRGrabInteractable grabInteractable;
 
@@ -156,14 +157,51 @@ public class VRGun : MonoBehaviour
         // Сильные руки держат оружие крепче
         recoil.Kick(GameState.StrongArms ? 0.6f : 1f);
 
-        bool hasHit = Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
-        Vector3 end = hasHit ? hit.point : firePoint.position + firePoint.forward * range;
-        Tracer.Spawn(firePoint.position, end, enemy: false, laserLine != null ? laserLine.sharedMaterial : null);
+        Vector3 direction = firePoint.forward;
+        float shotDamage = damage * PlayerStealth.ConsumeAmbush(); // выстрел из невидимости — критический
+
+        bool hasHit = Physics.Raycast(firePoint.position, direction, out RaycastHit hit, range, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+        Vector3 end = hasHit ? hit.point : firePoint.position + direction * range;
+        Tracer.Spawn(firePoint.position, end, enemy: false, TracerFallback);
         if (!hasHit) return;
 
         SpawnHitEffects(hit);
-        PushBody(hit);
-        ApplyDamage(hit);
+        PushBody(hit, direction);
+        EnemyHealth target = ApplyDamage(hit, direction, shotDamage);
+
+        if (GameState.ModExplosive > 0f) WeaponMods.Explode(hit.point, shotDamage * GameState.ModExplosive, target);
+        if (target != null && GameState.ModPiercing) Pierce(hit, direction, shotDamage, target);
+        else if (target == null && GameState.ModRicochet) Ricochet(hit, shotDamage);
+    }
+
+    private Material TracerFallback => laserLine != null ? laserLine.sharedMaterial : null;
+
+    // Пробитие: пуля проходит первого врага и бьёт следующего за ним с меньшим уроном
+    private void Pierce(RaycastHit first, Vector3 direction, float shotDamage, EnemyHealth firstTarget)
+    {
+        float remaining = range - first.distance;
+        RaycastHit[] hits = Physics.RaycastAll(first.point, direction, remaining, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        foreach (RaycastHit next in hits)
+        {
+            if (next.collider.GetComponentInParent<EnemyHealth>() == firstTarget) continue; // ещё внутри первого врага
+
+            Tracer.Spawn(first.point, next.point, enemy: false, TracerFallback);
+            SpawnHitEffects(next);
+            ApplyDamage(next, direction, shotDamage * WeaponMods.PierceDamageMultiplier);
+            return;
+        }
+    }
+
+    // Рикошет: промах отскакивает от поверхности в ближайшего видимого врага
+    private void Ricochet(RaycastHit wallHit, float shotDamage)
+    {
+        if (!WeaponMods.TryFindRicochetTarget(wallHit, out EnemyHealth target, out RaycastHit enemyHit)) return;
+
+        Tracer.Spawn(wallHit.point, enemyHit.point, enemy: false, TracerFallback);
+        SpawnHitEffects(enemyHit);
+        ApplyDamage(enemyHit, (enemyHit.point - wallHit.point).normalized, shotDamage * WeaponMods.RicochetDamageMultiplier);
     }
 
     private void PlayShotEffects()
@@ -183,22 +221,23 @@ public class VRGun : MonoBehaviour
         ObjectPool.Spawn(hitEffectPrefabSparks, pos, rot, hitEffectLifetime);
     }
 
-    private void PushBody(RaycastHit hit)
+    private void PushBody(RaycastHit hit, Vector3 direction)
     {
         Rigidbody body = hit.rigidbody;
-        if (body != null && !body.isKinematic) body.AddForceAtPosition(firePoint.forward * impactForce, hit.point, ForceMode.Impulse);
+        if (body != null && !body.isKinematic) body.AddForceAtPosition(direction * impactForce, hit.point, ForceMode.Impulse);
     }
 
-    private void ApplyDamage(RaycastHit hit)
+    /// <summary>Урон по врагу в точке попадания. Возвращает врага или null, если попали не во врага.</summary>
+    private EnemyHealth ApplyDamage(RaycastHit hit, Vector3 direction, float baseDamage)
     {
         Collider col = hit.collider;
-        if (!col.CompareTag("Head") && !col.CompareTag("Leg") && !col.CompareTag("Body")) return;
+        if (!col.CompareTag("Head") && !col.CompareTag("Leg") && !col.CompareTag("Body")) return null;
 
         EnemyHealth target = col.GetComponentInParent<EnemyHealth>();
-        if (target == null || target.IsDead) return; // по трупу не считаем ни урон, ни точность
+        if (target == null || target.IsDead) return null; // по трупу не считаем ни урон, ни точность
 
         bool headshot = col.CompareTag("Head");
-        float finalDamage = damage;
+        float finalDamage = baseDamage;
         if (headshot)
         {
             finalDamage *= HeadshotMultiplier;
@@ -217,7 +256,27 @@ public class VRGun : MonoBehaviour
         }
 
         GameState.RegisterHit(finalDamage);
-        target.TakeDamage(finalDamage, hit.point, firePoint.forward, headshot);
+        target.TakeDamage(finalDamage, hit.point, direction, headshot);
+
+        if (GameState.ModIncendiary > 0f) EnemyBurn.Ignite(target, GameState.ModIncendiary);
+        if (GameState.ModLeech > 0f && PlayerHealth.Current != null) PlayerHealth.Current.Heal(finalDamage * GameState.ModLeech);
+        if (headshot) RefillOnHeadshot();
+        return target;
+    }
+
+    // Пассивный имплант: хедшот возвращает патроны в магазин (у лазеров патроны и так бесконечные)
+    private void RefillOnHeadshot()
+    {
+        if (GameState.HeadshotAmmo <= 0 || !IsCharged || maxAmmo >= InfiniteAmmoThreshold) return;
+        currentAmmo = Mathf.Min(maxAmmo, currentAmmo + GameState.HeadshotAmmo);
+    }
+
+    /// <summary>Оружие выпало из убитого врага: в магазине только то, что осталось.</summary>
+    public void SetupAsDrop(float ammo)
+    {
+        currentAmmo = Mathf.Min(maxAmmo, ammo);
+        IsCharged = currentAmmo > 0;
+        if (internalMagazineModel != null) internalMagazineModel.SetActive(IsCharged);
     }
 
     // ---------- Магазины ----------
