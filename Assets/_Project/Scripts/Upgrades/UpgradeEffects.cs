@@ -27,7 +27,10 @@ public static class UpgradeEffects
             // ---------- Импланты ----------
             case UpgradeEffect.HealthBoost:
                 GameState.PlayerHPBuff += Mathf.RoundToInt(v);
-                if (GameState.PlayerHealthLeft > 0f) GameState.PlayerHealthLeft += v; // новая прослойка приходит целой
+                // Новая прослойка приходит целой. Если игрок уже в сцене, поднимаем и его живой максимум,
+                // иначе следующее лечение в магазине обрезало бы здоровье по старому максимуму
+                if (PlayerHealth.Current != null) PlayerHealth.Current.AddMaxHealth(Mathf.RoundToInt(v));
+                else if (GameState.PlayerHealthLeft > 0f) GameState.PlayerHealthLeft += Mathf.RoundToInt(v);
                 break;
             case UpgradeEffect.SpeedAfterDamage:
                 GameState.SpeedBuffAfterDamage = true;

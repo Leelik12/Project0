@@ -137,6 +137,14 @@ public class PlayerHealth : MonoBehaviour
         SetHealth(Mathf.Min(maxHealth, currentHealth + amount));
     }
 
+    /// <summary>Имплант «+HP», купленный прямо сейчас (в магазине): новая прослойка приходит целой.</summary>
+    public void AddMaxHealth(float amount)
+    {
+        if (isDead || amount <= 0f) return;
+        maxHealth += amount;
+        SetHealth(currentHealth + amount);
+    }
+
     private void SetHealth(float value)
     {
         currentHealth = value;
@@ -170,7 +178,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     public float GetCurrentHealth() => currentHealth;
-    public float GetHealthPercent() => currentHealth / maxHealth;
+    public float GetHealthPercent() => maxHealth > 0f ? currentHealth / maxHealth : 0f;
 
     // ---------- Пассивные импланты ----------
 
