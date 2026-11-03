@@ -22,7 +22,12 @@ public class ImplantScreenEffect : MonoBehaviour
     private Volume volume;
     private float target;
     private UniversalAdditionalCameraData cameraData;
-    private bool cameraHadPostProcessing;
+    private bool holdsPostProcessing;
+
+    // Сандевистан и камуфляж могут работать одновременно: исходное состояние камеры запоминает первый,
+    // возвращает последний
+    private static int postProcessingUsers;
+    private static bool cameraHadPostProcessing;
 
     public static ImplantScreenEffect Create(Transform owner, Style style)
     {
@@ -112,19 +117,26 @@ public class ImplantScreenEffect : MonoBehaviour
 
     private void EnablePostProcessing()
     {
-        if (cameraData != null) return;
+        if (holdsPostProcessing) return;
 
         Camera cam = Camera.main;
         if (cam == null || !cam.TryGetComponent(out cameraData)) return;
 
-        cameraHadPostProcessing = cameraData.renderPostProcessing;
+        holdsPostProcessing = true;
+        if (postProcessingUsers++ == 0) cameraHadPostProcessing = cameraData.renderPostProcessing;
         cameraData.renderPostProcessing = true;
     }
 
     private void RestorePostProcessing()
     {
-        if (cameraData == null) return;
-        cameraData.renderPostProcessing = cameraHadPostProcessing;
+        // Счётчик уменьшаем, даже если камеру уже уничтожили вместе со сценой, иначе он застрянет
+        if (!holdsPostProcessing) return;
+        holdsPostProcessing = false;
+        if (--postProcessingUsers == 0 && cameraData != null) cameraData.renderPostProcessing = cameraHadPostProcessing;
         cameraData = null;
     }
+
+    // Без перезагрузки домена статика переживает выход из Play Mode
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatics() => postProcessingUsers = 0;
 }

@@ -14,6 +14,7 @@ using XR.Interaction.Toolkit.Samples;
 public class PlayerHealth : MonoBehaviour
 {
     private const float RegenerationDelay = 5f; // сколько секунд без урона до начала регенерации
+    private const float MinSandevistanTimeScale = 0.05f;
 
     /// <summary>Игрок на текущей сцене (null в меню без рига).</summary>
     public static PlayerHealth Current { get; private set; }
@@ -244,7 +245,8 @@ public class PlayerHealth : MonoBehaviour
     // Итоговая скорость времени: пауза важнее Сандевистана
     private void ApplyTimeScale()
     {
-        float gameScale = sandevistanRunning ? GameState.SandevistanTimeSlower : 1f;
+        // Без нижней границы карточка с пустым замедлением остановила бы время совсем
+        float gameScale = sandevistanRunning ? Mathf.Clamp(GameState.SandevistanTimeSlower, MinSandevistanTimeScale, 1f) : 1f;
         Time.timeScale = IsPaused ? 0f : gameScale;
         Time.fixedDeltaTime = defaultFixedDeltaTime * gameScale; // физика замедляется вместе со временем
     }
