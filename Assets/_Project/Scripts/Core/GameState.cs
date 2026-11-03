@@ -163,15 +163,23 @@ public static class GameState
         BuffGunFireRate = 1f;
         BuffGunDamage = 1f;
         BuffGunMaxAmmo = 1f;
+        LaserSightUnlocked = false;
 
         PlayerHPBuff = 0;
         PlayerBasicSpeed = 3f;
         SpeedBuffAfterDamage = false;
         SpeedAfterDamageValue = 1f;
+        SpeedTimeAfterDamage = 0f;
         PropitalHeal = false;
+        PropitalHealValue = 0f;
         Sandevistan = false;
+        SandevistanTime = 0f;
+        SandevistanTimeSlower = 0f;
         OpticalCamo = false;
+        OpticalCamoTime = 0f;
         ShortCircuit = false;
+        ShortCircuitDamage = 0f;
+        ShortCircuitStunTime = 0f;
         KillHeal = 0f;
         Regeneration = 0f;
         HeadshotAmmo = 0;
