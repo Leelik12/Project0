@@ -189,7 +189,7 @@ public class VRGun : MonoBehaviour
 
             Tracer.Spawn(first.point, next.point, enemy: false, TracerFallback);
             SpawnHitEffects(next);
-            ApplyDamage(next, direction, shotDamage * WeaponMods.PierceDamageMultiplier);
+            ApplyDamage(next, direction, shotDamage * WeaponMods.PierceDamageMultiplier, countsAsHit: false);
             return;
         }
     }
@@ -227,8 +227,11 @@ public class VRGun : MonoBehaviour
         if (body != null && !body.isKinematic) body.AddForceAtPosition(direction * impactForce, hit.point, ForceMode.Impulse);
     }
 
-    /// <summary>Урон по врагу в точке попадания. Возвращает врага или null, если попали не во врага.</summary>
-    private EnemyHealth ApplyDamage(RaycastHit hit, Vector3 direction, float baseDamage)
+    /// <summary>
+    /// Урон по врагу в точке попадания. Возвращает врага или null, если попали не во врага.
+    /// countsAsHit = false для второго врага при пробитии: выстрел один, попадание в точность уже засчитано.
+    /// </summary>
+    private EnemyHealth ApplyDamage(RaycastHit hit, Vector3 direction, float baseDamage, bool countsAsHit = true)
     {
         Collider col = hit.collider;
         if (!col.CompareTag("Head") && !col.CompareTag("Leg") && !col.CompareTag("Body")) return null;
@@ -255,7 +258,8 @@ public class VRGun : MonoBehaviour
             }
         }
 
-        GameState.RegisterHit(finalDamage);
+        if (countsAsHit) GameState.RegisterHit(finalDamage);
+        else GameState.RegisterDamage(finalDamage);
         target.TakeDamage(finalDamage, hit.point, direction, headshot);
 
         if (GameState.ModIncendiary > 0f) EnemyBurn.Ignite(target, GameState.ModIncendiary);
