@@ -653,6 +653,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1274170026526813436, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
   m_PrefabInstance: {fileID: 13016389}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &13016391 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7097561041684585982, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
+  m_PrefabInstance: {fileID: 13016389}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &14552624
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9216,7 +9221,6 @@ MonoBehaviour:
   - {fileID: 1888253809}
   - {fileID: 1081549042}
   - {fileID: 371168241}
-  - {fileID: 0}
   - {fileID: 1831582727}
   - {fileID: 1988368213}
   - {fileID: 2011417361}
@@ -9224,6 +9228,8 @@ MonoBehaviour:
   - {fileID: 1593354650}
   - {fileID: 835064855}
   - {fileID: 2031722168}
+  - {fileID: 13016391}
+  - {fileID: 981682208}
   optionalItem: {fileID: 620265029}
   progressText: {fileID: 0}
 --- !u!1001 &313794796
@@ -29858,6 +29864,11 @@ PrefabInstance:
 --- !u!4 &981682207 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1274170026526813436, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
+  m_PrefabInstance: {fileID: 981682206}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &981682208 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7097561041684585982, guid: 7964e16a3e085884ca9692df20c245be, type: 3}
   m_PrefabInstance: {fileID: 981682206}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &981831553
@@ -54766,7 +54777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6232745470614056090, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_StepOffset
-      value: 0
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 6237513019617653394, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_Layer
