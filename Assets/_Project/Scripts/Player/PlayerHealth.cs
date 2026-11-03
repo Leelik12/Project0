@@ -174,6 +174,7 @@ public class PlayerHealth : MonoBehaviour
     {
         GameState.RunInProgress = true;
         GameState.ContinueScene = SceneManager.GetActiveScene().buildIndex;
+        GameState.RollbackToFloorStart(); // этаж начнётся заново — награды за него тоже
         GameState.SaveData();
         SceneManager.LoadSceneAsync(0);
     }

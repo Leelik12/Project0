@@ -35,6 +35,7 @@ public class LevelManager : MonoBehaviour
         EnemiesRemaining = CountAlive();
         UpdateProgressUI();
         MakeElites();
+        GameState.MarkFloorStart();
     }
 
     // Элита: один случайный враг этажа, на сложном — два. На маленьких этажах элиты нет.
@@ -59,6 +60,7 @@ public class LevelManager : MonoBehaviour
     private void OnDestroy()
     {
         EnemiesRemaining = 0;
+        GameState.ClearFloorStart();
     }
 
     private void Update()

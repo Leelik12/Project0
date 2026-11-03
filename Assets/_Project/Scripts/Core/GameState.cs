@@ -200,8 +200,44 @@ public static class GameState
         LevelCleared = false;
         ItemPickedUp = false;
         UpdateLevelEnd = false;
+        hasFloorStart = false;
 
         SaveData();
+    }
+
+    // ---------- Снимок на входе на этаж ----------
+    // «Выход с сохранением» с этажа начинает его заново со всеми врагами, поэтому награды и статистика
+    // этого этажа откатываются к моменту входа: иначе одних и тех же врагов можно было бы «фармить» бесконечно.
+    private static bool hasFloorStart;
+    private static int floorStartEddies;
+    private static int floorStartKills;
+    private static int floorStartShots;
+    private static int floorStartHits;
+    private static float floorStartDamage;
+
+    /// <summary>Запомнить состояние на входе на этаж (вызывает LevelManager).</summary>
+    public static void MarkFloorStart()
+    {
+        hasFloorStart = true;
+        floorStartEddies = Eddies;
+        floorStartKills = RunKills;
+        floorStartShots = RunShots;
+        floorStartHits = RunHits;
+        floorStartDamage = RunDamage;
+    }
+
+    /// <summary>Этаж закончился (ушли со сцены): откатывать больше нечего.</summary>
+    public static void ClearFloorStart() => hasFloorStart = false;
+
+    /// <summary>Вернуть эдди и статистику забега к моменту входа на этаж. Без снимка (магазин) ничего не делает.</summary>
+    public static void RollbackToFloorStart()
+    {
+        if (!hasFloorStart) return;
+        Eddies = floorStartEddies;
+        RunKills = floorStartKills;
+        RunShots = floorStartShots;
+        RunHits = floorStartHits;
+        RunDamage = floorStartDamage;
     }
 
     /// <summary>Сброс флагов этажа при переходе между сценами.</summary>

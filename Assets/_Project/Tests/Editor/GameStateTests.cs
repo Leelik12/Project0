@@ -117,6 +117,49 @@ public class GameStateTests
     }
 
     [Test]
+    public void SaveAndExit_RollsBackFloorRewards()
+    {
+        GameState.Eddies = 50;
+        GameState.RunKills = 3;
+        GameState.RunShots = 10;
+        GameState.MarkFloorStart();
+
+        // На этаже: убийства, зачистка, предмет
+        GameState.AddEddies(90);
+        GameState.RunKills += 4;
+        GameState.RunShots += 12;
+
+        GameState.RollbackToFloorStart();
+        Assert.AreEqual(50, GameState.Eddies, "эдди этажа можно было бы получать снова через «Продолжить»");
+        Assert.AreEqual(3, GameState.RunKills);
+        Assert.AreEqual(10, GameState.RunShots);
+    }
+
+    [Test]
+    public void SaveAndExit_InShopKeepsEddies()
+    {
+        GameState.Eddies = 50;
+        GameState.MarkFloorStart();
+        GameState.AddEddies(90);
+        GameState.ClearFloorStart(); // этаж закончился, игрок в магазине
+
+        GameState.RollbackToFloorStart();
+        Assert.AreEqual(140, GameState.Eddies);
+    }
+
+    [Test]
+    public void ResetRun_ForgetsFloorStart()
+    {
+        GameState.Eddies = 50;
+        GameState.MarkFloorStart();
+        GameState.ResetRun();
+        GameState.AddEddies(20);
+
+        GameState.RollbackToFloorStart();
+        Assert.AreEqual(20, GameState.Eddies, "снимок прошлого забега не должен вернуть его эдди");
+    }
+
+    [Test]
     public void RunSummary_AccuracyWithoutShotsIsZero()
     {
         Assert.AreEqual(0f, new RunSummary(1, 0, 0, 0, 0f, 0f).Accuracy);
