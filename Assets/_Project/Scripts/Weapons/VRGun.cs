@@ -169,7 +169,7 @@ public class VRGun : MonoBehaviour
         PushBody(hit, direction);
         EnemyHealth target = ApplyDamage(hit, direction, shotDamage);
 
-        if (GameState.ModExplosive > 0f) WeaponMods.Explode(hit.point, shotDamage * GameState.ModExplosive, target);
+        if (GameState.ModExplosive > 0f) WeaponMods.Explode(hit.point, hit.normal, shotDamage * GameState.ModExplosive, target);
         if (target != null && GameState.ModPiercing) Pierce(hit, direction, shotDamage, target);
         else if (target == null && GameState.ModRicochet) Ricochet(hit, shotDamage);
     }
