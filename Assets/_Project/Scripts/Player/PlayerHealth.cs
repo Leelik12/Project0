@@ -85,6 +85,7 @@ public class PlayerHealth : MonoBehaviour
 
         damageVignette = DamageVignette.Create(transform);
         gameObject.AddComponent<PlayerImplants>().Init(this);
+        WristHud.Attach(this); // наручный HUD на левой руке (префаб из Resources)
         GameEvents.EnemyHit += OnEnemyHit;
     }
 

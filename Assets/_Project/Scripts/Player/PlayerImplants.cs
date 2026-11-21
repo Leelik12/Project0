@@ -69,6 +69,27 @@ public class PlayerImplants : MonoBehaviour
         };
     }
 
+    /// <summary>Сколько имплантов с перезарядкой (для наручного HUD).</summary>
+    public int ImplantCount => implants != null ? implants.Length : 0;
+
+    /// <summary>
+    /// Состояние импланта для HUD. Возвращает false, если имплант не куплен.
+    /// remaining — секунд до готовности (0 — готов), cooldown — полная перезарядка.
+    /// </summary>
+    public bool TryGetStatus(int index, out string name, out float remaining, out float cooldown)
+    {
+        name = null;
+        remaining = 0f;
+        cooldown = 1f;
+        if (implants == null || index < 0 || index >= implants.Length) return false;
+
+        Implant implant = implants[index];
+        name = implant.Name;
+        cooldown = implant.Cooldown;
+        remaining = Mathf.Max(0f, implant.ReadyAt - clock);
+        return implant.Owned();
+    }
+
     private static Implant Make(string name, Func<bool> owned, float cooldown, InputAction button, Func<bool> activate, GameObject indicator) => new()
     {
         Name = name,
