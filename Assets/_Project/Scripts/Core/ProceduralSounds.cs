@@ -8,7 +8,7 @@ public static class ProceduralSounds
 {
     private const int SampleRate = 44100;
 
-    private static AudioClip hit, headshot, kill, sandevistanStart, sandevistanEnd, missileBeep;
+    private static AudioClip hit, headshot, kill, sandevistanStart, sandevistanEnd, missileBeep, shieldPing, explosion;
 
     /// <summary>Короткий сухой щелчок попадания.</summary>
     public static AudioClip Hit => hit ??= Create("Hit", 0.06f, t =>
@@ -35,6 +35,16 @@ public static class ProceduralSounds
     /// <summary>Короткий предупреждающий писк самонаводящейся ракеты.</summary>
     public static AudioClip MissileBeep => missileBeep ??= Create("MissileBeep", 0.09f, t =>
         Sine(1500f, t) * Envelope(t, 0.002f, 25f));
+
+    /// <summary>Металлический звон попадания в щит: негармоничные обертоны и короткий шум удара.</summary>
+    public static AudioClip ShieldPing => shieldPing ??= Create("ShieldPing", 0.3f, t =>
+        (Sine(1100f, t) * 0.5f + Sine(1730f, t) * 0.3f + Sine(2650f, t) * 0.2f) * Envelope(t, 0.001f, 14f)
+        + Noise() * 0.3f * Envelope(t, 0.001f, 150f));
+
+    /// <summary>Взрыв камикадзе: низкий падающий тон и затухающий шум.</summary>
+    public static AudioClip Explosion => explosion ??= Create("Explosion", 0.7f, t =>
+        Sine(Mathf.Lerp(90f, 35f, t / 0.7f), t) * Envelope(t, 0.003f, 5f)
+        + Noise() * 0.7f * Envelope(t, 0.002f, 8f));
 
     private static AudioClip Create(string name, float duration, System.Func<float, float> wave)
     {

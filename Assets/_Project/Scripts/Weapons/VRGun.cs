@@ -234,6 +234,11 @@ public class VRGun : MonoBehaviour
     private EnemyHealth ApplyDamage(RaycastHit hit, Vector3 direction, float baseDamage, bool countsAsHit = true)
     {
         Collider col = hit.collider;
+        if (col.TryGetComponent(out ShieldPlate shield)) // щит щитовика: урон не проходит, щит копит повреждения
+        {
+            shield.Absorb(hit.point, baseDamage);
+            return null;
+        }
         if (!col.CompareTag("Head") && !col.CompareTag("Leg") && !col.CompareTag("Body")) return null;
 
         EnemyHealth target = col.GetComponentInParent<EnemyHealth>();

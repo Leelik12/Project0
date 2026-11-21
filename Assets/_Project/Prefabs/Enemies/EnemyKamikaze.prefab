@@ -1,0 +1,205 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2169574640499330392
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1038073620944360968, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374237754320095016, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374237754320095016, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374237754320095016, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374237754320095016, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374237754320095016, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374237754320095016, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374237754320095016, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374237754320095016, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374237754320095016, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374237754320095016, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083718075017447762, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_Name
+      value: EnemyKamikaze
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747567080418954304, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: maxHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: isWeapon
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: runSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: walkSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5865321343859704468, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: attackDistance
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352972582660658626, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2341061388367241639, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8775076671563489586}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4083718075017447762, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6500185089609142342}
+  m_SourcePrefab: {fileID: 100100000, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+--- !u!1 &2789882490190906378 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4083718075017447762, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+  m_PrefabInstance: {fileID: 2169574640499330392}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6500185089609142342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2789882490190906378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cb3bcaebc136274b9ec158aae350e51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KamikazeEnemy
+  detonateDistance: 2
+  fuseTime: 0.6
+  radius: 3.5
+  playerDamage: 60
+  enemyDamage: 60
+  headshotScale: 0.5
+  beepSlowInterval: 0.8
+  beepFastInterval: 0.1
+  beepFullDistance: 15
+  beepSource: {fileID: 0}
+  bombVisual: {fileID: 8254118525525539720}
+--- !u!4 &4496560871281765631 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2341061388367241639, guid: 9c21f7bc5a2144f42af03c3f8da603f1, type: 3}
+  m_PrefabInstance: {fileID: 2169574640499330392}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &9101190735455487705
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4496560871281765631}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9999999
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9999999
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9999999
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.117463134
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0029701367
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.19687796
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.91274613
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.22618243
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.33071086
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.079790145
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+      propertyPath: m_Name
+      value: KamikazeBomb
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+--- !u!1 &8254118525525539720 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+  m_PrefabInstance: {fileID: 9101190735455487705}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8775076671563489586 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6c403586bde63084db5c89b3a0393f4c, type: 3}
+  m_PrefabInstance: {fileID: 9101190735455487705}
+  m_PrefabAsset: {fileID: 0}

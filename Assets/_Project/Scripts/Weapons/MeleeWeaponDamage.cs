@@ -19,6 +19,14 @@ public class MeleeWeaponDamage : MonoBehaviour
     {
         if (Time.time - lastDamageTime < damageCooldown) return;
 
+        if (collision.TryGetComponent(out ShieldPlate shield)) // щит щитовика: удар урона не наносит
+        {
+            shield.Absorb(collision.ClosestPoint(transform.position), damageAmount);
+            Haptics.Pulse(grabInteractable, 0.8f, 0.12f);
+            lastDamageTime = Time.time;
+            return;
+        }
+
         EnemyHealth enemyHealth = collision.GetComponentInParent<EnemyHealth>();
         if (enemyHealth == null || enemyHealth.IsDead) return;
 
