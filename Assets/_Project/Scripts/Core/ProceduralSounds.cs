@@ -8,7 +8,7 @@ public static class ProceduralSounds
 {
     private const int SampleRate = 44100;
 
-    private static AudioClip hit, headshot, kill, sandevistanStart, sandevistanEnd;
+    private static AudioClip hit, headshot, kill, sandevistanStart, sandevistanEnd, missileBeep;
 
     /// <summary>Короткий сухой щелчок попадания.</summary>
     public static AudioClip Hit => hit ??= Create("Hit", 0.06f, t =>
@@ -31,6 +31,10 @@ public static class ProceduralSounds
     /// <summary>Выключение Сандевистана: тон возвращается вверх.</summary>
     public static AudioClip SandevistanEnd => sandevistanEnd ??= Create("SandevistanEnd", 0.45f, t =>
         Sweep(120f, 900f, t, 0.45f) * Envelope(t, 0.02f, 5f));
+
+    /// <summary>Короткий предупреждающий писк самонаводящейся ракеты.</summary>
+    public static AudioClip MissileBeep => missileBeep ??= Create("MissileBeep", 0.09f, t =>
+        Sine(1500f, t) * Envelope(t, 0.002f, 25f));
 
     private static AudioClip Create(string name, float duration, System.Func<float, float> wave)
     {
