@@ -17,9 +17,14 @@ public class UpgradeCardView : MonoBehaviour
     [Tooltip("Рамка, которая красится в цвет редкости")]
     [SerializeField] private Outline frame;
 
-    private static readonly Color SoldColor = new(0.4f, 0.4f, 0.4f);
-    private static readonly Color TooExpensiveColor = new(1f, 0.35f, 0.3f);
-    private static readonly Color AffordableColor = Color.white;
+    // Надпись на кнопке остаётся градиентной, как на остальных кнопках интерфейса; меняются только цвета градиента
+    private static readonly VertexGradient SoldGradient = new(new Color(0.55f, 0.55f, 0.6f), new Color(0.55f, 0.55f, 0.6f), new Color(0.3f, 0.3f, 0.35f), new Color(0.3f, 0.3f, 0.35f));
+    private static readonly VertexGradient TooExpensiveGradient = new(new Color(1f, 0.4f, 0.35f), new Color(1f, 0.4f, 0.35f), new Color(0.6f, 0.05f, 0.15f), new Color(0.6f, 0.05f, 0.15f));
+    private static readonly Vector4 ButtonTextMargin = new(14f, 6f, 14f, 6f); // надпись не заходит на неоновую рамку кнопки
+    private const string CurrencySuffix = " €"; // знак эдди из шрифта интерфейса
+
+    private VertexGradient affordableGradient;
+    private bool gradientCaptured;
 
     public UpgradeCardData Card { get; private set; }
     public UpgradeRarity Rarity { get; private set; }
@@ -33,6 +38,12 @@ public class UpgradeCardView : MonoBehaviour
     private void Awake()
     {
         if (buyButton != null) buyButton.onClick.AddListener(() => BuyClicked?.Invoke(this));
+        if (buyButtonText != null)
+        {
+            CaptureSceneGradient();
+            buyButtonText.margin = ButtonTextMargin;
+            buyButtonText.alignment = TextAlignmentOptions.CenterGeoAligned; // по центру рисунка: у цифр и кистевых букв разная высота
+        }
     }
 
     public void Show(UpgradeCardData card, UpgradeRarity rarity, int price)
@@ -75,9 +86,7 @@ public class UpgradeCardView : MonoBehaviour
         if (buyButton != null) buyButton.interactable = false;
         if (buyButtonText != null)
         {
-            buyButtonText.enableVertexGradient = false;
-            buyButtonText.text = "Куплено";
-            buyButtonText.color = SoldColor;
+            SetButtonText("Куплено", SoldGradient);
         }
     }
 
@@ -85,8 +94,25 @@ public class UpgradeCardView : MonoBehaviour
     public void RefreshPrice(int eddies)
     {
         if (Sold || buyButtonText == null) return;
-        buyButtonText.enableVertexGradient = false;
-        buyButtonText.text = Price > 0 ? UiText.Widen($"{Price} эдди") : "Взять";
-        buyButtonText.color = eddies >= Price ? AffordableColor : TooExpensiveColor;
+        string label = Price > 0 ? Price + CurrencySuffix : "Взять";
+        SetButtonText(label, eddies >= Price ? affordableGradient : TooExpensiveGradient);
+    }
+
+    // Градиент из сцены — общий стиль кнопок. Берётся до первой перезаписи: RefreshPrice может прийти раньше Awake,
+    // пока карточка ещё не активна
+    private void CaptureSceneGradient()
+    {
+        if (gradientCaptured || buyButtonText == null) return;
+        affordableGradient = buyButtonText.colorGradient;
+        gradientCaptured = true;
+    }
+
+    private void SetButtonText(string label, VertexGradient gradient)
+    {
+        CaptureSceneGradient();
+        buyButtonText.text = label;
+        buyButtonText.color = Color.white; // цвет умножается на градиент
+        buyButtonText.enableVertexGradient = true;
+        buyButtonText.colorGradient = gradient;
     }
 }
