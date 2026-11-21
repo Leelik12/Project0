@@ -33,6 +33,9 @@ public class HelicopterController : MonoBehaviour
     private bool isDefeated;
     private int circleDirection = 1;
 
+    public bool IsActivated => isActivated;
+    public bool IsDefeated => isDefeated;
+
     private void OnTriggerEnter(Collider other)
     {
         if (isActivated || !other.CompareTag("Player")) return;

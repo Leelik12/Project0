@@ -10,6 +10,9 @@ public class EnemyHealth : MonoBehaviour
     public float currentHealth;
     [HideInInspector] public float damageTakenMultiplier = 1f; // броня элиты
 
+    /// <summary>Необязательный множитель урона по точке попадания (слабые места и броня босса). Возвращает 1 — без изменений.</summary>
+    public System.Func<Vector3, float> hitDamageModifier;
+
     private EnemyStateManager stateManager;
     private EnemyHitReaction hitReaction;
     private EnemyGun weapon;
@@ -52,6 +55,7 @@ public class EnemyHealth : MonoBehaviour
         LastHitPoint = point;
         LastHitDirection = direction;
         damage *= damageTakenMultiplier;
+        if (hitDamageModifier != null) damage *= hitDamageModifier(point);
         currentHealth -= damage;
         bool killed = currentHealth <= 0;
 
