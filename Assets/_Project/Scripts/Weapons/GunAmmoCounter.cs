@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -8,6 +8,7 @@ using UnityEngine;
 public class GunAmmoCounter : MonoBehaviour
 {
     private const float InfiniteAmmo = 999f; // у лазерного оружия запас патронов условно бесконечный
+    private const string UiFont = "Fonts/TechnoDeath UI SDF"; // шрифт интерфейса со стилизованными цифрами
     private static readonly Color NormalColor = new(0.55f, 1f, 1f, 0.95f);
     private static readonly Color LowColor = new(1f, 0.3f, 0.25f, 0.95f);
 
@@ -41,6 +42,8 @@ public class GunAmmoCounter : MonoBehaviour
     private void Awake()
     {
         text = gameObject.AddComponent<TextMeshPro>();
+        TMP_FontAsset font = Resources.Load<TMP_FontAsset>(UiFont);
+        if (font != null) text.font = font;
         text.fontSize = 0.22f;
         text.alignment = TextAlignmentOptions.Center;
         text.textWrappingMode = TextWrappingModes.NoWrap;
