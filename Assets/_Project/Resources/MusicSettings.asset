@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0ef43dedfe47394b8c82297648b3d72, type: 3}
+  m_Name: MusicSettings
+  m_EditorClassIdentifier: Assembly-CSharp::MusicSettings
+  mainClip: {fileID: 8300000, guid: 5698f1d04efa4410c9ad2d42fbaa4725, type: 3}
+  calmClip: {fileID: 0}
+  combatClip: {fileID: 0}
+  mixerGroup: {fileID: 4622806882307857791, guid: 91dceb63899d0a84997b53dc8b889a5f, type: 2}
+  baseVolume: 0.6
+  crossfadeTime: 1.5
+  combatHoldTime: 6
+  calmVolumeFactor: 0.55
+  calmCutoff: 2200
+  pauseVolumeFactor: 0.3
+  pauseCutoff: 900
+  sandevistanPitch: 0.92
+  pitchChangeSpeed: 1.5
