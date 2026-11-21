@@ -36,6 +36,10 @@ public enum UpgradeEffect
     ModPiercing,
     ModIncendiary,
     ModLeech,
+    // Новые значения только в конец: в ассетах карточек эффект хранится числом
+    AddGrenadeEmp,
+    AddGrenadeSmoke,
+    AddGrenadeSticky,
 }
 
 public enum UpgradeRarity

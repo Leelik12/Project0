@@ -7,6 +7,8 @@ using UnityEngine.Serialization;
 /// </summary>
 public class WeaponSpawnManager : MonoBehaviour
 {
+    private const float GrenadeSlotSpacing = 0.15f; // м между гранатами на точке спавна
+
     [Header("Точки спавна")]
     public Transform weaponSpawnPoint;
     public Transform weaponSpawnPointAkimbo;
@@ -31,6 +33,9 @@ public class WeaponSpawnManager : MonoBehaviour
     public GameObject CopBaton;
     [FormerlySerializedAs("Beat")] public GameObject BaseballBat;
     [FormerlySerializedAs("Grenad")] public GameObject GrenadePrefab;
+    public GameObject GrenadeEmpPrefab;
+    public GameObject GrenadeSmokePrefab;
+    public GameObject GrenadeStickyPrefab;
 
     [Header("Префабы боеприпасов")]
     public GameObject pistolAmmoPrefab;
@@ -64,6 +69,18 @@ public class WeaponSpawnManager : MonoBehaviour
         }
 
         if (GameState.CurrentGrenade) SpawnAt(GrenadePrefab, grenadeSpawnPoint);
+
+        // Гранаты W-07 лежат рядом с обычной, каждая следующая сдвигается вправо
+        int slot = 1;
+        if (GameState.GrenadeEmp) SpawnGrenadeNext(GrenadeEmpPrefab, slot++);
+        if (GameState.GrenadeSmoke) SpawnGrenadeNext(GrenadeSmokePrefab, slot++);
+        if (GameState.GrenadeSticky) SpawnGrenadeNext(GrenadeStickyPrefab, slot);
+    }
+
+    private void SpawnGrenadeNext(GameObject prefab, int slot)
+    {
+        if (prefab == null || grenadeSpawnPoint == null) return;
+        Instantiate(prefab, grenadeSpawnPoint.position + grenadeSpawnPoint.right * (GrenadeSlotSpacing * slot), grenadeSpawnPoint.rotation);
     }
 
     // Коды оружия см. в GameState. 4 (граната) — не основное оружие, спавнится отдельно.

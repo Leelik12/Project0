@@ -51,6 +51,9 @@ public static class GameState
     public static int CurrentGun = 0;
     public static bool CurrentGrenade;
     public static bool BuffGrenade = false;
+    public static bool GrenadeEmp;      // куплены гранаты W-07: ЭМИ, дымовая, липкая
+    public static bool GrenadeSmoke;
+    public static bool GrenadeSticky;
     public static float BuffGunFireRate = 1f;  // множитель интервала между выстрелами (<1 — быстрее)
     public static float BuffGunDamage = 1f;
     public static float BuffGunMaxAmmo = 1f;
@@ -160,6 +163,9 @@ public static class GameState
         CurrentGun = 0;
         CurrentGrenade = false;
         BuffGrenade = false;
+        GrenadeEmp = false;
+        GrenadeSmoke = false;
+        GrenadeSticky = false;
         BuffGunFireRate = 1f;
         BuffGunDamage = 1f;
         BuffGunMaxAmmo = 1f;
@@ -278,6 +284,9 @@ public static class GameState
         PlayerPrefs.SetInt("CurrentGun", CurrentGun);
         SetBool("CurrentGrenade", CurrentGrenade);
         SetBool("BuffGrenade", BuffGrenade);
+        SetBool("GrenadeEmp", GrenadeEmp);
+        SetBool("GrenadeSmoke", GrenadeSmoke);
+        SetBool("GrenadeSticky", GrenadeSticky);
         PlayerPrefs.SetFloat("BuffGunFireRate", BuffGunFireRate);
         PlayerPrefs.SetFloat("BuffGunDamage", BuffGunDamage);
         PlayerPrefs.SetFloat("BuffGunMaxAmmo", BuffGunMaxAmmo);
@@ -356,6 +365,9 @@ public static class GameState
         CurrentGun = PlayerPrefs.GetInt("CurrentGun", 0);
         CurrentGrenade = GetBool("CurrentGrenade");
         BuffGrenade = GetBool("BuffGrenade");
+        GrenadeEmp = GetBool("GrenadeEmp");
+        GrenadeSmoke = GetBool("GrenadeSmoke");
+        GrenadeSticky = GetBool("GrenadeSticky");
         BuffGunFireRate = PlayerPrefs.GetFloat("BuffGunFireRate", 1f);
         BuffGunDamage = PlayerPrefs.GetFloat("BuffGunDamage", 1f);
         BuffGunMaxAmmo = PlayerPrefs.GetFloat("BuffGunMaxAmmo", 1f);

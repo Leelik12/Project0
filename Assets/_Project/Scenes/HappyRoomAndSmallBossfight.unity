@@ -10349,6 +10349,9 @@ MonoBehaviour:
   CopBaton: {fileID: 3230107648890869866, guid: 34f4c01de3c3d14409a2d10df4e685b2, type: 3}
   BaseballBat: {fileID: 3270474455101456781, guid: da21ad6d443092b4f907cb861a91ba53, type: 3}
   GrenadePrefab: {fileID: 8878005946658106465, guid: 91bb4d42a784a7046a687ac3bb7b5ec8, type: 3}
+  GrenadeEmpPrefab: {fileID: 8878005946658106465, guid: 1d688f5d550c3ce46ac1b703eea623c1, type: 3}
+  GrenadeSmokePrefab: {fileID: 8878005946658106465, guid: d070664f719b6ef4faa47792568c5740, type: 3}
+  GrenadeStickyPrefab: {fileID: 8878005946658106465, guid: e7e07df5dd8f1a4458b9e7b4426687a4, type: 3}
   pistolAmmoPrefab: {fileID: 5961424690434214311, guid: 9d90fcfa0d4e6e74e99965b82d5b0006, type: 3}
   AKMAmmoPrefab: {fileID: 7709481129751339105, guid: 2ad3f49409351074b9f88fd16758126e, type: 3}
   shotgunAmmoPrefab: {fileID: 7839497909498208856, guid: e20018efccdac344788785f90763aed8, type: 3}
@@ -15323,7 +15326,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11.45
+  m_fontSize: 12
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -14,6 +14,9 @@ public static class UpgradeEffects
             // ---------- Оружие ----------
             case UpgradeEffect.ChangeGun: ChangeGun(card.gunCode); break;
             case UpgradeEffect.AddGrenade: GameState.CurrentGrenade = true; break;
+            case UpgradeEffect.AddGrenadeEmp: GameState.GrenadeEmp = true; break;
+            case UpgradeEffect.AddGrenadeSmoke: GameState.GrenadeSmoke = true; break;
+            case UpgradeEffect.AddGrenadeSticky: GameState.GrenadeSticky = true; break;
             // FireRate — интервал между выстрелами, поэтому при прокачке уменьшается
             case UpgradeEffect.FireRate: GameState.BuffGunFireRate *= Mathf.Max(0.2f, 1f - v / 100f); break;
             case UpgradeEffect.Damage: GameState.BuffGunDamage *= 1f + v / 100f; break;
@@ -85,6 +88,9 @@ public static class UpgradeEffects
         {
             case UpgradeEffect.ChangeGun: return GameState.CurrentGun != card.gunCode;
             case UpgradeEffect.AddGrenade: return !GameState.CurrentGrenade;
+            case UpgradeEffect.AddGrenadeEmp: return !GameState.GrenadeEmp;
+            case UpgradeEffect.AddGrenadeSmoke: return !GameState.GrenadeSmoke;
+            case UpgradeEffect.AddGrenadeSticky: return !GameState.GrenadeSticky;
             case UpgradeEffect.LaserSight: return !GameState.LaserSightUnlocked;
             case UpgradeEffect.Akimbo: return !GameState.Akimbo && !GameState.AkimboWas;
             case UpgradeEffect.Propital: return !GameState.PropitalHeal;

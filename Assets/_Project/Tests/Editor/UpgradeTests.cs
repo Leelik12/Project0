@@ -182,7 +182,8 @@ public class UpgradeTests
             Assert.IsTrue(UpgradeEffects.IsAvailable(card), $"{card.name} недоступна в новом забеге");
 
             UpgradeEffects.Apply(card, 1f);
-            bool unique = card.effect is UpgradeEffect.ChangeGun or UpgradeEffect.AddGrenade or UpgradeEffect.LaserSight
+            bool unique = card.effect is UpgradeEffect.ChangeGun or UpgradeEffect.AddGrenade or UpgradeEffect.AddGrenadeEmp or UpgradeEffect.AddGrenadeSmoke
+                or UpgradeEffect.AddGrenadeSticky or UpgradeEffect.LaserSight
                 or UpgradeEffect.Akimbo or UpgradeEffect.Propital or UpgradeEffect.Sandevistan or UpgradeEffect.Katana
                 or UpgradeEffect.OpticalCamo or UpgradeEffect.ShortCircuit or UpgradeEffect.ModRicochet or UpgradeEffect.ModPiercing;
             if (unique) Assert.IsFalse(UpgradeEffects.IsAvailable(card), $"{card.name} можно купить второй раз");

@@ -201,6 +201,7 @@ public class EnemyStateManager : MonoBehaviour
         float dist = Vector3.Distance(eyeOrigin, headPos);
 
         if (dist > viewDistance) return false;
+        if (SmokeVolume.Blocks(eyeOrigin, headPos)) return false; // дымовая граната: через дым и изнутри игрока не видно
         if (Vector3.Angle(transform.forward, dir) > viewAngle / 2f) return false;
 
         if (Physics.Raycast(eyeOrigin, dir, dist, obstructionMask, QueryTriggerInteraction.Ignore)) return false;
