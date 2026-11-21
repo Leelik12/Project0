@@ -48,6 +48,18 @@ public class EnemyGun : MonoBehaviour
     [SerializeField] private Color telegraphColor = new(1f, 0.15f, 0.1f, 1f);
     [SerializeField] private float telegraphWidthMultiplier = 2.5f;
 
+    [Header("Прицеливание снайпера")]
+    [Tooltip("Сколько секунд лазер следит за игроком перед выстрелом. 0 — обычное предупреждение без слежения")]
+    [SerializeField] private float trackTime = 0f;
+    [Tooltip("Сколько секунд лазер замирает перед выстрелом после слежения")]
+    [SerializeField] private float lockTime = 0.3f;
+    [Tooltip("Пауза между выстрелами («перезарядка»)")]
+    [SerializeField] private float shotCooldown = 0f;
+    [Tooltip("Сколько секунд можно не видеть игрока, прежде чем прицеливание сорвётся")]
+    [SerializeField] private float lostSightGrace = 0.3f;
+    [SerializeField] private Color lockColor = new(1f, 1f, 0.85f, 1f);
+    [SerializeField] private float lockWidthMultiplier = 4f;
+
     [Header("Трофей")]
     [Tooltip("Версия этого оружия для игрока: выпадает из убитого врага. Пусто — ничего не выпадает")]
     [SerializeField] private GameObject pickupPrefab;
@@ -63,6 +75,7 @@ public class EnemyGun : MonoBehaviour
     private EnemyStateManager ownerState;
     private Color laserStartColor, laserEndColor;
     private float laserWidth = 1f;
+    private float nextShotTime;
 
     private void Awake()
     {
@@ -80,6 +93,13 @@ public class EnemyGun : MonoBehaviour
     public void Shoot()
     {
         if (isTelegraphing) return;
+        if (Time.time < nextShotTime) return;
+
+        if (trackTime > 0f)
+        {
+            StartCoroutine(TrackAndFire());
+            return;
+        }
 
         // Направление с разбросом выбираем заранее — предупреждение показывает настоящую траекторию
         Vector3 localDirection = firePoint.InverseTransformDirection(GetSpreadDirection(firePoint.forward, spreadAngle));
@@ -100,6 +120,64 @@ public class EnemyGun : MonoBehaviour
         if (owner != null && owner.IsDead) yield break; // убили, пока целился
         if (ownerState != null && ownerState.IsStunned) yield break; // оглушили, пока целился
         Fire(localDirection);
+    }
+
+    // Снайпер: лазер следит за игроком, потом замирает и только после этого выстрел. Потеря цели срывает выстрел.
+    private IEnumerator TrackAndFire()
+    {
+        isTelegraphing = true;
+        SetLaserTelegraph(true);
+
+        bool cancelled = false;
+        float lostFor = 0f;
+        for (float t = 0f; t < trackTime; t += Time.deltaTime)
+        {
+            if (owner != null && owner.IsDead) { cancelled = true; break; }
+            lostFor = ownerState != null && ownerState.CanSeePlayer() ? 0f : lostFor + Time.deltaTime;
+            if (lostFor > lostSightGrace) { cancelled = true; break; }
+            AimAtPlayer();
+            yield return null;
+        }
+
+        if (!cancelled)
+        {
+            // Фиксация: направление запоминаем в мире, чтобы поворот корпуса не сдвигал лазер
+            Vector3 lockedDirection = firePoint.TransformDirection(lastShotLocalDirection);
+            SetLaserLock(true);
+            if (audioSource != null) audioSource.PlayOneShot(ProceduralSounds.MissileBeep, 1f);
+            for (float t = 0f; t < lockTime; t += Time.deltaTime)
+            {
+                lastShotLocalDirection = firePoint.InverseTransformDirection(lockedDirection);
+                yield return null;
+            }
+            lastShotLocalDirection = firePoint.InverseTransformDirection(lockedDirection);
+        }
+
+        SetLaserTelegraph(false);
+        isTelegraphing = false;
+        if (cancelled || (owner != null && owner.IsDead) || (ownerState != null && ownerState.IsStunned))
+        {
+            nextShotTime = Time.time + 1f; // сорванное прицеливание: короткая пауза
+            yield break;
+        }
+
+        nextShotTime = Time.time + shotCooldown;
+        Fire(lastShotLocalDirection);
+    }
+
+    private void AimAtPlayer()
+    {
+        if (ownerState == null || ownerState.playerHead == null) return;
+        Vector3 aimPoint = ownerState.playerHead.position + Vector3.down * 0.3f; // в корпус
+        lastShotLocalDirection = firePoint.InverseTransformDirection((aimPoint - firePoint.position).normalized);
+    }
+
+    private void SetLaserLock(bool on)
+    {
+        if (laserLine == null) return;
+        laserLine.startColor = on ? lockColor : telegraphColor;
+        laserLine.endColor = on ? lockColor : telegraphColor;
+        laserLine.widthMultiplier = laserWidth * (on ? lockWidthMultiplier : telegraphWidthMultiplier);
     }
 
     private void SetLaserTelegraph(bool on)
