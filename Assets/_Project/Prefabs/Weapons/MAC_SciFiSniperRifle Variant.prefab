@@ -110,17 +110,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 3
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_RenderingLayers: 1
   m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_ShadowRenderingLayers: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &2776500064721934201
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +169,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -1746091430128400195, guid: 5f10ca5facfeea64a86ed3e17cdcc886, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 6cc999b4e2aaf7a4285dad004ace0798, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 6cc999b4e2aaf7a4285dad004ace0798, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.7
@@ -334,6 +340,8 @@ LineRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -355,6 +363,7 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -420,6 +429,37 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!1 &8069079740942767046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5602610711923959224}
+  m_Layer: 0
+  m_Name: Foregrip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5602610711923959224
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8069079740942767046}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.6, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3979577693300105210}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3228796320653693258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -560,6 +600,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2014430605032181424, guid: ed884912bb2d8f34bb20bbf879b4e87d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9013278262767166731}
+    - targetCorrespondingSourceObject: {fileID: 2014430605032181424, guid: ed884912bb2d8f34bb20bbf879b4e87d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5602610711923959224}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1206790267675218954, guid: ed884912bb2d8f34bb20bbf879b4e87d, type: 3}
       insertIndex: -1
@@ -570,6 +613,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1206790267675218954, guid: ed884912bb2d8f34bb20bbf879b4e87d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5318297131056249939}
+    - targetCorrespondingSourceObject: {fileID: 1206790267675218954, guid: ed884912bb2d8f34bb20bbf879b4e87d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8808505040518581310}
   m_SourcePrefab: {fileID: 100100000, guid: ed884912bb2d8f34bb20bbf879b4e87d, type: 3}
 --- !u!4 &1955512844237338390 stripped
 Transform:
@@ -703,6 +749,7 @@ MonoBehaviour:
   m_ReinitializeDynamicAttachEverySingleGrab: 1
   m_AttachEaseInTime: 0.15
   m_MovementType: 0
+  m_PredictedVisualsTransform: {fileID: 0}
   m_VelocityDamping: 1
   m_VelocityScale: 1
   m_AngularVelocityDamping: 1
@@ -744,6 +791,10 @@ MonoBehaviour:
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
   m_FarAttachMode: 1
+  m_LimitLinearVelocity: 0
+  m_LimitAngularVelocity: 0
+  m_MaxLinearVelocityDelta: 10
+  m_MaxAngularVelocityDelta: 20
   rightHandAttachTransform: {fileID: 5598927645898970291}
   leftHandAttachTransform: {fileID: 1955512844237338390}
 --- !u!114 &5318297131056249939
@@ -776,34 +827,6 @@ MonoBehaviour:
   muzzleFlash: {fileID: 5306429185894741916}
   muzzleLight: {fileID: 5971948215467686949}
   lightDuration: 0.05
-  triggerAction:
-    m_UseReference: 0
-    m_Action:
-      m_Name: Trigger
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: fa8d0c61-5377-4596-891b-3ec370bfe6e2
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: 8b7eb8e3-ec8b-471d-b3cc-e48763c7ed92
-        m_Path: <XRController>{LeftHand}/trigger
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: 
-        m_Action: Trigger
-        m_Flags: 0
-      - m_Name: 
-        m_Id: ace1dccd-39a2-4b8a-bc5e-c9653ca03fb6
-        m_Path: <XRController>{RightHand}/trigger
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: 
-        m_Action: Trigger
-        m_Flags: 0
-      m_Flags: 0
-    m_Reference: {fileID: 0}
   firePoint: {fileID: 1898357385084767562}
   LeftTrigger:
     m_UseReference: 0
@@ -891,7 +914,32 @@ MonoBehaviour:
   hitEffectPrefabSparks: {fileID: 6681638757615295765, guid: 5f67d02cf195e044ba2556797dd27353, type: 3}
   hitEffectLifetime: 1
   effectOffset: 0.01
-  enemyTag: Enemy
+  recoilAngle: 4
+  recoilKickBack: 0.015
+  recoilReturnSpeed: 14
+  impactForce: 8
+  showAmmoCounter: 1
+  ammoCounterAnchor: {fileID: 0}
+--- !u!114 &8808505040518581310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4355434385387341120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c54862ac8fba654e8a49c2f7194f004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TwoHandGrip
+  grabInteractable: {fileID: 6498384536326682541}
+  gun: {fileID: 5318297131056249939}
+  foregrip: {fileID: 5602610711923959224}
+  grabRadius: 0.2
+  releaseRadius: 0.4
+  recoilMultiplier: 0.5
+  aimSmoothing: 18
+  blendTime: 0.15
 --- !u!4 &5598927645898970291 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7024944862638818809, guid: ed884912bb2d8f34bb20bbf879b4e87d, type: 3}

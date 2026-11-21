@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 /// <summary>
@@ -39,7 +39,7 @@ public class WeaponRecoil
     }
 
     /// <summary>Каждый кадр: grab — оружие, если его держат (иначе null), firePoint — задаёт оси «вверх» и «назад».</summary>
-    public void Update(IXRSelectInteractable grab, Transform firePoint)
+    public void Update(IXRSelectInteractable grab, Transform firePoint, TwoHandGrip twoHand = null)
     {
         Transform attach = grab != null && grab.firstInteractorSelecting != null
             ? grab.firstInteractorSelecting.GetAttachTransform(grab)
@@ -65,8 +65,19 @@ public class WeaponRecoil
         Vector3 axis = parent != null ? parent.InverseTransformDirection(firePoint.right) : firePoint.right;
         Vector3 backward = parent != null ? parent.InverseTransformDirection(-firePoint.forward) : -firePoint.forward;
 
+        // Хват двумя руками: доворачиваем исходную ориентацию так, чтобы ствол смотрел вдоль линии между руками
+        Quaternion aimedBase = baseRotation;
+        if (twoHand != null && twoHand.TryGetAim(out Vector3 worldLine, out Vector3 lineInAttach, out float weight))
+        {
+            Quaternion parentRotation = parent != null ? parent.rotation : Quaternion.identity;
+            Quaternion handWorld = parentRotation * baseRotation;
+            Vector3 handLine = handWorld * lineInAttach;
+            Quaternion correction = Quaternion.Slerp(Quaternion.identity, Quaternion.FromToRotation(handLine, worldLine), weight);
+            aimedBase = Quaternion.Inverse(parentRotation) * correction * handWorld;
+        }
+
         // Минус угла вокруг «вправо» — дуло уходит вверх
-        target.localRotation = Quaternion.AngleAxis(-angle, axis) * baseRotation;
+        target.localRotation = Quaternion.AngleAxis(-angle, axis) * aimedBase;
         target.localPosition = basePosition + backward * back;
         writtenPosition = target.localPosition;
         writtenRotation = target.localRotation;

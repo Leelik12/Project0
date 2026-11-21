@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 /// <summary>
 /// XRGrabInteractable с отдельными точками хвата для левой и правой руки.
@@ -15,6 +16,21 @@ public class HandBasedGrabPoint : XRGrabInteractable
     [SerializeField] private Transform leftHandAttachTransform;
 
     private readonly Dictionary<GameObject, int> originalLayers = new();
+
+    private TwoHandGrip twoHandGrip;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        TryGetComponent(out twoHandGrip);
+    }
+
+    // Рука, тянущаяся к цевью, берёт оружие вторым хватом (TwoHandGrip), а не перехватывает его у первой
+    public override bool IsSelectableBy(IXRSelectInteractor interactor)
+    {
+        if (twoHandGrip != null && twoHandGrip.BlocksSelection(interactor)) return false;
+        return base.IsSelectableBy(interactor);
+    }
 
     protected override void OnSelectEntering(SelectEnterEventArgs args)
     {

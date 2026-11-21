@@ -82,6 +82,7 @@ public class VRGun : MonoBehaviour
 
     private float nextFireTime;
     private WeaponRecoil recoil;
+    private TwoHandGrip twoHandGrip; // есть только у винтовок и дробовика
     private bool LaserAllowed => laserEnabled && laserLine != null && (!GameState.Difficulty || GameState.LaserSightUnlocked);
 
     private void Awake()
@@ -100,6 +101,7 @@ public class VRGun : MonoBehaviour
         if (laserLine != null) laserLine.enabled = LaserAllowed;
 
         recoil = new WeaponRecoil(recoilAngle, recoilKickBack, recoilReturnSpeed);
+        TryGetComponent(out twoHandGrip);
         if (showAmmoCounter) GunAmmoCounter.Create(this, ammoCounterAnchor);
     }
 
@@ -124,7 +126,8 @@ public class VRGun : MonoBehaviour
         if (LaserAllowed) UpdateLaser();
         else if (laserLine != null) laserLine.enabled = false;
 
-        recoil.Update(held ? grabInteractable : null, firePoint);
+        if (twoHandGrip != null) twoHandGrip.Tick(); // до отдачи: она накладывается поверх доворота прицела
+        recoil.Update(held ? grabInteractable : null, firePoint, twoHandGrip);
     }
 
     private void OnDisable()
@@ -154,8 +157,9 @@ public class VRGun : MonoBehaviour
         PlayShotEffects();
         Haptics.Pulse(grabInteractable, 0.6f, 0.08f);
 
-        // Сильные руки держат оружие крепче
-        recoil.Kick(GameState.StrongArms ? 0.6f : 1f);
+        // Сильные руки и хват двумя руками гасят отдачу
+        float kick = (GameState.StrongArms ? 0.6f : 1f) * (twoHandGrip != null ? twoHandGrip.RecoilMultiplier : 1f);
+        recoil.Kick(kick);
 
         Vector3 direction = firePoint.forward;
         float shotDamage = damage * PlayerStealth.ConsumeAmbush(); // выстрел из невидимости — критический
