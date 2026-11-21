@@ -152,7 +152,8 @@ public class VRGun : MonoBehaviour
     public void Shoot()
     {
         currentAmmo--;
-        GameState.RegisterShot();
+        if (RangeLane.Current != null) RangeLane.Current.RegisterShot(); // в тире выстрелы идут в счёт тира, а не в статистику забега
+        else GameState.RegisterShot();
 
         PlayShotEffects();
         Haptics.Pulse(grabInteractable, 0.6f, 0.08f);
@@ -244,6 +245,14 @@ public class VRGun : MonoBehaviour
             return null;
         }
         if (!col.CompareTag("Head") && !col.CompareTag("Leg") && !col.CompareTag("Body")) return null;
+
+        RangeTarget rangeTarget = col.GetComponentInParent<RangeTarget>(); // мишень тира: не враг, ни эдди, ни статистики
+        if (rangeTarget != null)
+        {
+            bool rangeHeadshot = col.CompareTag("Head");
+            rangeTarget.Hit(rangeHeadshot ? baseDamage * HeadshotMultiplier : baseDamage, rangeHeadshot, hit.point, countsAsHit);
+            return null;
+        }
 
         EnemyHealth target = col.GetComponentInParent<EnemyHealth>();
         if (target == null || target.IsDead) return null; // по трупу не считаем ни урон, ни точность

@@ -9,6 +9,8 @@ public class CombatFeedback : MonoBehaviour
 {
     private const float MinHitInterval = 0.04f; // дробь даёт много попаданий за кадр — один звук на залп
 
+    private static CombatFeedback instance;
+
     private AudioSource source;
     private GameFeedbackSettings settings;
     private float lastHitSoundTime = -1f;
@@ -23,6 +25,7 @@ public class CombatFeedback : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         settings = GameFeedbackSettings.Instance;
 
         source = gameObject.AddComponent<AudioSource>();
@@ -37,23 +40,32 @@ public class CombatFeedback : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (instance == this) instance = null;
         GameEvents.EnemyHit -= OnEnemyHit;
         GameEvents.SandevistanChanged -= OnSandevistanChanged;
     }
 
-    private void OnEnemyHit(EnemyHitInfo hit)
+    /// <summary>Звук попадания без события GameEvents — для мишеней тира, которые не считаются врагами.</summary>
+    public static void PlayHit(bool headshot, bool killed)
     {
-        if (hit.Killed)
+        if (instance != null) instance.PlayHitSound(headshot, killed);
+    }
+
+    private void OnEnemyHit(EnemyHitInfo hit) => PlayHitSound(hit.Headshot, hit.Killed);
+
+    private void PlayHitSound(bool headshot, bool killed)
+    {
+        if (killed)
         {
             Play(settings.killClip != null ? settings.killClip : ProceduralSounds.Kill, settings.hitVolume);
-            if (hit.Headshot) Play(settings.headshotClip != null ? settings.headshotClip : ProceduralSounds.Headshot, settings.hitVolume);
+            if (headshot) Play(settings.headshotClip != null ? settings.headshotClip : ProceduralSounds.Headshot, settings.hitVolume);
             return;
         }
 
         if (Time.unscaledTime - lastHitSoundTime < MinHitInterval) return;
         lastHitSoundTime = Time.unscaledTime;
 
-        AudioClip clip = hit.Headshot
+        AudioClip clip = headshot
             ? (settings.headshotClip != null ? settings.headshotClip : ProceduralSounds.Headshot)
             : (settings.hitClip != null ? settings.hitClip : ProceduralSounds.Hit);
         Play(clip, settings.hitVolume);
